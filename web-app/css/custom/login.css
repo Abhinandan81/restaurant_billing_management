@@ -1,0 +1,33 @@
+
+html,
+body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.margin {
+    margin: 0 !important;
+}
+
+.customError {
+    font-size: 0.8rem;
+    margin-left: 15%;
+    color: red;
+}
+
+#login {
+    width: 350px;
+}
+
+.errorMessage {
+    color: red;
+}
+

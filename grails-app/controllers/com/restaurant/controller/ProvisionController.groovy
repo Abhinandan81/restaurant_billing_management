@@ -8,6 +8,7 @@ import grails.converters.JSON
 @Secured(['permitAll'])
 class ProvisionController {
     def userManagementService
+    def restaurantManagementService
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def index() {
@@ -18,10 +19,31 @@ class ProvisionController {
     def branchManagement(){}
 
     @Secured(['ROLE_SUPER_ADMIN'])
-    def createBranch(){}
+    def newBranch(){
+        Map branchCreationStatusMap =   restaurantManagementService.newBranchCreation('branch3','baner','8796104056')
+        render branchCreationStatusMap as JSON
+    }
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def updateBranch(){
+        Map detailsToUpdate =   [name: 'branch4', address: 'kothrud', contactNumber : '4545454545']
+        Map branchUpdateStatusMap   =   restaurantManagementService.updateBranchDetails('2','branch4',detailsToUpdate)
+        render branchUpdateStatusMap as JSON
+    }
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def deleteBranch(){
+        Map branchDeletionStatus    =   restaurantManagementService.deleteBranch('2')
+        render branchDeletionStatus as JSON
+    }
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def fetchBranchDetails(){
+        Map branchDetailsMap    =   [:]
+        List allBranchDetailsList   =   restaurantManagementService.branchDetails()
+        branchDetailsMap << [ data : allBranchDetailsList]
+        render branchDetailsMap as JSON
+    }
 
     /*-------------------------- START : User management  -----------------------------------*/
     @Secured(['ROLE_SUPER_ADMIN'])
@@ -63,6 +85,4 @@ class ProvisionController {
     }
 
     /*-------------------------- END : User management  -----------------------------------*/
-
-
 }

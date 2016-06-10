@@ -90,8 +90,7 @@
     </script>
     <script src="<%=request.getContextPath()%>/js/progressBar/pace.min.js"></script>
 
-    <script src="<%=request.getContextPath()%>/js/custom/eyeCustomJs.js"></script>
-
+    <script src="<%=request.getContextPath()%>/js/custom/customJs.js"></script>
 
     <!-- AdminLTE App -->
     <script src="<%=request.getContextPath()%>/js/app.min.js"></script>
@@ -188,7 +187,7 @@
 
                 <li class="treeview">
                     <a href="<%=request.getContextPath()%>/provision/branchManagement">
-                        <i class="fa fa-dashboard"></i> <span>Branch Management</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-dashboard"></i> <span>Branch Management</span>
                     </a>
                 </li>
 

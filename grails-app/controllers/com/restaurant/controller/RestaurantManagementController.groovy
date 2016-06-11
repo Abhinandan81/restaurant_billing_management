@@ -18,8 +18,9 @@ class RestaurantManagementController {
     @Secured(['ROLE_SUPER_ADMIN'])
     def newBranch(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
-        Map branchCreationStatusMap =   restaurantManagementService.newBranchCreation('branch1','baner',
-                '8796104056', sCtx.restaurantId)
+
+        Map branchCreationStatusMap =   restaurantManagementService.newBranchCreation(params.branchName,params.address,
+                params.contactNumber, sCtx.restaurantId)
         render branchCreationStatusMap as JSON
     }
 

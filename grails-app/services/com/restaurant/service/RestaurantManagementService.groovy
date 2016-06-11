@@ -22,7 +22,7 @@ class RestaurantManagementService {
             if (restaurant){
                 Branch branch   = Branch.findByNameAndRestaurant(name, restaurant)
                 if (branch){
-                    newBranchCreationStatusMap << [ status: false, message: "Branch with the name ${name} already exist"]
+                    newBranchCreationStatusMap << [ status: false, message: "Branch with the name ${name} already exist.Please choose another name"]
                 }else {
                     new Branch(name: name, address: address, contactNumber: contactNumber, restaurant: restaurant)
                             .save(flush: true, failOnError: true)

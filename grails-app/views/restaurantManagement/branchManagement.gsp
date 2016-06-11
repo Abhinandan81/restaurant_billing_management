@@ -51,7 +51,7 @@
 
                     <div id="branchEditing" class="box">
                         <div class="box-header">
-                            <h4 id="categoryHeader"  class="box-title">New Branch Creation</h4>
+                            <h4 id="branchHeader"  class="box-title"></h4>
                         </div><!-- /.box-header -->
 
                         <div class="box-body">

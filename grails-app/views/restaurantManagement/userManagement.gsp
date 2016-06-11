@@ -27,7 +27,7 @@
         <section class="content">
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-lg-12">
-                    <div id="existingBranchDetails" class="box">
+                    <div id="existingUserDetails" class="box">
                         <div class="box-header">
                             <h4 class="box-title">Existing User Details</h4>
                             <div class="pull-right">
@@ -36,11 +36,12 @@
                         </div><!-- /.box-header -->
 
                         <div class="box-body">
-                            <table id="branchDataTable" class="table table-bordered table-striped tableWidth dataTable">
+                            <table id="userDataTable" class="table table-bordered table-striped tableWidth dataTable">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Address</th>
+                                    <th>Branch Name</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
                                     <th>Contact Number</th>
                                     <th>Actions</th>
                                 </tr>
@@ -49,9 +50,9 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
-                    <div id="branchEditing" class="box">
+                    <div id="userDetailsEditing" class="box">
                         <div class="box-header">
-                            <h4 id="categoryHeader"  class="box-title">New Branch Creation</h4>
+                            <h4 id="userHeader"  class="box-title"></h4>
                         </div><!-- /.box-header -->
 
                         <div class="box-body">
@@ -63,33 +64,6 @@
             </div><!-- /.row -->
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
-
-    <div id="deleteBranchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteBranchModal">
-        <div class="modal-dialog modalWidth" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-
-                    <h2 class="modal-title text-warning">Delete Branch</h2>
-                </div>
-
-                <div  id="deleteBranchModalBody" class="modal-body fontColor">
-                    <p id="branchDeletionMessage" class="text-info"></p>
-                    <div id="branchDeletionModalBody">
-                        <input id="branchNameValidator" class="form-control" type="text" placeholder="Branch Name here">
-                        <span class="customError" id="invalidBranchNameMessage"></span>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button id="confirmBranchDelete" type="button" class="btn btn-danger">Delete</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div><!-- ./wrapper -->
 

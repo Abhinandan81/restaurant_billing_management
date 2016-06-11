@@ -30,7 +30,7 @@ class UserManagementService {
                     password        :   CodeConstants.SUPER_ADMIN_USER_NAME,
                     firstName       :   "Abhianndan",
                     lastName        :   "Satpute",
-                    mobileNumber    :   "8796105046",
+                    contactNumber    :   "8796105046",
                     restaurantId    :   "dev",
                     branchId        :   "dev",
                     enabled         :   true

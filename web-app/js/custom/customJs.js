@@ -133,6 +133,9 @@ var handleEvents = {
 
         //on click to new branch div
         $("#newBranch").click(function(){
+            $("#branchHeader").html("");
+            $("#branchHeader").html("New Branch Creation");
+
             $("#existingBranchDetails").hide();
             $("#branchEditing").show();
             //clear the form
@@ -156,6 +159,9 @@ var handleEvents = {
 
         //Function for handling update button click event
         $('body').on('click', '#branchDataTable tbody tr #branchUpdate', function () {
+
+            $("#branchHeader").html("");
+            $("#branchHeader").html("Branch Update");
 
             $("#existingBranchDetails").hide();
             $("#branchEditing").show();

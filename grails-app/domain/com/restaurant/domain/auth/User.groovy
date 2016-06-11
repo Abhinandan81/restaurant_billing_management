@@ -17,6 +17,9 @@ class User implements Serializable {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+    String firstName
+    String lastName
+    String mobileNumber
     String restaurantId
     String branchId
 

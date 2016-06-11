@@ -9,11 +9,20 @@ import grails.converters.JSON
 class ProvisionController {
     def userManagementService
     def restaurantManagementService
+    def provisionService
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def index() {
         redirect(action: 'branchManagement')
     }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def newRestaurant(){
+        Map newRestaurantCreationStatus =   provisionService.newRestaurantCreation('Roller','sangamner',
+        '8796105046','Abhi','Satpute','12345','abc/pqr')
+        render newRestaurantCreationStatus as JSON
+    }
+
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def branchManagement(){}

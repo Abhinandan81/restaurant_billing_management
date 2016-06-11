@@ -19,7 +19,7 @@ class User implements Serializable {
 	boolean passwordExpired
     String firstName
     String lastName
-    String mobileNumber
+    String contactNumber
     String restaurantId
     String branchId
 
@@ -55,7 +55,7 @@ class User implements Serializable {
         branchId nullable: true
         firstName blank: false
         lastName blank: false
-        mobileNumber blank: false
+        contactNumber blank: false
 	}
 
 	static mapping = {

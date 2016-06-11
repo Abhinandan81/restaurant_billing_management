@@ -50,6 +50,9 @@ class RestaurantManagementController {
 
     /*-------------------------- START : Restaurant User Management ----------------------*/
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def userManagement(){}
+
     /**
      * New user creation
      * @return : userCreationStatusMap

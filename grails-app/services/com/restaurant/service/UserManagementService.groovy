@@ -13,7 +13,7 @@ class UserManagementService {
     void bootstrapSystemRoles(){
         /* Create the SUPER_ADMIN user role. */
         if(!Role.findByAuthority(CodeConstants.ROLE_SUPER_ADMIN)) {
-            def superAdminRole = new Role(authority: CodeConstants.ROLE_SUPER_ADMIN).save(flush: true)
+            def superAdminRole = new Role(authority: CodeConstants.ROLE_SUPER_ADMIN).save(flush: true, failOnError: true)
         }
 
         /* Create the ADMIN user role. */
@@ -28,12 +28,16 @@ class UserManagementService {
             superAdmin = new User(
                     username        :   CodeConstants.SUPER_ADMIN_USER_NAME,
                     password        :   CodeConstants.SUPER_ADMIN_USER_NAME,
+                    firstName       :   "Abhianndan",
+                    lastName        :   "Satpute",
+                    mobileNumber    :   "8796105046",
                     restaurantId    :   "dev",
                     branchId        :   "dev",
                     enabled         :   true
             )
-            superAdmin.save(flush: true)
+            superAdmin.save(flush: true, failOnError: true)
             def superAdminRole = Role.findByAuthority(CodeConstants.ROLE_SUPER_ADMIN)
+
             UserRole superAdminUserRole = UserRole.get(superAdmin.id, superAdminRole.id)
             if(!superAdminUserRole) {
                 UserRole.create(superAdmin, superAdminRole, true)

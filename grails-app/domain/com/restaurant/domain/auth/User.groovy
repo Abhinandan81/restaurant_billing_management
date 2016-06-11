@@ -53,6 +53,9 @@ class User implements Serializable {
 		username blank: false, unique: true
 		password blank: false
         branchId nullable: true
+        firstName blank: false
+        lastName blank: false
+        mobileNumber blank: false
 	}
 
 	static mapping = {

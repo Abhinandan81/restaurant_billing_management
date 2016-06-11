@@ -30,7 +30,9 @@
                     <div id="existingBranchDetails" class="box">
                         <div class="box-header">
                             <h4 class="box-title">Existing branch details</h4>
-
+                            <div class="pull-right">
+                                <i id="newBranch" class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize" aria-hidden="true"></i>
+                            </div>
                         </div><!-- /.box-header -->
 
                         <div class="box-body">
@@ -40,6 +42,7 @@
                                     <th>Name</th>
                                     <th>Address</th>
                                     <th>Contact Number</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -48,10 +51,7 @@
 
                     <div id="branchEditing" class="box">
                         <div class="box-header">
-                            <h4 id="categoryHeader"  class="box-title"></h4>
-                            <div class="pull-right">
-                                <button class="btn btn-box-tool" data-widget="remove" id="remove"><i class="fa fa-times"></i></button>
-                            </div>
+                            <h4 id="categoryHeader"  class="box-title">New Branch Creation</h4>
                         </div><!-- /.box-header -->
 
                         <div class="box-body">

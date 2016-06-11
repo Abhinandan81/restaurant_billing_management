@@ -1,34 +1,38 @@
-<form class="form-horizontal" id="newCategoryForm" method="POST">
-    <div class="form-group">
-        <label class="control-label labelColor" for="categoryName">Category Name</label>
+<form class="form-horizontal" id="branchModificationForm" method="POST">
+    <div class="row form-group">
+        <div class="col-md-2" >
+            <label class="control-label labelColor" for="branchName">Branch Name</label>
+        </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="categoryName" name="categoryName">
+            <input type="text" class="form-control" id="branchName" name="branchName">
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="control-label labelColor" for="modelNumber">Model Number</label>
+    <div class="row form-group">
+        <div class="col-md-2" >
+            <label class="control-label labelColor" for="address">Address</label>
+        </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="modelNumber" name="modelNumber">
+            <input type="text" class="form-control" id="address" name="address">
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="control-label labelColor" for="description">Description</label>
-
+    <div class="row form-group">
+        <div class="col-md-2" >
+            <label class="control-label labelColor" for="contactNumber">Contact Number</label>
+        </div>
         <div class="col-md-6">
-            <textarea class="form-control" cols="90" id="description" name="description"></textarea>
+            <input type="text" class="form-control" id="contactNumber" name="contactNumber">
         </div>
     </div>
 
-    <div class="row">
-        <div class="buttonAlignment">
+    <div class="row form-group">
+        <div class="col-md-2">
         </div>
 
         <div class="col-md-6">
-            <input type="submit" id="submitButton" class="btn btn-default">
-
-            <button type="button" id="clearButton" class="clear btn btn-default">Clear</button>
+            <input type="submit" id="branchSubmit" class="btn btn-success" value="Submit">
+            <button type="button" id="cancelButton" class="btn btn-warning">Cancel</button>
         </div>
 
     </div>

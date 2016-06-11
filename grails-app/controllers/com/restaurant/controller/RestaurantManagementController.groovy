@@ -1,42 +1,53 @@
 package com.restaurant.controller
 
 import com.constants.CodeConstants
+import com.utils.ServiceContext
+import com.utils.SessionUtil
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
 class RestaurantManagementController {
     def restaurantManagementService
     def userManagementService
+    def springSecurityService
 
+    /*-------------------------- START : Branch Management ---------------------------------*/
     @Secured(['ROLE_SUPER_ADMIN'])
     def branchManagement(){}
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def newBranch(){
-        Map branchCreationStatusMap =   restaurantManagementService.newBranchCreation('branch3','baner','8796104056')
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        Map branchCreationStatusMap =   restaurantManagementService.newBranchCreation('branch1','baner',
+                '8796104056', sCtx.restaurantId)
         render branchCreationStatusMap as JSON
     }
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateBranch(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
         Map detailsToUpdate =   [name: 'branch4', address: 'kothrud', contactNumber : '4545454545']
-        Map branchUpdateStatusMap   =   restaurantManagementService.updateBranchDetails('2','branch4',detailsToUpdate)
+        Map branchUpdateStatusMap   =   restaurantManagementService.updateBranchDetails('1','branch4', sCtx.restaurantId, detailsToUpdate)
         render branchUpdateStatusMap as JSON
     }
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def deleteBranch(){
-        Map branchDeletionStatus    =   restaurantManagementService.deleteBranch('2')
+        Map branchDeletionStatus    =   restaurantManagementService.deleteBranch('2',)
         render branchDeletionStatus as JSON
     }
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def fetchBranchDetails(){
         Map branchDetailsMap    =   [:]
-        List allBranchDetailsList   =   restaurantManagementService.branchDetails()
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        List allBranchDetailsList   =   restaurantManagementService.branchDetails(sCtx.restaurantId)
         branchDetailsMap << [ data : allBranchDetailsList]
         render branchDetailsMap as JSON
     }
+    /*-------------------------- END : Branch Management ---------------------------------*/
+
+    /*-------------------------- START : Restaurant User Management ----------------------*/
 
     /**
      * New user creation
@@ -69,4 +80,5 @@ class RestaurantManagementController {
         Map userDeletionStatusMap   =   userManagementService.deleteUser("3")
         render userDeletionStatusMap as JSON
     }
+    /*-------------------------- END : Restaurant User Management -----------------------*/
 }

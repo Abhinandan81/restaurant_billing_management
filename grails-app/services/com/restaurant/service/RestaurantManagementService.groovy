@@ -1,6 +1,7 @@
 package com.restaurant.service
 
 import com.restaurant.domain.management.Branch
+import com.restaurant.domain.management.Restaurant
 import grails.transaction.Transactional
 
 @Transactional
@@ -13,18 +14,25 @@ class RestaurantManagementService {
      * @param contactNumber
      * @return : newBranchCreationStatusMap
      */
-    Map newBranchCreation(String name, String address, String contactNumber){
+    Map newBranchCreation(String name, String address, String contactNumber, String restaurantId){
         Map newBranchCreationStatusMap  =   [:]
         try {
-            Branch branch   = Branch.findByName(name)
-            if (branch){
-                newBranchCreationStatusMap << [ status: false, message: "Branch with the name ${name} already exist"]
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+
+            if (restaurant){
+                Branch branch   = Branch.findByNameAndRestaurant(name, restaurant)
+                if (branch){
+                    newBranchCreationStatusMap << [ status: false, message: "Branch with the name ${name} already exist"]
+                }else {
+                    new Branch(name: name, address: address, contactNumber: contactNumber, restaurant: restaurant)
+                            .save(flush: true, failOnError: true)
+                    newBranchCreationStatusMap << [ status: true, message: "Branch with the name ${name} created successfully"]
+                }
             }else {
-                new Branch(name: name, address: address, contactNumber: contactNumber).save(flush: true, failOnError: true)
-                newBranchCreationStatusMap << [ status: true, message: "Branch with the name ${name} created successfully"]
+                newBranchCreationStatusMap << [ status: false, message: "Invalid restaurant"]
             }
         }catch (Exception e){
-            println "Error in branch creation"+e.printStackTrace()
+            println "Error in branch creation"+e
         }
     }
 
@@ -34,26 +42,31 @@ class RestaurantManagementService {
      * @param detailsToUpdate
      * @return : branchUpdateStatusMap
      */
-    Map updateBranchDetails(String branchId, String branchName, Map detailsToUpdate){
+    Map updateBranchDetails(String branchId, String branchName, String restaurantId, Map detailsToUpdate){
         Map branchUpdateStatusMap   =   [:]
         try {
-            Branch existingBranch  =   Branch.findByName(branchName)
-            if (existingBranch){
-                branchUpdateStatusMap << [status: false, message: "Branch name already exist.Please choose another branch name"]
-            }else {
-                Branch branch   =   Branch.findById(branchId)
-                if (branch){
-                    detailsToUpdate.each { key, value->
-                        branch."${key}" =   value
-                    }
+            Restaurant restaurant = Restaurant.findById(restaurantId)
 
-                    branch.save(flush: true, failOnError: true)
-                    branchUpdateStatusMap << [status: true, message: "Branch details updated successfully"]
+            if (restaurant){
+                Branch existingBranch  =   Branch.findByNameAndRestaurant(branchName, restaurant)
+                if (existingBranch){
+                    branchUpdateStatusMap << [status: false, message: "Branch name already exist.Please choose another branch name"]
                 }else {
-                    branchUpdateStatusMap << [status: false, message: "Invalid branch details"]
-                }
-            }
+                    Branch branch   =   Branch.findById(branchId)
+                    if (branch){
+                        detailsToUpdate.each { key, value->
+                            branch."${key}" =   value
+                        }
 
+                        branch.save(flush: true, failOnError: true)
+                        branchUpdateStatusMap << [status: true, message: "Branch details updated successfully"]
+                    }else {
+                        branchUpdateStatusMap << [status: false, message: "Invalid branch details"]
+                    }
+                }
+            }else {
+                branchUpdateStatusMap << [status: false, message: "Invalid restaurant"]
+            }
             return branchUpdateStatusMap
         }catch (Exception e){
             println "Error in branch update"+e.printStackTrace()
@@ -64,16 +77,18 @@ class RestaurantManagementService {
      * Fetch all branch details
      * @return : List of branchDetails
      */
-    List branchDetails(){
+    List branchDetails(String restaurantId){
         List branchesDetailsList   =   []
         List branchDetailLists      =   []
         try{
-            def branches  =   Branch.findAll()
-            branches.each { branch->
-                branchDetailLists = [branch.name, branch.address, branch.contactNumber]
-                branchesDetailsList << branchDetailLists
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+            if (restaurant){
+                def branches  =   Branch.findAllByRestaurant(restaurant)
+                branches.each { branch->
+                    branchDetailLists = [branch.name, branch.address, branch.contactNumber]
+                    branchesDetailsList << branchDetailLists
+                }
             }
-
             return branchesDetailsList
         }catch (Exception e){
             println "Error while fetching branch details"

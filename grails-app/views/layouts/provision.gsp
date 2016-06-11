@@ -185,9 +185,16 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
-                    <a href="<%=request.getContextPath()%>/provision/branchManagement">
-                        <i class="fa fa-dashboard"></i> <span>Branch Management</span>
+                <li id="branchManagementView" class="treeview">
+                    <a href="<%=request.getContextPath()%>/restaurantManagement/branchManagement">
+                        <i class="fa fa-sitemap"></i> <span>Branch Management</span>
+                    </a>
+                </li>
+
+
+                <li id="userManagementView" class="treeview">
+                    <a href="<%=request.getContextPath()%>/restaurantManagement/userManagement">
+                        <i class="fa fa-users"></i> <span>User Management</span>
                     </a>
                 </li>
 

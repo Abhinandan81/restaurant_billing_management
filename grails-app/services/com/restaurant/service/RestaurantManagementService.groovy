@@ -42,16 +42,12 @@ class RestaurantManagementService {
      * @param detailsToUpdate
      * @return : branchUpdateStatusMap
      */
-    Map updateBranchDetails(String branchId, String branchName, String restaurantId, Map detailsToUpdate){
+    Map updateBranchDetails(String branchId, String restaurantId, Map detailsToUpdate){
         Map branchUpdateStatusMap   =   [:]
         try {
             Restaurant restaurant = Restaurant.findById(restaurantId)
 
             if (restaurant){
-                Branch existingBranch  =   Branch.findByNameAndRestaurant(branchName, restaurant)
-                if (existingBranch){
-                    branchUpdateStatusMap << [status: false, message: "Branch name already exist.Please choose another branch name"]
-                }else {
                     Branch branch   =   Branch.findById(branchId)
                     if (branch){
                         detailsToUpdate.each { key, value->
@@ -63,7 +59,6 @@ class RestaurantManagementService {
                     }else {
                         branchUpdateStatusMap << [status: false, message: "Invalid branch details"]
                     }
-                }
             }else {
                 branchUpdateStatusMap << [status: false, message: "Invalid restaurant"]
             }
@@ -85,7 +80,7 @@ class RestaurantManagementService {
             if (restaurant){
                 def branches  =   Branch.findAllByRestaurant(restaurant)
                 branches.each { branch->
-                    branchDetailLists = [branch.name, branch.address, branch.contactNumber]
+                    branchDetailLists = [branch.name, branch.address, branch.contactNumber, branch.id]
                     branchesDetailsList << branchDetailLists
                 }
             }

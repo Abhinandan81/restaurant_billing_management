@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-md-6">
-            <input type="submit" id="branchSubmit" class="btn btn-success" value="Submit">
+            <input type="submit" id="branchSubmit" class="btn btn-success">
             <button type="button" id="cancelButton" class="btn btn-warning">Cancel</button>
         </div>
 

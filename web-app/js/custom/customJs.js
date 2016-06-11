@@ -37,6 +37,15 @@ var validateForms = {
 
 //    branch modification form validator
     validateBranchCreation: function () {
+        var URL =   "";
+        if(handleEvents.branchSubmitCaller == "Submit"){
+            URL = "../restaurantManagement/newBranch"
+            console.log("inside new :"+URL);
+        }else if(handleEvents.branchSubmitCaller == "Update"){
+            URL = "../restaurantManagement/updateBranch"
+            console.log("inside update :"+URL);
+        }
+
         $("#branchModificationForm").validate({
             errorElement : 'div',
 
@@ -66,10 +75,12 @@ var validateForms = {
             //after form validation
             submitHandler: function (form) {
                     $(form).ajaxSubmit({
-                        url: '../restaurantManagement/newBranch',                                   //Path of the controller action
+                        url: URL,                                   //Path of the controller action
                         type: 'POST',
+                        data : {branchId : handleEvents.branchId},
                         //on successful operation
                         success: function (response) {
+                            handleEvents.branchSubmitCaller = "";
                             if(response.status == true){
                                 handleEvents.showBranchDetailsTable();
                                 commonUtilities.show_stack_bottomleft("success", response.message);
@@ -91,6 +102,9 @@ var validateForms = {
 var handleEvents = {
 
     //branchManagementView handler
+    branchDetailsFromTableRow   :   "",
+    branchSubmitCaller          :   "",
+    branchId                    :   "",
     branchManagementView : function(){
         //hiding branch creation and update form
         $("#branchEditing").hide();
@@ -103,6 +117,9 @@ var handleEvents = {
             $("#branchEditing").show();
             //clear the form
             $("#branchModificationForm").trigger("reset");
+
+            //give a value to the branchSubmit button
+            $("#branchSubmit").val("Submit");
         });
 
         //on cancelButton click from branch modification form
@@ -112,8 +129,33 @@ var handleEvents = {
 
         //on branchSubmit (form submit)
         $("#branchSubmit").click(function(){
+            handleEvents.branchSubmitCaller = $("#branchSubmit").val();
+            console.log( handleEvents.branchSubmitCaller);
             validateForms.validateBranchCreation();
         });
+
+        //Function for handling update button click event
+        $('body').on('click', '#branchDataTable tbody tr #branchUpdate', function () {
+
+            $("#existingBranchDetails").hide();
+            $("#branchEditing").show();
+
+            //clear the form
+            $("#branchModificationForm").trigger("reset");
+
+            handleEvents.branchDetailsFromTableRow = ajaxCalls.branchDetailsDataTable.row( $(this).parents('tr') ).data();
+            //pre populate branch details in the input field
+            $("#branchName").val(handleEvents.branchDetailsFromTableRow[0]);
+            $("#address").val(handleEvents.branchDetailsFromTableRow[1]);
+            $("#contactNumber").val(handleEvents.branchDetailsFromTableRow[2]);
+
+            handleEvents.branchId   =   "";
+            handleEvents.branchId   =   handleEvents.branchDetailsFromTableRow[3];
+
+            console.log("branchDetailsFromTableRow :"+handleEvents.branchDetailsFromTableRow);
+            //give a value to the branchSubmit button
+            $("#branchSubmit").val("Update");
+        } );
     },
 
     showBranchDetailsTable : function(){

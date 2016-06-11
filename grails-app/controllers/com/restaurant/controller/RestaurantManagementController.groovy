@@ -27,8 +27,8 @@ class RestaurantManagementController {
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateBranch(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
-        Map detailsToUpdate =   [name: 'branch4', address: 'kothrud', contactNumber : '4545454545']
-        Map branchUpdateStatusMap   =   restaurantManagementService.updateBranchDetails('1','branch4', sCtx.restaurantId, detailsToUpdate)
+        Map detailsToUpdate =   [name: params.branchName, address: params.address, contactNumber : params.contactNumber]
+        Map branchUpdateStatusMap   =   restaurantManagementService.updateBranchDetails(params.branchId, sCtx.restaurantId, detailsToUpdate)
         render branchUpdateStatusMap as JSON
     }
 

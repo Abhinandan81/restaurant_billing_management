@@ -67,8 +67,8 @@ class ProvisionController {
      */
     @Secured(['ROLE_SUPER_ADMIN'])
     def createUser(){
-        Map userCreationStatusMap    =   userManagementService.newUserCreation('abhi', 'abhi', 'Abhinandan', 'Satpute', '8796105046',
-                CodeConstants.ROLE_SUPER_ADMIN)
+        Map userCreationStatusMap    =   userManagementService.newUserCreation('abhi', 'abhi', 'Abhinandan',
+                'Satpute', '8796105046', CodeConstants.ROLE_SUPER_ADMIN, "1", "")
         render userCreationStatusMap as JSON
     }
 

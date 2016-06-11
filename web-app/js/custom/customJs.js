@@ -5,22 +5,28 @@
 var init = {
 };
 
-var ajaxCalls = {};
+var ajaxCalls = {
+
+    //reload the branchDetailsDataTable
+    branchDetailsDataTable : "",
+    branchDetailsTableReload :  function(){
+        ajaxCalls.branchDetailsDataTable = $('#branchDataTable').DataTable();
+        ajaxCalls.branchDetailsDataTable.destroy();
+        ajaxCalls.branchDetailsDataTable = $('#branchDataTable').DataTable({
+            "ajax": '../provision/fetchBranchDetails'
+        });
+    }
+};
 var deleteData = {};
 var validateForms = {};
 var handleEvents = {
-    branchDetailsDataTable : "",
 
-
+    //branchManagementView handler
     branchManagementView : function(){
         //hiding branch creation and update form
         $("#branchEditing").hide();
-        handleEvents.branchDetailsDataTable = $('#branchDataTable').DataTable();
-        handleEvents.branchDetailsDataTable.destroy();
-        handleEvents.branchDetailsDataTable = $('#branchDataTable').DataTable({
-            "ajax": '../provision/fetchBranchDetails'
-        });
-
+        //reload the branchDetailsDataTable
+        ajaxCalls.branchDetailsTableReload();
     }
 };
 

@@ -17,6 +17,8 @@ class User implements Serializable {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+    String restaurantId
+    String branchId
 
 	User(String username, String password) {
 //		this()
@@ -47,6 +49,7 @@ class User implements Serializable {
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+        branchId nullable: true
 	}
 
 	static mapping = {

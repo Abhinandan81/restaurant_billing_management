@@ -26,9 +26,11 @@ class UserManagementService {
         User superAdmin = User.findByUsername(CodeConstants.SUPER_ADMIN_USER_NAME)
         if(!superAdmin) {
             superAdmin = new User(
-                    username    : CodeConstants.SUPER_ADMIN_USER_NAME,
-                    password    : CodeConstants.SUPER_ADMIN_USER_NAME,
-                    enabled     : true
+                    username        :   CodeConstants.SUPER_ADMIN_USER_NAME,
+                    password        :   CodeConstants.SUPER_ADMIN_USER_NAME,
+                    restaurantId    :   "dev",
+                    branchId        :   "dev",
+                    enabled         :   true
             )
             superAdmin.save(flush: true)
             def superAdminRole = Role.findByAuthority(CodeConstants.ROLE_SUPER_ADMIN)
@@ -38,7 +40,7 @@ class UserManagementService {
             }
         }
 
-        /* Create an admin user. */
+/*        *//* Create an admin user. *//*
         User admin = User.findByUsername(CodeConstants.ADMIN_USER_NAME)
         if(!admin) {
             admin = new User(
@@ -54,7 +56,7 @@ class UserManagementService {
             if(!adminUserRole) {
                 UserRole.create(admin, adminRole, true)
             }
-        }
+        }*/
 
     }
 
@@ -72,7 +74,8 @@ class UserManagementService {
      * @param roleOfUser
      * @return : userCreationStatusMap
      */
-    Map newUserCreation(String userName, String password, String firstName, String lastName, String mobileNumber, String roleOfUser){
+    Map newUserCreation(String userName, String password, String firstName, String lastName, String mobileNumber,
+                        String roleOfUser, String restaurantId, String branchId){
         Map userCreationStatusMap  =   [:]
         try {
 
@@ -82,7 +85,7 @@ class UserManagementService {
                 userCreationStatusMap  << [status : false, successMessage : "User with the username ${userName} already exist"]
             }else{
                 user     =   new User(username: userName, password: password, firstName : firstName,
-                        lastName : lastName, mobileNumber : mobileNumber)
+                        lastName : lastName, mobileNumber : mobileNumber, restaurantId: restaurantId, branchId: branchId)
                 user.save(flush: true, failOnError: true)
 
                 def role = Role.findByAuthority(roleOfUser)

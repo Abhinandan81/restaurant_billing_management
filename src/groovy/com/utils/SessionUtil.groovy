@@ -2,6 +2,8 @@ package com.utils
 
 import com.constants.CodeConstants
 import com.restaurant.domain.auth.User
+import com.restaurant.domain.management.Branch
+import com.restaurant.domain.management.Restaurant
 import com.restaurant.service.UserManagementService
 import grails.plugin.springsecurity.SpringSecurityService
 
@@ -85,16 +87,34 @@ class SessionUtil {
         }
 
         def username = user.username
+        String restaurantId = user.restaurantId
+        String branchId = user.branchId
+
+        String restaurantName =  ""
+        String branchName   =   ""
+
+        //find restaurant name to which user belongs
+        Restaurant restaurant = Restaurant.findById(restaurantId)
+        if (restaurant){
+            restaurantName = restaurant.name
+        }
+        //find branch of the restaurant name to which user belongs
+        Branch branch   =   Branch.findById(branchId)
+        if (branch){
+            branchName  =   branch.name
+        }
 
         /* Initialize the ServiceContext instance */
         ServiceContext sCtx = new ServiceContext(
-                userAgent					: request.userAgent,
-                host						: request.host,
-//                companyId 					: companyId,
-//                siteId                      : siteId,
-                userId 						: username,
-                mainRole					: mainRole,
-                userName 				: userName
+                userAgent	    : request.userAgent,
+                host		    : request.host,
+                restaurantId    : restaurant,
+                restaurantName  : restaurantName,
+                branchId        : branch,
+                branchName      : branchName,
+                userId 		    : username,
+                mainRole	    : mainRole,
+                userName 		: userName
         )
         return sCtx
     }

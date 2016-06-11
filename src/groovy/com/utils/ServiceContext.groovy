@@ -7,6 +7,10 @@ class ServiceContext {
     String  userId
     String  userName
     String  mainRole
+    String  restaurantId
+    String  restaurantName
+    String  branchId
+    String  branchName
     boolean forceUserToResetPassword
     Date    triggeredPasswordReset
     String  userAgent
@@ -20,6 +24,10 @@ class ServiceContext {
                 "userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", mainRole='" + mainRole + '\'' +
+                ", restaurantId='" + restaurantId + '\'' +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", branchId='" + branchId + '\'' +
+                ", branchName='" + branchName + '\'' +
                 ", forceUserToResetPassword=" + forceUserToResetPassword +
                 ", triggeredPasswordReset=" + triggeredPasswordReset +
                 ", userAgent='" + userAgent + '\'' +

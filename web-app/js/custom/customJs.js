@@ -13,7 +13,7 @@ var ajaxCalls = {
         ajaxCalls.branchDetailsDataTable = $('#branchDataTable').DataTable();
         ajaxCalls.branchDetailsDataTable.destroy();
         ajaxCalls.branchDetailsDataTable = $('#branchDataTable').DataTable({
-            "ajax": '../provision/fetchBranchDetails'
+            "ajax": '../restaurantManagement/fetchBranchDetails'
         });
     }
 };

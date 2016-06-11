@@ -108,9 +108,9 @@ class SessionUtil {
         ServiceContext sCtx = new ServiceContext(
                 userAgent	    : request.userAgent,
                 host		    : request.host,
-                restaurantId    : restaurant,
+                restaurantId    : restaurantId,
                 restaurantName  : restaurantName,
-                branchId        : branch,
+                branchId        : branchId,
                 branchName      : branchName,
                 userId 		    : username,
                 mainRole	    : mainRole,

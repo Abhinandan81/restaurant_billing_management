@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Branch</title>
+    <title>Branch Management</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -19,7 +19,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Branch
+                Branch Management
             </h1>
         </section>
 
@@ -29,7 +29,7 @@
                 <div class="col-xs-12 col-md-12 col-lg-12">
                     <div id="existingBranchDetails" class="box">
                         <div class="box-header">
-                            <h4 class="box-title">Existing branch details</h4>
+                            <h4 class="box-title">Existing Branch Details</h4>
                             <div class="pull-right">
                                 <i id="newBranch" class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize" aria-hidden="true"></i>
                             </div>
@@ -64,32 +64,27 @@
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 
-    <div id="deleteCategoryModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteCategoryModal">
+    <div id="deleteBranchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteBranchModal">
         <div class="modal-dialog modalWidth" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
 
-                    <h2 class="modal-title">Delete category</h2>
+                    <h2 class="modal-title text-warning">Delete Branch</h2>
                 </div>
 
-                <div  id="deleteCategoryModalBody" class="modal-body fontColor">
-                    <p id="categoryAssociationMessage" class="text-info"></p>
-                    <div id="categoryDeletionModalBody">
-                        <ol class="text-info" id="categoryAssociatedDeviceMapList">
-
-                        </ol>
-
-                        <p id="categoryDeletionMessage" class="text-info"></p>
-                        <input id="categoryNameValidator" class="form-control" type="text" placeholder="Category Name-Model Number">
-                        <span class="customError" id="invalidCategoryMessage"></span>
+                <div  id="deleteBranchModalBody" class="modal-body fontColor">
+                    <p id="branchDeletionMessage" class="text-info"></p>
+                    <div id="branchDeletionModalBody">
+                        <input id="branchNameValidator" class="form-control" type="text" placeholder="Branch Name here">
+                        <span class="customError" id="invalidBranchNameMessage"></span>
                     </div>
 
                 </div>
 
                 <div class="modal-footer">
-                    <button id="confirmCategoryDelete" type="button" class="btn btn-danger">Delete</button>
+                    <button id="confirmBranchDelete" type="button" class="btn btn-danger">Delete</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

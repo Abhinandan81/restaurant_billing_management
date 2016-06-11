@@ -32,20 +32,35 @@ var ajaxCalls = {
     }
 };
 
-var deleteData = {};
+var deleteData = {
+
+    deleteBranch : function(){
+        $.ajax({
+            url: '../restaurantManagement/deleteBranch',                                   //Path of the controller action
+            data: {branchId : handleEvents.branchId},
+            type: 'POST',
+            success: function (response) {
+                //reload the branchDetailsDataTable
+                ajaxCalls.branchDetailsTableReload();
+                $("#deleteBranchModal").modal('hide');
+                handleEvents.showBranchDetailsTable();
+
+                commonUtilities.show_stack_bottomleft("success", "Branch - "+(handleEvents.branchDetailsFromTableRow[0])+" deleted successfully");
+                handleEvents.branchDetailsFromTableRow = "";
+                handleEvents.branchId = "";
+            },
+            error: function (response) {
+                commonUtilities.show_stack_bottomleft("error", "Branch - "+handleEvents.branchDetailsFromTableRow[0]+" deletion failed");
+            }
+        });
+    }
+};
+
+
 var validateForms = {
 
 //    branch modification form validator
     validateBranchCreation: function () {
-        var URL =   "";
-        if(handleEvents.branchSubmitCaller == "Submit"){
-            URL = "../restaurantManagement/newBranch"
-            console.log("inside new :"+URL);
-        }else if(handleEvents.branchSubmitCaller == "Update"){
-            URL = "../restaurantManagement/updateBranch"
-            console.log("inside update :"+URL);
-        }
-
         $("#branchModificationForm").validate({
             errorElement : 'div',
 
@@ -75,12 +90,12 @@ var validateForms = {
             //after form validation
             submitHandler: function (form) {
                     $(form).ajaxSubmit({
-                        url: URL,                                   //Path of the controller action
+                        url: handleEvents.branchSubmitUrl,                                   //Path of the controller action
                         type: 'POST',
                         data : {branchId : handleEvents.branchId},
                         //on successful operation
                         success: function (response) {
-                            handleEvents.branchSubmitCaller = "";
+                            handleEvents.branchSubmitUrl = "";
                             if(response.status == true){
                                 handleEvents.showBranchDetailsTable();
                                 commonUtilities.show_stack_bottomleft("success", response.message);
@@ -103,7 +118,7 @@ var handleEvents = {
 
     //branchManagementView handler
     branchDetailsFromTableRow   :   "",
-    branchSubmitCaller          :   "",
+    branchSubmitUrl             :   "",
     branchId                    :   "",
     branchManagementView : function(){
         //hiding branch creation and update form
@@ -119,7 +134,9 @@ var handleEvents = {
             $("#branchModificationForm").trigger("reset");
 
             //give a value to the branchSubmit button
+            $("#branchSubmit").val("");
             $("#branchSubmit").val("Submit");
+            handleEvents.branchSubmitUrl = "../restaurantManagement/newBranch";
         });
 
         //on cancelButton click from branch modification form
@@ -129,8 +146,6 @@ var handleEvents = {
 
         //on branchSubmit (form submit)
         $("#branchSubmit").click(function(){
-            handleEvents.branchSubmitCaller = $("#branchSubmit").val();
-            console.log( handleEvents.branchSubmitCaller);
             validateForms.validateBranchCreation();
         });
 
@@ -152,10 +167,41 @@ var handleEvents = {
             handleEvents.branchId   =   "";
             handleEvents.branchId   =   handleEvents.branchDetailsFromTableRow[3];
 
-            console.log("branchDetailsFromTableRow :"+handleEvents.branchDetailsFromTableRow);
             //give a value to the branchSubmit button
+            $("#branchSubmit").val("");
             $("#branchSubmit").val("Update");
+
+            handleEvents.branchSubmitUrl = "../restaurantManagement/updateBranch";
         } );
+
+        //Function for handling delete  click event
+        $('body').on('click', '#branchDataTable tbody tr #branchDelete', function () {
+            $("#deleteBranchModal").modal('show');
+            $("#branchNameValidator").val("");
+            $("#invalidBranchNameMessage").html("");
+
+            handleEvents.branchDetailsFromTableRow = ajaxCalls.branchDetailsDataTable.row( $(this).parents('tr') ).data();
+
+            handleEvents.branchId   =   "";
+            handleEvents.branchId   =   handleEvents.branchDetailsFromTableRow[3];
+
+            $("#branchDeletionMessage").html("");
+            $("#branchDeletionMessage").html("If you delete this branch " +handleEvents.branchDetailsFromTableRow[0]+", " +
+                "all details related to this will also get deleted.To continue with delete type <b class='text-danger'>"+handleEvents.branchDetailsFromTableRow[0]+
+            "</b> in below box.");
+        } );
+
+        //on click to the confirmBranchDelete
+        $("#confirmBranchDelete").click(function(){
+            var deleteInputBoxContent   =   $("#branchNameValidator").val();
+
+            if(deleteInputBoxContent == handleEvents.branchDetailsFromTableRow[0]){
+                console.log("deleteInputBoxContent :"+deleteInputBoxContent);
+                deleteData.deleteBranch();
+            }else{
+                $("#invalidBranchNameMessage").html("Invalid Branch Name entered");
+            }
+        });
     },
 
     showBranchDetailsTable : function(){

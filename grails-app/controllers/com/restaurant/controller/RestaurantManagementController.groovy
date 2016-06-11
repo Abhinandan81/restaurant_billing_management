@@ -34,7 +34,7 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def deleteBranch(){
-        Map branchDeletionStatus    =   restaurantManagementService.deleteBranch('2',)
+        Map branchDeletionStatus    =   restaurantManagementService.deleteBranch(params.branchId)
         render branchDeletionStatus as JSON
     }
 

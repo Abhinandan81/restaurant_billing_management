@@ -6,6 +6,7 @@ class Bill {
     String orderDetails
     Float total
 
+    static belongsTo = [branch: Branch]
     static constraints = {
     }
 }

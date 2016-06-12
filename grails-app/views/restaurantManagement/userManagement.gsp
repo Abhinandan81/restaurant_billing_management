@@ -56,7 +56,7 @@
                         </div><!-- /.box-header -->
 
                         <div class="box-body">
-                            <g:render template="/include/NewBranchForm"></g:render>
+                            <g:render template="/include/UserForm"></g:render>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
@@ -70,6 +70,7 @@
 <!-- page script -->
 <script>
     $(document).ready(function () {
+        customRestaurantJs.eventHandlers.userManagementView();
     });
 </script>
 </body>

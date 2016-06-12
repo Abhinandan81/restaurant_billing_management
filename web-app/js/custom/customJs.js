@@ -8,15 +8,17 @@ var init = {
 };
 
 var ajaxCalls = {
-
-    //reload the branchDetailsDataTable
     branchDetailsDataTable : "",
+    userDetailsDataTable : "",
+
+    //START : reload the branchDetailsDataTable
     branchDetailsTableReload :  function(){
         ajaxCalls.branchDetailsDataTable = "";
         ajaxCalls.branchDetailsDataTable = $('#branchDataTable').DataTable();
         ajaxCalls.branchDetailsDataTable.destroy();
         ajaxCalls.branchDetailsDataTable = $('#branchDataTable').DataTable({
             "ajax": '../restaurantManagement/fetchBranchDetails',
+//            "sScrollY": 400,
             "columnDefs": [ {
                 "targets": -1,
                 "data": null,
@@ -29,7 +31,31 @@ var ajaxCalls = {
                 }
             ]
         });
-    }
+    },
+    //END : reload the branchDetailsDataTable
+
+    //START : reload the userDetailsDataTable
+    userDetailsDataTableReload :  function(){
+    ajaxCalls.userDetailsDataTable = "";
+    ajaxCalls.userDetailsDataTable = $('#userDataTable').DataTable();
+    ajaxCalls.userDetailsDataTable.destroy();
+    ajaxCalls.userDetailsDataTable = $('#userDataTable').DataTable({
+        "ajax": '../restaurantManagement/fetchUserDetails',
+//        "sScrollY": 400,
+        "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": ["<i id='branchUpdate' class='glyphicon glyphicon-pencil text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                "<i id='branchDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
+        },
+            {
+                "targets": [3,4],
+                "orderable": false
+            }
+        ]
+    });
+}
+    //END : reload the userDetailsDataTable
 };
 
 var deleteData = {
@@ -116,7 +142,8 @@ var validateForms = {
 };
 var handleEvents = {
 
-    //branchManagementView handler
+
+//    START : Branch Management view handler
     branchDetailsFromTableRow   :   "",
     branchSubmitUrl             :   "",
     branchId                    :   "",
@@ -218,7 +245,26 @@ var handleEvents = {
     showBranchDetailsTable : function(){
         $("#existingBranchDetails").show();
         $("#branchEditing").hide();
+    },
+
+    //    END : Branch Management view handler
+
+    //    START : User Management view handler
+
+    userManagementView :  function(){
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#userManagementView").addClass('active');
+
+        //hide userDetailsEditing div
+        $("#userDetailsEditing").hide();
+
+        //load the user details data table
+        ajaxCalls.userDetailsDataTableReload();
     }
+
+    //    END : User Management view handler
+
 };
 
 var show = {};

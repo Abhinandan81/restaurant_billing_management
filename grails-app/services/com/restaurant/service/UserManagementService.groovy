@@ -32,8 +32,8 @@ class UserManagementService {
                     firstName       :   "Abhianndan",
                     lastName        :   "Satpute",
                     contactNumber    :   "8796105046",
-                    restaurantId    :   "dev",
-                    branchId        :   "dev",
+                    restaurantId    :   "1",
+                    branchId        :   null,
                     enabled         :   true
             )
             superAdmin.save(flush: true, failOnError: true)
@@ -171,7 +171,7 @@ class UserManagementService {
         String branchName
 
         try {
-            User users = User.findAllByRestaurantId(restaurantId)
+            List users = User.findAllByRestaurantId(restaurantId)
             if (users){
                 users.each { user->
                     branchName = ""
@@ -180,7 +180,7 @@ class UserManagementService {
                     if (user.branchId != null){
                         branchName = commonUtilService.fetchBranchNameByBranchId(user.branchId)
                         if (branchName != ""){
-                            userDetailsList = [user.branchId, user.firstName, user.lastName, user.contactNumber]
+                            userDetailsList = [branchName, user.firstName, user.lastName, user.contactNumber, user.id, user.branchId]
                             allUserDetailsList << userDetailsList
                         }
                     }
@@ -188,7 +188,7 @@ class UserManagementService {
                 return allUserDetailsList
             }
         }catch (Exception e){
-            println "Error in fetching user details by restaurant ID"
+            println "Error in fetching user details by restaurant ID"+e.printStackTrace()
         }
     }
 }

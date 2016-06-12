@@ -59,8 +59,8 @@ class RestaurantManagementController {
      */
     @Secured(['ROLE_SUPER_ADMIN'])
     def createUser(){
-        Map userCreationStatusMap    =   userManagementService.newUserCreation('abhi', 'abhi', 'Abhinandan',
-                'Satpute', '8796105046', CodeConstants.ROLE_SUPER_ADMIN, "1", "")
+        Map userCreationStatusMap    =   userManagementService.newUserCreation('ankya', 'ankya', 'Abhinandan',
+                'Satpute', '8796105046', CodeConstants.ROLE_SUPER_ADMIN, "1", "2")
         render userCreationStatusMap as JSON
     }
 
@@ -83,6 +83,16 @@ class RestaurantManagementController {
     def deleteUser(){
         Map userDeletionStatusMap   =   userManagementService.deleteUser("3")
         render userDeletionStatusMap as JSON
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def fetchUserDetails(){
+        Map userDetailsMap      =   [:]
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        List userDetailsList    =   userManagementService.fetchAllUsersByRestaurantId(sCtx.restaurantId)
+        userDetailsMap << [data : userDetailsList]
+        render userDetailsMap as JSON
     }
     /*-------------------------- END : Restaurant User Management -----------------------*/
 }

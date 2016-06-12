@@ -40,6 +40,7 @@
                                 <thead>
                                 <tr>
                                     <th>Branch Name</th>
+                                    <th>User Name</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Contact Number</th>

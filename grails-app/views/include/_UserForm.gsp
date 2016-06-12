@@ -5,7 +5,7 @@
         </div>
         <div class="col-md-6">
 
-            <select id="selectBranch" class="form-control">
+            <select id="selectBranch" name="branchName" class="form-control">
             </select>
         </div>
     </div>

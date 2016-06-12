@@ -174,7 +174,7 @@ class UserManagementService {
                     if (user.branchId != null){
                         branchName = commonUtilService.fetchBranchNameByBranchId(user.branchId)
                         if (branchName != ""){
-                            userDetailsList = [branchName, user.firstName, user.lastName, user.contactNumber, user.id, user.branchId]
+                            userDetailsList = [branchName,user.username, user.firstName, user.lastName, user.contactNumber, user.id, user.branchId]
                             allUserDetailsList << userDetailsList
                         }
                     }

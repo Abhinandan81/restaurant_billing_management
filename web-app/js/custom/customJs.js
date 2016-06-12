@@ -121,12 +121,12 @@ var validateForms = {
                         data : {branchId : handleEvents.branchId},
                         //on successful operation
                         success: function (response) {
-                            handleEvents.branchSubmitUrl = "";
                             if(response.status == true){
                                 handleEvents.showBranchDetailsTable();
                                 commonUtilities.show_stack_bottomleft("success", response.message);
                                 //reload the branchDetailsDataTable
                                 ajaxCalls.branchDetailsTableReload();
+                                handleEvents.branchSubmitUrl = "";
                             }else{
                                 commonUtilities.show_stack_bottomleft("error", response.message);
                             }
@@ -177,12 +177,12 @@ var validateForms = {
                     type: 'POST',
                     //on successful operation
                     success: function (response) {
-                        handleEvents.userSubmitUrl = "";
                         if(response.status == true){
                             handleEvents.showExistingUserDetails();
                             commonUtilities.show_stack_bottomleft("success", response.message);
                             //reload the branchDetailsDataTable
                             ajaxCalls.userDetailsDataTableReload();
+                            handleEvents.userSubmitUrl = "";
                         }else{
                             commonUtilities.show_stack_bottomleft("error", response.message);
                         }
@@ -322,6 +322,9 @@ var handleEvents = {
 
         //on click to the newUser
         $("#newUser").click(function(){
+            //clear the form
+            $("#userModificationForm").trigger("reset");
+
             //give the value to the submit button
             $("#userSubmit").val("");
             $("#userSubmit").val("Submit");
@@ -362,7 +365,7 @@ var handleEvents = {
                     action: function(dialogRef){
                         $.ajax({
                             url: "../restaurantManagement/deleteUser",
-                            data:{userId : handleEvents.userDetailsFromTableRow[4]},
+                            data:{userId : handleEvents.userDetailsFromTableRow[5]},
                             type: 'POST',
                             success: function(response){
                                 if(response.status == true){

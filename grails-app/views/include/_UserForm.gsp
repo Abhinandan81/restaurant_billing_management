@@ -1,6 +1,17 @@
 <form class="form-horizontal" id="branchModificationForm" method="POST">
     <div class="row form-group">
         <div class="col-md-2" >
+            <label class="labelColor">Select Branch</label>
+        </div>
+        <div class="col-md-6">
+
+            <select id="selectBranch" class="form-control">
+            </select>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2" >
             <label class="control-label labelColor" for="userName">Email Address</label>
         </div>
         <div class="col-md-6">

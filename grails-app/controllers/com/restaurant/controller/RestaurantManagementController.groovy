@@ -46,6 +46,13 @@ class RestaurantManagementController {
         branchDetailsMap << [ data : allBranchDetailsList]
         render branchDetailsMap as JSON
     }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def fetchBranchNames(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        List branchNameList   =   restaurantManagementService.branchNameByRestaurantId(sCtx.restaurantId)
+        render branchNameList as JSON
+    }
     /*-------------------------- END : Branch Management ---------------------------------*/
 
     /*-------------------------- START : Restaurant User Management ----------------------*/

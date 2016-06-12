@@ -110,4 +110,24 @@ class RestaurantManagementService {
             println "Error in branch deletion"
         }
     }
+
+    /**
+     * Fetch all branch details
+     * @return : List of branchDetails
+     */
+    List branchNameByRestaurantId(String restaurantId){
+        List branchesDetailsList   =   []
+        try{
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+            if (restaurant){
+                def branches  =   Branch.findAllByRestaurant(restaurant)
+                branches.each { branch->
+                    branchesDetailsList << branch.name
+                }
+            }
+            return branchesDetailsList
+        }catch (Exception e){
+            println "Error while fetching branch details"
+        }
+    }
 }

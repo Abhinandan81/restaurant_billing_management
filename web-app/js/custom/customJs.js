@@ -265,6 +265,7 @@ var handleEvents = {
 
         //on click to the newUser
         $("#newUser").click(function(){
+            handleEvents.fetchBranchNameAndAppendOptions();
             $("#existingUserDetails").hide();
             $("#userDetailsEditing").show();
         });
@@ -323,9 +324,26 @@ var handleEvents = {
         } );
     },
 
+    //function to shoe user management home page
     showExistingUserDetails : function(){
         $("#existingUserDetails").show();
         $("#userDetailsEditing").hide();
+    },
+
+    //function to prefetch and display branch names in drop down box
+    fetchBranchNameAndAppendOptions : function(){
+        $.ajax({
+            url: "../restaurantManagement/fetchBranchNames",
+            type: 'GET',
+            success: function(branchNameList){
+                //show user the list of branches for this restaurant
+                $.each(branchNameList,function(index, value){
+                    $("#selectBranch").append('<option>'+value+'</option>');
+                });
+            },
+            error: function(response){
+            }
+        });
     }
 
     //    END : User Management view handler

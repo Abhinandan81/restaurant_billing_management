@@ -9,6 +9,7 @@ import grails.transaction.Transactional
 
 @Transactional
 class UserManagementService {
+    def commonUtilService
 
     void bootstrapSystemRoles(){
         /* Create the SUPER_ADMIN user role. */
@@ -78,7 +79,7 @@ class UserManagementService {
      * @param roleOfUser
      * @return : userCreationStatusMap
      */
-    Map newUserCreation(String userName, String password, String firstName, String lastName, String mobileNumber,
+    Map newUserCreation(String userName, String password, String firstName, String lastName, String contactNumber,
                         String roleOfUser, String restaurantId, String branchId){
         Map userCreationStatusMap  =   [:]
         try {
@@ -89,7 +90,7 @@ class UserManagementService {
                 userCreationStatusMap  << [status : false, successMessage : "User with the username ${userName} already exist"]
             }else{
                 user     =   new User(username: userName, password: password, firstName : firstName,
-                        lastName : lastName, mobileNumber : mobileNumber, restaurantId: restaurantId, branchId: branchId)
+                        lastName : lastName, contactNumber : contactNumber, restaurantId: restaurantId, branchId: branchId)
                 user.save(flush: true, failOnError: true)
 
                 def role = Role.findByAuthority(roleOfUser)
@@ -102,7 +103,7 @@ class UserManagementService {
             }
             return userCreationStatusMap
         }catch (Exception e){
-            println "Error in new user creation"
+            println "Error in new user creation"+e
             userCreationStatusMap  << [status : false, errorMessage : "User ${firstName} ${lastName} creation failed"]
             return userCreationStatusMap
         }
@@ -161,6 +162,33 @@ class UserManagementService {
             println "Error while deleting the user"
             userDeletionStatusMap   <<  [status: false, errorMessage: "Error while deleting the User"]
             return userDeletionStatusMap
+        }
+    }
+
+    List fetchAllUsersByRestaurantId(String restaurantId){
+        List allUserDetailsList =   []
+        List userDetailsList    =   []
+        String branchName
+
+        try {
+            User users = User.findAllByRestaurantId(restaurantId)
+            if (users){
+                users.each { user->
+                    branchName = ""
+
+                    //to neglet super admin, check for user whoo have branch_id associated with it
+                    if (user.branchId != null){
+                        branchName = commonUtilService.fetchBranchNameByBranchId(user.branchId)
+                        if (branchName != ""){
+                            userDetailsList = [user.branchId, user.firstName, user.lastName, user.contactNumber]
+                            allUserDetailsList << userDetailsList
+                        }
+                    }
+                }
+                return allUserDetailsList
+            }
+        }catch (Exception e){
+            println "Error in fetching user details by restaurant ID"
         }
     }
 }

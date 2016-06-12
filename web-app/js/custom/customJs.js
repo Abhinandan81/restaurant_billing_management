@@ -45,8 +45,8 @@ var ajaxCalls = {
         "columnDefs": [ {
             "targets": -1,
             "data": null,
-            "defaultContent": ["<i id='branchUpdate' class='glyphicon glyphicon-pencil text-info dataTableActionMargin' aria-hidden='true'></i>"+
-                "<i id='branchDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
+            "defaultContent": ["<i id='userUpdate' class='glyphicon glyphicon-pencil text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                "<i id='userDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
         },
             {
                 "targets": [3,4],
@@ -261,6 +261,22 @@ var handleEvents = {
 
         //load the user details data table
         ajaxCalls.userDetailsDataTableReload();
+
+        //on click to the newUser
+        $("#newUser").click(function(){
+            $("#existingUserDetails").hide();
+            $("#userDetailsEditing").show();
+        });
+
+        //on cancelButton click from branch modification form
+        $("#cancelButton").click(function(){
+            handleEvents.showExistingUserDetails();
+        });
+    },
+
+    showExistingUserDetails : function(){
+        $("#existingUserDetails").show();
+        $("#userDetailsEditing").hide();
     }
 
     //    END : User Management view handler

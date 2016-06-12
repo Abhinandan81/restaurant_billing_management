@@ -47,7 +47,7 @@ class SessionUtil {
          * The setMaxInactiveInterval function specifies the time, in seconds, between client requests
          *  before the servlet container will invalidate this session. We have set this threshold to an hour.
          */
-        session.setMaxInactiveInterval(300);
+        session.setMaxInactiveInterval(1000);
 
         return sCtx
     }

@@ -283,7 +283,7 @@ var handleEvents = {
             $("#branchDeletionMessage").html("If you delete this branch " +handleEvents.branchDetailsFromTableRow[0]+", " +
                 "all details related to this will also get deleted.To continue with delete type <b class='text-danger'>"+handleEvents.branchDetailsFromTableRow[0]+
             "</b> in below box.");
-        } );
+        });
 
         //on click to the confirmBranchDelete
         $("#confirmBranchDelete").click(function(){
@@ -325,6 +325,12 @@ var handleEvents = {
             //clear the form
             $("#userModificationForm").trigger("reset");
 
+            $("#userName").prop('disabled',false);
+            $("#password").prop('disabled',false);
+
+            $("#userHeader").html("");
+            $("#userHeader").html("New User Creation");
+
             //give the value to the submit button
             $("#userSubmit").val("");
             $("#userSubmit").val("Submit");
@@ -347,6 +353,42 @@ var handleEvents = {
         $("#cancelButton").click(function(){
             handleEvents.showExistingUserDetails();
         });
+
+        //Function for handling update button click event
+        $('body').on('click', '#userDataTable tbody tr #userUpdate', function () {
+
+            //clear the form
+            $("#userModificationForm").trigger("reset");
+
+            $("#userHeader").html("");
+            $("#userHeader").html("User Update");
+
+            //give the value to the submit button
+            $("#userSubmit").val("");
+            $("#userSubmit").val("Update");
+
+            $("#existingUserDetails").hide();
+            $("#userDetailsEditing").show();
+
+            handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
+            //pre populate branch details in the input field
+            $("#selectBranch").val(handleEvents.userDetailsFromTableRow[0]);
+            $("#userName").val(handleEvents.userDetailsFromTableRow[1]);
+            $("#firstName").val(handleEvents.userDetailsFromTableRow[2]);
+            $("#lastName").val(handleEvents.userDetailsFromTableRow[3]);
+            $("#contactNumber").val(handleEvents.userDetailsFromTableRow[4]);
+
+            console.log("handleEvents.userDetailsFromTableRow[7] :"+handleEvents.userDetailsFromTableRow);
+
+            $("#userName").prop('disabled',true);
+            $("#password").prop('disabled',true);
+
+            //give a value to the branchSubmit button
+            $("#userSubmit").val("");
+            $("#userSubmit").val("Update");
+
+            handleEvents.userSubmitUrl = "../restaurantManagement/updateUserInformation";
+        } );
 
         //Function for handling delete  click event
         $('body').on('click', '#userDataTable tbody tr #userDelete', function () {
@@ -420,7 +462,6 @@ var handleEvents = {
     }
 
     //    END : User Management view handler
-
 };
 
 var show = {};

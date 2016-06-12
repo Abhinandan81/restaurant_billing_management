@@ -10,6 +10,7 @@ class RestaurantManagementController {
     def restaurantManagementService
     def userManagementService
     def springSecurityService
+    def commonUtilService
 
     /*-------------------------- START : Branch Management ---------------------------------*/
     @Secured(['ROLE_SUPER_ADMIN'])
@@ -66,8 +67,18 @@ class RestaurantManagementController {
      */
     @Secured(['ROLE_SUPER_ADMIN'])
     def createUser(){
-        Map userCreationStatusMap    =   userManagementService.newUserCreation('ankya', 'ankya', 'Abhinandan',
-                'Satpute', '8796105046', CodeConstants.ROLE_SUPER_ADMIN, "1", "2")
+        String branchId =   ""
+        Map userCreationStatusMap   =   [:]
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        branchId =   commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId)
+        if (branchId != ""){
+            userCreationStatusMap    =   userManagementService.newUserCreation(params.userName, params.password,
+                    params.firstName, params.lastName, params.contactNumber, CodeConstants.ROLE_SUPER_ADMIN,
+                    sCtx.restaurantId, branchId)
+        }else {
+            userCreationStatusMap << [status : false, message : "Invalid branch name"]
+        }
         render userCreationStatusMap as JSON
     }
 

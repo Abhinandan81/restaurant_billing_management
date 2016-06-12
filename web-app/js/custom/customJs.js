@@ -138,10 +138,66 @@ var validateForms = {
                 return false;
             }
         });
+    },
+
+    validateUserCreation: function () {
+        $("#userModificationForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                userName        :   {required: true},
+                firstName       :   {required: true},
+                lastName        :   {required: true},
+                contactNumber   :   {required: true, exactLength: 10},
+                password        :   {required : true}
+            },
+
+            messages: {
+                userName        :   "Please give user name",
+                firstName       :   "Please give first name",
+                lastName        :   "Please give last address",
+                contactNumber   :   {required: "Please give contact number",
+                    exactLength :   "contact number should be of 10 digit"},
+                password        :   "Password can not be empty"
+            },
+            //after form validation
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url: handleEvents.userSubmitUrl,                                   //Path of the controller action
+                    type: 'POST',
+                    //on successful operation
+                    success: function (response) {
+                        handleEvents.userSubmitUrl = "";
+                        if(response.status == true){
+                            handleEvents.showExistingUserDetails();
+                            commonUtilities.show_stack_bottomleft("success", response.message);
+                            //reload the branchDetailsDataTable
+                            ajaxCalls.userDetailsDataTableReload();
+                        }else{
+                            commonUtilities.show_stack_bottomleft("error", response.message);
+                        }
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
     }
+
 };
 var handleEvents = {
-
 
 //    START : Branch Management view handler
     branchDetailsFromTableRow   :   "",
@@ -251,7 +307,8 @@ var handleEvents = {
 
     //    START : User Management view handler
 
-    userDetailsFromTableRow   :   "",
+    userDetailsFromTableRow : "",
+    userSubmitUrl           : "",
     userManagementView :  function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -265,9 +322,22 @@ var handleEvents = {
 
         //on click to the newUser
         $("#newUser").click(function(){
-            handleEvents.fetchBranchNameAndAppendOptions();
+            //give the value to the submit button
+            $("#userSubmit").val("");
+            $("#userSubmit").val("Submit");
+
             $("#existingUserDetails").hide();
             $("#userDetailsEditing").show();
+
+            //pre fetch and load the branch names
+            handleEvents.fetchBranchNameAndAppendOptions();
+            handleEvents.userSubmitUrl  =   ""
+            handleEvents.userSubmitUrl  =   "../restaurantManagement/createUser"
+        });
+
+        $("#userSubmit").click(function(){
+            //validate the form
+            validateForms.validateUserCreation();
         });
 
         //on cancelButton click from branch modification form

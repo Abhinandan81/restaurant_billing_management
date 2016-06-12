@@ -42,4 +42,3 @@ $.validator.addMethod("checkOptionalValue", function(value, element, param){
     }
     return true
 }, $.format(""));
-

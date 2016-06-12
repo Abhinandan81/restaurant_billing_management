@@ -9,7 +9,7 @@ class CodeConstants {
     static final String ROLE_ADMIN                  =   'ROLE_ADMIN'
 
     /*Super Admin details*/
-    static final String SUPER_ADMIN_USER_NAME       =   "sadmin"
+    static final String SUPER_ADMIN_USER_NAME       =   "abhi"
     static final String ADMIN_USER_NAME             =   "admin"
 
     static final String SERVICE_CONTEXT_ATTRIBUTE_NAME = "serviceContext"

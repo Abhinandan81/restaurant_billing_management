@@ -81,7 +81,7 @@ class RestaurantManagementController {
      */
     @Secured(['ROLE_SUPER_ADMIN'])
     def deleteUser(){
-        Map userDeletionStatusMap   =   userManagementService.deleteUser("3")
+        Map userDeletionStatusMap   =   userManagementService.deleteUser(params.userId)
         render userDeletionStatusMap as JSON
     }
 

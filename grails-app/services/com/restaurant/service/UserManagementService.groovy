@@ -87,7 +87,7 @@ class UserManagementService {
             User user   =   User.findByUsername(userName)
 
             if (user){
-                userCreationStatusMap  << [status : false, successMessage : "User with the username ${userName} already exist"]
+                userCreationStatusMap  << [status : false, message : "User with the username ${userName} already exist"]
             }else{
                 user     =   new User(username: userName, password: password, firstName : firstName,
                         lastName : lastName, contactNumber : contactNumber, restaurantId: restaurantId, branchId: branchId)
@@ -99,13 +99,11 @@ class UserManagementService {
                 if(!userRole) {
                     UserRole.create(user, role, true)
                 }
-                userCreationStatusMap  << [status : true, successMessage : "User ${firstName} ${lastName} created successfully"]
+                userCreationStatusMap  << [status : true, message : "User ${firstName} ${lastName} created successfully"]
             }
             return userCreationStatusMap
         }catch (Exception e){
             println "Error in new user creation"+e
-            userCreationStatusMap  << [status : false, errorMessage : "User ${firstName} ${lastName} creation failed"]
-            return userCreationStatusMap
         }
     }
 
@@ -124,16 +122,14 @@ class UserManagementService {
                 }
 
                 user.save(flush: true, failOnError: true)
-                userUpdateStatusMap <<  [status: true, successMessage: "User details updated successfully"]
+                userUpdateStatusMap <<  [status: true, message: "User details updated successfully"]
                 return userUpdateStatusMap
             }else {
-                userUpdateStatusMap <<  [status: false, errorMessage: "User not found"]
+                userUpdateStatusMap <<  [status: false, message: "User not found"]
                 return userUpdateStatusMap
             }
         }catch (Exception e){
             println "Error while updating user information"
-            userUpdateStatusMap <<  [status: false, errorMessage: "Error while updating user information"]
-            return userUpdateStatusMap
         }
     }
 
@@ -151,17 +147,15 @@ class UserManagementService {
                 def userRoles   =   UserRole.findAllByUser(user)
                 userRoles*.delete()
                 user.delete()
-                userDeletionStatusMap   <<  [status: true, successMessage: "User deleted successfully"]
+                userDeletionStatusMap   <<  [status: true, message: "User deleted successfully"]
                 return userDeletionStatusMap
             }else {
-                userDeletionStatusMap   <<  [status: false, errorMessage: "User you are trying to delete does not exist"]
+                userDeletionStatusMap   <<  [status: false, message: "User you are trying to delete does not exist"]
                 return userDeletionStatusMap
             }
 
         }catch (Exception e){
             println "Error while deleting the user"
-            userDeletionStatusMap   <<  [status: false, errorMessage: "Error while deleting the User"]
-            return userDeletionStatusMap
         }
     }
 

@@ -132,7 +132,7 @@ var validateForms = {
                             }
                         },
                         error: function (response) {
-                            commonUtilities.show_stack_bottomleft("error", response);
+                            commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
                         }
                     });
                 return false;
@@ -251,6 +251,7 @@ var handleEvents = {
 
     //    START : User Management view handler
 
+    userDetailsFromTableRow   :   "",
     userManagementView :  function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -272,6 +273,54 @@ var handleEvents = {
         $("#cancelButton").click(function(){
             handleEvents.showExistingUserDetails();
         });
+
+        //Function for handling delete  click event
+        $('body').on('click', '#userDataTable tbody tr #userDelete', function () {
+
+            handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
+
+            BootstrapDialog.show({
+                title:'Delete User',
+                type: BootstrapDialog.TYPE_DANGER,
+                message:"Do you really want to proceed with the user delete?",
+                closable: false,
+                buttons: [{
+                    id: 'btn-yes',
+                    label: 'Yes',
+                    cssClass: 'btn-danger',
+                    action: function(dialogRef){
+                        $.ajax({
+                            url: "../restaurantManagement/deleteUser",
+                            data:{userId : handleEvents.userDetailsFromTableRow[4]},
+                            type: 'POST',
+                            success: function(response){
+                                if(response.status == true){
+                                    //Loading existing user details data to the Data table
+                                    ajaxCalls.userDetailsDataTableReload();
+                                    commonUtilities.show_stack_bottomleft("success", response.message);
+                                }else{
+                                    commonUtilities.show_stack_bottomleft("error", response.message);
+                                }
+                                dialogRef.close();
+                            },
+                            error: function(response){
+                                commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
+                                dialogRef.close();
+                            }
+                        });
+                    }
+                },
+                    {
+                        id: 'btn-cancel',
+                        label: 'Cancel',
+                        cssClass: 'btn-primary',
+                        action: function(dialogRef){
+                            dialogRef.close();
+                        }
+                    }]
+            });
+
+        } );
     },
 
     showExistingUserDetails : function(){

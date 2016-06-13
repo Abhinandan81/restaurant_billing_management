@@ -60,7 +60,7 @@
         </div>
 
         <div class="col-md-6">
-            <input type="submit" id="userSubmit" class="btn btn-success">
+            <input type="submit" id="userSubmit" class="btn btn-success" value="Submit">
             <button type="button" id="cancelButton" class="btn btn-warning">Cancel</button>
         </div>
 

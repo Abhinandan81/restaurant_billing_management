@@ -22,7 +22,7 @@ var ajaxCalls = {
             "columnDefs": [ {
                 "targets": -1,
                 "data": null,
-                "defaultContent": ["<i id='branchUpdate' class='glyphicon glyphicon-pencil text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                "defaultContent": ["<i id='branchUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
                     "<i id='branchDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
             },
                 {
@@ -45,7 +45,7 @@ var ajaxCalls = {
         "columnDefs": [ {
             "targets": -1,
             "data": null,
-            "defaultContent": ["<i id='userUpdate' class='glyphicon glyphicon-pencil text-info dataTableActionMargin' aria-hidden='true'></i>"+
+            "defaultContent": ["<i id='userUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
                 "<i id='userDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
         },
             {
@@ -173,7 +173,7 @@ var validateForms = {
             //after form validation
             submitHandler: function (form) {
                 $(form).ajaxSubmit({
-                    url: handleEvents.userSubmitUrl,                                   //Path of the controller action
+                    url: '../restaurantManagement/createUser',                                   //Path of the controller action
                     type: 'POST',
                     //on successful operation
                     success: function (response) {
@@ -182,7 +182,61 @@ var validateForms = {
                             commonUtilities.show_stack_bottomleft("success", response.message);
                             //reload the branchDetailsDataTable
                             ajaxCalls.userDetailsDataTableReload();
-                            handleEvents.userSubmitUrl = "";
+                        }else{
+                            commonUtilities.show_stack_bottomleft("error", response.message);
+                        }
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
+    },
+
+    validateUserUpdate: function () {
+        $("#userModificationForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                firstName       :   {required: true},
+                lastName        :   {required: true},
+                contactNumber   :   {required: true, exactLength: 10},
+                newPassword        :   {required : true}
+            },
+
+            messages: {
+                firstName       :   "Please give first name",
+                lastName        :   "Please give last address",
+                contactNumber   :   {required: "Please give contact number",
+                    exactLength :   "contact number should be of 10 digit"},
+                newPassword        :   "Password can not be empty"
+            },
+            //after form validation
+            submitHandler: function () {
+                handleEvents.userUpdateInformationMap();
+                $.ajaxSubmit({
+                    url: '../restaurantManagement/updateUserInformation',                                   //Path of the controller action
+                    type: 'POST',
+                    data: {updatedUserInformation : handleEvents.updateUserDetailsMap},
+                    //on successful operation
+                    success: function (response) {
+                        if(response.status == true){
+                            handleEvents.showExistingUserDetails();
+                            commonUtilities.show_stack_bottomleft("success", response.message);
+                            //reload the branchDetailsDataTable
+                            ajaxCalls.userDetailsDataTableReload();
                         }else{
                             commonUtilities.show_stack_bottomleft("error", response.message);
                         }
@@ -195,7 +249,6 @@ var validateForms = {
             }
         });
     }
-
 };
 var handleEvents = {
 
@@ -307,8 +360,9 @@ var handleEvents = {
 
     //    START : User Management view handler
 
-    userDetailsFromTableRow : "",
-    userSubmitUrl           : "",
+    userDetailsFromTableRow :   "",
+    passwordEditFlag        :   false,
+    updateUserDetailsMap    :   {},
     userManagementView :  function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -336,9 +390,7 @@ var handleEvents = {
             $("#newUserCreation").show();
 
             //pre fetch and load the branch names
-            handleEvents.fetchBranchNameAndAppendOptions();
-            handleEvents.userSubmitUrl  =   ""
-            handleEvents.userSubmitUrl  =   "../restaurantManagement/createUser"
+            handleEvents.fetchBranchNameAndAppendOptions("selectBranch");
         });
 
         $("#userSubmit").click(function(){
@@ -354,38 +406,39 @@ var handleEvents = {
         //Function for handling update button click event
         $('body').on('click', '#userDataTable tbody tr #userUpdate', function () {
 
-            //clear the form
-            $("#userCreationForm").trigger("reset");
-
-
-
-            //give the value to the submit button
-            $("#userSubmit").val("");
-            $("#userSubmit").val("Update");
-
             $("#existingUserDetails").hide();
             $("#newUserCreation").hide();
             $("#editUserDetails").show();
 
             handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
             //pre populate branch details in the input field
-            $("#selectBranch").val(handleEvents.userDetailsFromTableRow[0]);
-            $("#userName").val(handleEvents.userDetailsFromTableRow[1]);
-            $("#firstName").val(handleEvents.userDetailsFromTableRow[2]);
-            $("#lastName").val(handleEvents.userDetailsFromTableRow[3]);
-            $("#contactNumber").val(handleEvents.userDetailsFromTableRow[4]);
+            $("#currentBranch").val(handleEvents.userDetailsFromTableRow[0]);
+            $("#currentUserName").val(handleEvents.userDetailsFromTableRow[1]);
+            $("#currentFirstName").val(handleEvents.userDetailsFromTableRow[2]);
+            $("#currentLastName").val(handleEvents.userDetailsFromTableRow[3]);
+            $("#currentContactNumber").val(handleEvents.userDetailsFromTableRow[4]);
 
-            console.log("handleEvents.userDetailsFromTableRow[7] :"+handleEvents.userDetailsFromTableRow);
+            //pre fetch and load the branch names
+            handleEvents.fetchBranchNameAndAppendOptions("selectNewBranch");
 
-            $("#userName").prop('disabled',true);
-            $("#password").prop('disabled',true);
-
-            //give a value to the branchSubmit button
-            $("#userSubmit").val("");
-            $("#userSubmit").val("Update");
-
-            handleEvents.userSubmitUrl = "../restaurantManagement/updateUserInformation";
+            $("#currentUserName").prop('disabled',true);
+            $("#newPassword").prop('disabled',true);
         } );
+
+        $("#editPassword").click(function(){
+            $("#newPassword").prop('disabled',false);
+            handleEvents.passwordEditFlag = true;
+        });
+
+        $("#userUpdateSubmit").click(function(){
+            //validate the form
+            validateForms.validateUserUpdate();
+        });
+
+        //on cancelUserUpdate click from branch modification form
+        $("#cancelUserUpdate").click(function(){
+            handleEvents.showExistingUserDetails();
+        });
 
         //Function for handling delete  click event
         $('body').on('click', '#userDataTable tbody tr #userDelete', function () {
@@ -444,19 +497,37 @@ var handleEvents = {
     },
 
     //function to prefetch and display branch names in drop down box
-    fetchBranchNameAndAppendOptions : function(){
+    fetchBranchNameAndAppendOptions : function(selectionId){
         $.ajax({
             url: "../restaurantManagement/fetchBranchNames",
             type: 'GET',
             success: function(branchNameList){
                 //show user the list of branches for this restaurant
+                $("#"+selectionId).append('<option>-- Select Branch --</option>');
                 $.each(branchNameList,function(index, value){
-                    $("#selectBranch").append('<option>'+value+'</option>');
+                    $("#"+selectionId).append('<option>'+value+'</option>');
                 });
             },
             error: function(response){
             }
         });
+    },
+
+    //before update, collect the updated values
+    userUpdateInformationMap    :   function(){
+        handleEvents.updateUserDetailsMap    =   {};
+
+        handleEvents.updateUserDetailsMap.firstName     =   $("#currentFirstName").val();
+        handleEvents.updateUserDetailsMap.lastName      =   $("#currentLastName").val();
+        handleEvents.updateUserDetailsMap.contactNumber =   $("#currentContactNumber").val();
+
+        if(handleEvents.passwordEditFlag == true){
+            handleEvents.updateUserDetailsMap.contactNumber =   $("#newPassword").val();
+        }
+
+        if($("#selectNewBranch").val() != "-- Select Branch --"){
+            handleEvents.updateUserDetailsMap.branchName = $("#selectNewBranch").val();
+        }
     }
 
     //    END : User Management view handler

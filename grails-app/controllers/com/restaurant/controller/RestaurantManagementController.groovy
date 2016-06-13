@@ -74,7 +74,7 @@ class RestaurantManagementController {
         branchId =   commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
         if (branchId != ""){
             userCreationStatusMap    =   userManagementService.newUserCreation(params.userName, params.password,
-                    params.firstName, params.lastName, params.contactNumber, CodeConstants.ROLE_SUPER_ADMIN,
+                    params.firstName, params.lastName, params.contactNumber, CodeConstants.ROLE_ADMIN,
                     sCtx.restaurantId, branchId)
         }else {
             userCreationStatusMap << [status : false, message : "Invalid branch name"]
@@ -88,10 +88,24 @@ class RestaurantManagementController {
      */
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateUserInformation(){
-        println "params :"+params+"\t updatedUserInformation :"+params.firstName
-    /*    Map detailsToUpdate =  [firstName : "Abhi", lastName : "Sat"]
-        Map  userUpdateStatusMap = userManagementService.updateUserInformation("3", detailsToUpdate)
-        render userUpdateStatusMap as JSON*/
+        String branchId = ""
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        //building map for user details to update
+        Map detailsToUpdate =  [firstName : params.firstName, lastName : params.lastName, contactNumber: params.contactNumber]
+        if (params.branchName != ""){
+            branchId =   commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
+            if (branchId != ""){
+                detailsToUpdate << [branchId : branchId]
+            }
+        }
+
+        if (params.password != ""){
+            detailsToUpdate << [password : params.password]
+        }
+
+        Map  userUpdateStatusMap = userManagementService.updateUserInformation(params.userId, detailsToUpdate)
+        render userUpdateStatusMap as JSON
     }
 
     /**

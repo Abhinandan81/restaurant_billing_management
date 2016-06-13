@@ -343,7 +343,6 @@ var handleEvents = {
             var deleteInputBoxContent   =   $("#branchNameValidator").val();
 
             if(deleteInputBoxContent == handleEvents.branchDetailsFromTableRow[0]){
-                console.log("deleteInputBoxContent :"+deleteInputBoxContent);
                 deleteData.deleteBranch();
             }else{
                 $("#invalidBranchNameMessage").html("Invalid Branch Name entered");
@@ -406,9 +405,12 @@ var handleEvents = {
         //Function for handling update button click event
         $('body').on('click', '#userDataTable tbody tr #userUpdate', function () {
 
+
             $("#existingUserDetails").hide();
             $("#newUserCreation").hide();
             $("#editUserDetails").show();
+
+            $("#userModificationForm").trigger("reset");
 
             handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
             //pre populate branch details in the input field
@@ -422,6 +424,7 @@ var handleEvents = {
             handleEvents.fetchBranchNameAndAppendOptions("selectNewBranch");
 
             $("#currentUserName").prop('disabled',true);
+            $("#currentBranch").prop('disabled',true);
             $("#newPassword").prop('disabled',true);
         } );
 
@@ -517,11 +520,12 @@ var handleEvents = {
     userUpdateInformationMap    :   function(){
         handleEvents.userUpdateDetailsMap    =   {};
 
+        handleEvents.userUpdateDetailsMap.userId        =   handleEvents.userDetailsFromTableRow[5];
         handleEvents.userUpdateDetailsMap.firstName     =   $("#currentFirstName").val();
         handleEvents.userUpdateDetailsMap.lastName      =   $("#currentLastName").val();
         handleEvents.userUpdateDetailsMap.contactNumber =   $("#currentContactNumber").val();
 
-        if(handleEvents.passwordEditFlag == true){
+        if(handleEvents.passwordEditFlag == true && ($("#newPassword").val() != "")){
             handleEvents.userUpdateDetailsMap.password =   $("#newPassword").val();
         }else{
             handleEvents.userUpdateDetailsMap.password  =   "";

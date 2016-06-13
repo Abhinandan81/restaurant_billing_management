@@ -88,9 +88,10 @@ class RestaurantManagementController {
      */
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateUserInformation(){
-        Map detailsToUpdate =  [firstName : "Abhi", lastName : "Sat"]
+        println "params :"+params+"\t updatedUserInformation :"+params.firstName
+    /*    Map detailsToUpdate =  [firstName : "Abhi", lastName : "Sat"]
         Map  userUpdateStatusMap = userManagementService.updateUserInformation("3", detailsToUpdate)
-        render userUpdateStatusMap as JSON
+        render userUpdateStatusMap as JSON*/
     }
 
     /**

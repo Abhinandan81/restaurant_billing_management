@@ -210,26 +210,26 @@ var validateForms = {
             },
 
             rules: {
-                firstName       :   {required: true},
-                lastName        :   {required: true},
-                contactNumber   :   {required: true, exactLength: 10},
-                newPassword        :   {required : true}
+                currentFirstName       :   {required: true},
+                currentLastName        :   {required: true},
+                currentContactNumber   :   {required: true, exactLength: 10},
+                newPassword            :   {required : true}
             },
 
             messages: {
-                firstName       :   "Please give first name",
-                lastName        :   "Please give last address",
-                contactNumber   :   {required: "Please give contact number",
-                    exactLength :   "contact number should be of 10 digit"},
-                newPassword        :   "Password can not be empty"
+                currentFirstName        :   "Please give first name",
+                currentLastName         :   "Please give last address",
+                currentContactNumber    :   {required: "Please give contact number",
+                    exactLength         :   "contact number should be of 10 digit"},
+                newPassword             :   "Password can not be empty"
             },
             //after form validation
             submitHandler: function () {
                 handleEvents.userUpdateInformationMap();
-                $.ajaxSubmit({
+                $.ajax({
                     url: '../restaurantManagement/updateUserInformation',                                   //Path of the controller action
                     type: 'POST',
-                    data: {updatedUserInformation : handleEvents.updateUserDetailsMap},
+                    data: handleEvents.userUpdateDetailsMap,
                     //on successful operation
                     success: function (response) {
                         if(response.status == true){
@@ -362,7 +362,7 @@ var handleEvents = {
 
     userDetailsFromTableRow :   "",
     passwordEditFlag        :   false,
-    updateUserDetailsMap    :   {},
+    userUpdateDetailsMap    :   {},
     userManagementView :  function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -515,18 +515,22 @@ var handleEvents = {
 
     //before update, collect the updated values
     userUpdateInformationMap    :   function(){
-        handleEvents.updateUserDetailsMap    =   {};
+        handleEvents.userUpdateDetailsMap    =   {};
 
-        handleEvents.updateUserDetailsMap.firstName     =   $("#currentFirstName").val();
-        handleEvents.updateUserDetailsMap.lastName      =   $("#currentLastName").val();
-        handleEvents.updateUserDetailsMap.contactNumber =   $("#currentContactNumber").val();
+        handleEvents.userUpdateDetailsMap.firstName     =   $("#currentFirstName").val();
+        handleEvents.userUpdateDetailsMap.lastName      =   $("#currentLastName").val();
+        handleEvents.userUpdateDetailsMap.contactNumber =   $("#currentContactNumber").val();
 
         if(handleEvents.passwordEditFlag == true){
-            handleEvents.updateUserDetailsMap.contactNumber =   $("#newPassword").val();
+            handleEvents.userUpdateDetailsMap.password =   $("#newPassword").val();
+        }else{
+            handleEvents.userUpdateDetailsMap.password  =   "";
         }
 
-        if($("#selectNewBranch").val() != "-- Select Branch --"){
-            handleEvents.updateUserDetailsMap.branchName = $("#selectNewBranch").val();
+        if($("#selectNewBranch").val() == "-- Select Branch --"){
+            handleEvents.userUpdateDetailsMap.branchName = "";
+        }else{
+            handleEvents.userUpdateDetailsMap.branchName = $("#selectNewBranch").val();
         }
     }
 

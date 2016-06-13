@@ -1,4 +1,4 @@
-<form class="form-horizontal" id="userModificationForm" method="POST">
+<form class="form-horizontal" id="userCreationForm" method="POST">
     <div class="row form-group">
         <div class="col-md-2" >
             <label class="labelColor">Select Branch</label>

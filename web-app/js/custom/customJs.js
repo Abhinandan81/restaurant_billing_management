@@ -141,7 +141,7 @@ var validateForms = {
     },
 
     validateUserCreation: function () {
-        $("#userModificationForm").validate({
+        $("#userCreationForm").validate({
             errorElement : 'div',
 
             errorPlacement: function(error, element) {
@@ -314,8 +314,7 @@ var handleEvents = {
         $(".sidebar-menu li").removeClass('active');
         $("#userManagementView").addClass('active');
 
-        //hide userDetailsEditing div
-        $("#userDetailsEditing").hide();
+        handleEvents.showExistingUserDetails();
 
         //load the user details data table
         ajaxCalls.userDetailsDataTableReload();
@@ -323,20 +322,18 @@ var handleEvents = {
         //on click to the newUser
         $("#newUser").click(function(){
             //clear the form
-            $("#userModificationForm").trigger("reset");
+            $("#userCreationForm").trigger("reset");
 
             $("#userName").prop('disabled',false);
             $("#password").prop('disabled',false);
-
-            $("#userHeader").html("");
-            $("#userHeader").html("New User Creation");
 
             //give the value to the submit button
             $("#userSubmit").val("");
             $("#userSubmit").val("Submit");
 
             $("#existingUserDetails").hide();
-            $("#userDetailsEditing").show();
+            $("#editUserDetails").hide();
+            $("#newUserCreation").show();
 
             //pre fetch and load the branch names
             handleEvents.fetchBranchNameAndAppendOptions();
@@ -358,17 +355,17 @@ var handleEvents = {
         $('body').on('click', '#userDataTable tbody tr #userUpdate', function () {
 
             //clear the form
-            $("#userModificationForm").trigger("reset");
+            $("#userCreationForm").trigger("reset");
 
-            $("#userHeader").html("");
-            $("#userHeader").html("User Update");
+
 
             //give the value to the submit button
             $("#userSubmit").val("");
             $("#userSubmit").val("Update");
 
             $("#existingUserDetails").hide();
-            $("#userDetailsEditing").show();
+            $("#newUserCreation").hide();
+            $("#editUserDetails").show();
 
             handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
             //pre populate branch details in the input field
@@ -442,7 +439,8 @@ var handleEvents = {
     //function to shoe user management home page
     showExistingUserDetails : function(){
         $("#existingUserDetails").show();
-        $("#userDetailsEditing").hide();
+        $("#newUserCreation").hide();
+        $("#editUserDetails").hide();
     },
 
     //function to prefetch and display branch names in drop down box

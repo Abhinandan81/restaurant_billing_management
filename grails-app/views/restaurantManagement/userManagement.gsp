@@ -51,13 +51,23 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
-                    <div id="userDetailsEditing" class="box">
+                    <div id="newUserCreation" class="box">
                         <div class="box-header">
-                            <h4 id="userHeader"  class="box-title"></h4>
+                            <h4 class="box-title">New User Creation</h4>
                         </div><!-- /.box-header -->
 
                         <div class="box-body">
                             <g:render template="/include/UserForm"></g:render>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+
+                    <div id="editUserDetails" class="box">
+                        <div class="box-header">
+                            <h4 id="userHeader"  class="box-title">Update User Information</h4>
+                        </div><!-- /.box-header -->
+
+                        <div class="box-body">
+                            <g:render template="/include/UserUpdateForm"></g:render>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 

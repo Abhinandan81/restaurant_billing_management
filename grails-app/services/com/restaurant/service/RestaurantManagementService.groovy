@@ -1,6 +1,7 @@
 package com.restaurant.service
 
 import com.restaurant.domain.management.Branch
+import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
 import grails.transaction.Transactional
 
@@ -128,6 +129,82 @@ class RestaurantManagementService {
             return branchesDetailsList
         }catch (Exception e){
             println "Error while fetching branch details"
+        }
+    }
+
+    Map createMenu(String restaurantId, String name){
+        Map menuCreationStatusMap   =   [:]
+        try {
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+
+            if (restaurant){
+                Menu menu   =   Menu.findByName(name)
+                if (menu){
+                    menuCreationStatusMap << [status: false, message: "Menu with the name ${name} already exist.Please choose another name"]
+                }else {
+                    new Menu(name: name, restaurant: restaurant).save(flush: true, failOnError: true)
+                    menuCreationStatusMap << [status: true, message: "Menu with the name ${name} created successfully."]
+                }
+            }else {
+                menuCreationStatusMap << [status: false, message: "Invalid restaurantId"]
+            }
+
+            return menuCreationStatusMap
+        }catch (Exception e){
+            println "Error in creating menu"+e
+        }
+    }
+
+    Map updateMenu(String menuId, String name){
+        Map menuUpdateStatusMap   =   [:]
+        try {
+            Menu menu   =   Menu.findById(menuId)
+            if (menu){
+                menu.name   =   name
+                menu.save(flush: true, failOnError: true)
+                menuUpdateStatusMap << [status: true, message: "Menu with the name ${name} updated successfully."]
+            }else {
+                menuUpdateStatusMap << [status: false, message: "Menu doesn't exist"]
+            }
+            return menuUpdateStatusMap
+        }catch (Exception e){
+            println "Error in updating menu"+e
+        }
+    }
+
+    Map deleteMenu(String menuId){
+        Map menuDeleteStatusMap   =   [:]
+        String menuName
+        try {
+            Menu menu   =   Menu.findById(menuId)
+            if (menu){
+                menuName    =   menu.name
+                menu.delete()
+                menuDeleteStatusMap << [status: true, message: "Menu with the name ${menuName} deleted successfully."]
+            }else {
+                menuDeleteStatusMap << [status: false, message: "Menu doesn't exist"]
+            }
+            return menuDeleteStatusMap
+        }catch (Exception e){
+            println "Error in updating menu"+e
+        }
+    }
+
+    List fetchMenuList(String restaurantId){
+        List menuList   =   []
+        try {
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+            if (restaurant) {
+                List menus = Menu.findAllByRestaurant(restaurant)
+                if (menus){
+                    menus.each { menu->
+                        menuList << menu.name
+                    }
+                }
+            }
+            return menuList
+        }catch (Exception e){
+            println "Error in fetching menu"+e.printStackTrace()
         }
     }
 }

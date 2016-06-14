@@ -128,4 +128,42 @@ class RestaurantManagementController {
         render userDetailsMap as JSON
     }
     /*-------------------------- END : Restaurant User Management -----------------------*/
+
+    /*-------------------------- START : Menu Management -----------------------*/
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def menuManagement(){}
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def newMenu(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        Map menuCreationStatusMap   = restaurantManagementService.createMenu(sCtx.restaurantId, params.menuName)
+        render menuCreationStatusMap as JSON
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def updateMenu(){
+        Map menuUpdateStatusMap   = restaurantManagementService.updateMenu(params.menuId, params.menuName)
+        render menuUpdateStatusMap as JSON
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def deleteMenu(){
+        Map menuDeletionStatusMap   = restaurantManagementService.deleteMenu(params.menuId)
+        render menuDeletionStatusMap as JSON
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def fetchMenu(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        Map  menuDetailMap  =   [:]
+
+        List menuList   =   restaurantManagementService.fetchMenuList(sCtx.restaurantId)
+        menuDetailMap   <<  [data : menuList]
+        render menuDetailMap as JSON
+    }
+
+    /*-------------------------- END : Menu Management -----------------------*/
 }

@@ -9,7 +9,7 @@ class Restaurant {
     String licenseNumber
     String image
 
-    static hasMany = [branches: Branch]
+    static hasMany = [branches: Branch, menus : Menu]
 
     static constraints = {
     }

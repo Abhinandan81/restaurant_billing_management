@@ -88,6 +88,7 @@ class RestaurantManagementController {
      */
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateUserInformation(){
+        println "params :"+params
         String branchId = ""
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 

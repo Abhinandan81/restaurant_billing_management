@@ -129,7 +129,7 @@ class UserManagementService {
                 return userUpdateStatusMap
             }
         }catch (Exception e){
-            println "Error while updating user information"
+            println "Error while updating user information"+e.printStackTrace()
         }
     }
 

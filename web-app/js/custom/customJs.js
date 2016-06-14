@@ -352,6 +352,7 @@ var handleEvents = {
         //on cancelButton click from branch modification form
         $("#cancelButton").click(function(){
            handleEvents.showBranchDetailsTable();
+            commonUtilities.removeValidationClass();
         });
 
         //on branchSubmit (form submit)
@@ -368,8 +369,7 @@ var handleEvents = {
             $("#existingBranchDetails").hide();
             $("#branchEditing").show();
 
-            //clear the form
-            $("#branchModificationForm").trigger("reset");
+            commonUtilities.clearForm("branchModificationForm");
 
             handleEvents.branchDetailsFromTableRow = ajaxCalls.branchDetailsDataTable.row( $(this).parents('tr') ).data();
             //pre populate branch details in the input field
@@ -441,7 +441,7 @@ var handleEvents = {
         //on click to the newUser
         $("#newUser").click(function(){
             //clear the form
-            $("#userCreationForm").trigger("reset");
+            commonUtilities.clearForm("userCreationForm");
 
             $("#userName").prop('disabled',false);
             $("#password").prop('disabled',false);
@@ -466,6 +466,7 @@ var handleEvents = {
         //on cancelButton click from branch modification form
         $("#cancelButton").click(function(){
             handleEvents.showExistingUserDetails();
+            commonUtilities.removeValidationClass();
         });
 
         //Function for handling update button click event
@@ -476,7 +477,7 @@ var handleEvents = {
             $("#newUserCreation").hide();
             $("#editUserDetails").show();
 
-            $("#userModificationForm").trigger("reset");
+            commonUtilities.clearForm("userModificationForm")
 
             handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
             //pre populate branch details in the input field
@@ -507,6 +508,7 @@ var handleEvents = {
         //on cancelUserUpdate click from branch modification form
         $("#cancelUserUpdate").click(function(){
             handleEvents.showExistingUserDetails();
+            commonUtilities.removeValidationClass();
         });
 
         //Function for handling delete  click event
@@ -625,6 +627,8 @@ var handleEvents = {
             $("#existingMenuDetails").hide();
             $("#menuHandling").show();
 
+            commonUtilities.clearForm("menuForm")
+
             //change the submit button value
             $("#menuSubmit").val("Submit");
             handleEvents.menuSubmitUrl  =   "../restaurantManagement/newMenu"
@@ -636,16 +640,16 @@ var handleEvents = {
 
         $("#cancelButton").click(function(){
             handleEvents.showExistingMenuDetails();
+            commonUtilities.removeValidationClass();
         });
 
         //Function for handling update button click event
         $('body').on('click', '#menuDataTable tbody tr #menuUpdate', function () {
 
-
             $("#existingMenuDetails").hide();
             $("#menuHandling").show();
 
-            $("#menuForm").trigger("reset");
+            commonUtilities.clearForm("menuForm")
 
             //change the submit button value
             $("#menuSubmit").val("Update");
@@ -718,6 +722,16 @@ var handleEvents = {
 
 var show = {};
 var commonUtilities = {
+
+    removeValidationClass : function(){
+        //Remove the error class of form(if any errors has occurred previously)
+        $("div.error").hide();
+        $(".error").removeClass("error");
+    },
+
+    clearForm : function(formId){
+        $("#"+formId).trigger("reset");
+    },
 
     //For showing the notifications
     show_stack_bottomleft : function(type, msg) {

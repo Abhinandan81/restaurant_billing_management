@@ -200,7 +200,7 @@ class RestaurantManagementService {
                 if (menus){
                     menus.each { menu->
                         menuList = []
-                        menuList << menu.name
+                        menuList = [menu.name, menu.id]
                         allMenuList << menuList
                     }
                 }

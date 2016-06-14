@@ -295,6 +295,7 @@ var validateForms = {
                 $(form).ajaxSubmit({
                     url: handleEvents.menuSubmitUrl,                                   //Path of the controller action
                     type: 'POST',
+                    data: {menuId : handleEvents.menuId},
                     //on successful operation
                     success: function (response) {
                         if(response.status == true){
@@ -608,6 +609,8 @@ var handleEvents = {
     //    START : Menu Management view handler
 
     menuSubmitUrl   :   "",
+    menuDetailsFromTableRow :   "",
+    menuId  : "",
     menuManagementView : function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -634,6 +637,75 @@ var handleEvents = {
         $("#cancelButton").click(function(){
             handleEvents.showExistingMenuDetails();
         });
+
+        //Function for handling update button click event
+        $('body').on('click', '#menuDataTable tbody tr #menuUpdate', function () {
+
+
+            $("#existingMenuDetails").hide();
+            $("#menuHandling").show();
+
+            $("#menuForm").trigger("reset");
+
+            //change the submit button value
+            $("#menuSubmit").val("Update");
+
+            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row( $(this).parents('tr') ).data();
+            //pre populate branch details in the input field
+            $("#menuName").val(handleEvents.menuDetailsFromTableRow[0]);
+            handleEvents.menuId =   handleEvents.menuDetailsFromTableRow[1];
+
+            handleEvents.menuSubmitUrl  =   "../restaurantManagement/updateMenu"
+
+        } );
+
+        //Function for handling delete button click event
+        $('body').on('click', '#menuDataTable tbody tr #menuDelete', function () {
+
+            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row( $(this).parents('tr') ).data();
+
+            BootstrapDialog.show({
+                title:'Delete Menu',
+                type: BootstrapDialog.TYPE_DANGER,
+                message:"Do you really want to proceed with the menu delete?",
+                closable: false,
+                buttons: [{
+                    id: 'btn-yes',
+                    label: 'Yes',
+                    cssClass: 'btn-danger',
+                    action: function(dialogRef){
+                        $.ajax({
+                            url: "../restaurantManagement/deleteMenu",
+                            data:{menuId : handleEvents.menuDetailsFromTableRow[1]},
+                            type: 'POST',
+                            success: function(response){
+                                if(response.status == true){
+                                    //Loading existing user details data to the Data table
+                                    ajaxCalls.menuDetailsDataTableReload();
+                                    commonUtilities.show_stack_bottomleft("success", response.message);
+                                }else{
+                                    commonUtilities.show_stack_bottomleft("error", response.message);
+                                }
+                                dialogRef.close();
+                            },
+                            error: function(response){
+                                commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
+                                dialogRef.close();
+                            }
+                        });
+                    }
+                },
+                    {
+                        id: 'btn-cancel',
+                        label: 'Cancel',
+                        cssClass: 'btn-primary',
+                        action: function(dialogRef){
+                            dialogRef.close();
+                        }
+                    }]
+            });
+
+        } );
     },
 
     showExistingMenuDetails : function(){

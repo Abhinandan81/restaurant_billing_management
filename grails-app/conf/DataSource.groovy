@@ -22,7 +22,7 @@ environments {
         dataSource {
             dialect		=	'hibernateutil.MySQL5InnoDBDialectBitFixed'
             pooled 		=	true
-            dbCreate 	=	"update"
+            dbCreate 	=	"create"
             url 		=	"jdbc:mysql://localhost/restaurant?autoReconnect=true"
             driverClassName =	"com.mysql.jdbc.Driver"
             username 	=	"root"

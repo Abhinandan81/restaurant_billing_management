@@ -135,6 +135,9 @@ class RestaurantManagementController {
     def menuManagement(){}
 
     @Secured(['ROLE_SUPER_ADMIN'])
+    def branchWiseMenuManagement(){}
+
+    @Secured(['ROLE_SUPER_ADMIN'])
     def newMenu(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 

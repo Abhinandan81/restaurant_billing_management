@@ -47,7 +47,7 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
-                    <div id="newMenuCreation" class="box">
+                    <div id="menuHandling" class="box">
                         <div class="box-header">
                             <h4 class="box-title"></h4>
                         </div><!-- /.box-header -->
@@ -68,6 +68,7 @@
 <!-- page script -->
 <script>
     $(document).ready(function () {
+        customRestaurantJs.eventHandlers.menuManagementView();
     });
 </script>
 </body>

@@ -198,6 +198,18 @@
                     </a>
                 </li>
 
+    <li id="menuManagementView" class="treeview">
+        <a href="#">
+            <i class="fa fa-cutlery"></i> <span>Menu Management</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li id="basicMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/menuManagement"><i class="fa fa-circle-o"></i>Menu Basics</a></li>
+            <li id="branchMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseMenuManagement"><i class="fa fa-circle-o"></i>Menu Prices</a></li>
+        </ul>
+    </li>
+
+
+
 
             </ul>
         </section>

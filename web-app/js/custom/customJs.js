@@ -10,6 +10,7 @@ var init = {
 var ajaxCalls = {
     branchDetailsDataTable : "",
     userDetailsDataTable : "",
+    menuDetailsDataTable : "",
 
     //START : reload the branchDetailsDataTable
     branchDetailsTableReload :  function(){
@@ -54,8 +55,26 @@ var ajaxCalls = {
             }
         ]
     });
-}
+},
     //END : reload the userDetailsDataTable
+
+    //START : reload the MenuDetailsDataTable
+    menuDetailsDataTableReload :  function(){
+        ajaxCalls.menuDetailsDataTable = "";
+        ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable();
+        ajaxCalls.menuDetailsDataTable.destroy();
+        ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable({
+            "ajax": '../restaurantManagement/fetchMenu',
+//        "sScrollY": 400,
+            "columnDefs": [ {
+                "targets": -1,
+                "data": null,
+                "defaultContent": ["<i id='menuUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                    "<i id='menuDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
+            } ]
+        });
+    }
+    //END : reload the MenuDetailsDataTable
 };
 
 var deleteData = {
@@ -536,9 +555,30 @@ var handleEvents = {
         }else{
             handleEvents.userUpdateDetailsMap.branchName = $("#selectNewBranch").val();
         }
-    }
+    },
 
     //    END : User Management view handler
+
+    //    START : Menu Management view handler
+
+    menuManagementView : function(){
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#menuManagementView").addClass('active');
+        $("#basicMenuManagementView").addClass('active');
+
+        handleEvents.showExistingMenuDetails();
+
+        ajaxCalls.menuDetailsDataTableReload();
+
+    },
+
+    showExistingMenuDetails : function(){
+        $("#existingMenuDetails").show();
+        $("#menuHandling").hide();
+    }
+
+    //    END : Menu Management view handler
 };
 
 var show = {};

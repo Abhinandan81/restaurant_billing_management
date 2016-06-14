@@ -1,7 +1,7 @@
 <form class="form-horizontal" id="menuForm" method="POST">
     <div class="row form-group">
         <div class="col-md-2" >
-            <label class="control-label labelColor" for="menuName">Branch Name</label>
+            <label class="control-label labelColor" for="menuName">Menu Name</label>
         </div>
         <div class="col-md-6">
             <input type="text" class="form-control" id="menuName" name="menuName">

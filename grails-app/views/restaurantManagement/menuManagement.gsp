@@ -31,7 +31,7 @@
                         <div class="box-header">
                             <h4 class="box-title">Existing Menu Details</h4>
                             <div class="pull-right">
-                                <i id="newUser" class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize" aria-hidden="true"></i>
+                                <i id="addNewMenu" class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize" aria-hidden="true"></i>
                             </div>
                         </div><!-- /.box-header -->
 

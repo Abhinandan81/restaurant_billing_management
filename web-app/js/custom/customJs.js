@@ -267,6 +267,52 @@ var validateForms = {
                 return false;
             }
         });
+    },
+
+    validateMenuOperation: function () {
+        $("#menuForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                menuName        :   {required: true}
+            },
+
+            messages: {
+                menuName        :   "Please give menu name"
+            },
+            //after form validation
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url: handleEvents.menuSubmitUrl,                                   //Path of the controller action
+                    type: 'POST',
+                    //on successful operation
+                    success: function (response) {
+                        if(response.status == true){
+                            handleEvents.showExistingMenuDetails();
+                            commonUtilities.show_stack_bottomleft("success", response.message);
+                            //reload the branchDetailsDataTable
+                            ajaxCalls.menuDetailsDataTableReload();
+                        }else{
+                            commonUtilities.show_stack_bottomleft("error", response.message);
+                        }
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
     }
 };
 var handleEvents = {
@@ -561,6 +607,7 @@ var handleEvents = {
 
     //    START : Menu Management view handler
 
+    menuSubmitUrl   :   "",
     menuManagementView : function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -571,6 +618,22 @@ var handleEvents = {
 
         ajaxCalls.menuDetailsDataTableReload();
 
+        $("#addNewMenu").click(function(){
+            $("#existingMenuDetails").hide();
+            $("#menuHandling").show();
+
+            //change the submit button value
+            $("#menuSubmit").val("Submit");
+            handleEvents.menuSubmitUrl  =   "../restaurantManagement/newMenu"
+        });
+
+        $("#menuSubmit").click(function(){
+            validateForms.validateMenuOperation();
+        });
+
+        $("#cancelButton").click(function(){
+            handleEvents.showExistingMenuDetails();
+        });
     },
 
     showExistingMenuDetails : function(){

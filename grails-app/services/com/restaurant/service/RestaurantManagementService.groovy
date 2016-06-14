@@ -191,6 +191,7 @@ class RestaurantManagementService {
     }
 
     List fetchMenuList(String restaurantId){
+        List allMenuList   =   []
         List menuList   =   []
         try {
             Restaurant restaurant = Restaurant.findById(restaurantId)
@@ -198,11 +199,13 @@ class RestaurantManagementService {
                 List menus = Menu.findAllByRestaurant(restaurant)
                 if (menus){
                     menus.each { menu->
+                        menuList = []
                         menuList << menu.name
+                        allMenuList << menuList
                     }
                 }
             }
-            return menuList
+            return allMenuList
         }catch (Exception e){
             println "Error in fetching menu"+e.printStackTrace()
         }

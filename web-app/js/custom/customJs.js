@@ -178,7 +178,7 @@ var validateForms = {
                 firstName       :   {required: true},
                 lastName        :   {required: true},
                 contactNumber   :   {required: true, exactLength: 10},
-                password        :   {required : true}
+                password        :   {required : true, minlength: 5}
             },
 
             messages: {
@@ -187,7 +187,8 @@ var validateForms = {
                 lastName        :   "Please give last address",
                 contactNumber   :   {required: "Please give contact number",
                     exactLength :   "contact number should be of 10 digit"},
-                password        :   "Password can not be empty"
+                password          :   {required : "Password can not be empty",
+                    minlength     : "Password should contain at least 5 characters"}
             },
             //after form validation
             submitHandler: function (form) {
@@ -215,6 +216,7 @@ var validateForms = {
     },
 
     validateUserUpdate: function () {
+
         $("#userModificationForm").validate({
             errorElement : 'div',
 
@@ -229,18 +231,19 @@ var validateForms = {
             },
 
             rules: {
-                currentFirstName       :   {required: true},
-                currentLastName        :   {required: true},
-                currentContactNumber   :   {required: true, exactLength: 10},
-                newPassword            :   {required : true}
+                firstName       :   {required: true},
+                lastName        :   {required: true},
+                contactNumber   :   {required: true, exactLength: 10},
+                password            :   {required : true, minlength : 5}
             },
 
             messages: {
-                currentFirstName        :   "Please give first name",
-                currentLastName         :   "Please give last address",
-                currentContactNumber    :   {required: "Please give contact number",
-                    exactLength         :   "contact number should be of 10 digit"},
-                newPassword             :   "Password can not be empty"
+                firstName        :   "Please give first name",
+                lastName         :   "Please give last address",
+                contactNumber    :   {required: "Please give contact number",
+                    exactLength  :   "contact number should be of 10 digit"},
+                password          :   {required : "Password can not be empty",
+                    minlength     : "Password should contain at least 5 characters"}
             },
             //after form validation
             submitHandler: function () {
@@ -477,7 +480,7 @@ var handleEvents = {
             $("#newUserCreation").hide();
             $("#editUserDetails").show();
 
-            commonUtilities.clearForm("userModificationForm")
+//            commonUtilities.clearForm("userModificationForm")
 
             handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
             //pre populate branch details in the input field

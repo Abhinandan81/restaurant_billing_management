@@ -52,7 +52,7 @@
             <label class="control-label labelColor" for="currentContactNumber">Contact Number</label>
         </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="currentContactNumber" name="contactNumber" placeholder="Mobile Number">
+            <input type="number" class="form-control" id="currentContactNumber" name="contactNumber" placeholder="Mobile Number - only digits allowed">
         </div>
     </div>
 

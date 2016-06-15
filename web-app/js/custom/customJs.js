@@ -458,7 +458,7 @@ var handleEvents = {
             $("#newUserCreation").show();
 
             //pre fetch and load the branch names
-            handleEvents.fetchBranchNameAndAppendOptions("selectBranch");
+            show.fetchBranchNameAndAppendOptions("selectBranch");
         });
 
         $("#userSubmit").click(function(){
@@ -491,7 +491,7 @@ var handleEvents = {
             $("#currentContactNumber").val(handleEvents.userDetailsFromTableRow[4]);
 
             //pre fetch and load the branch names
-            handleEvents.fetchBranchNameAndAppendOptions("selectNewBranch");
+            show.fetchBranchNameAndAppendOptions("selectNewBranch");
 
             $("#currentUserName").prop('disabled',true);
             $("#currentBranch").prop('disabled',true);
@@ -568,23 +568,6 @@ var handleEvents = {
         $("#existingUserDetails").show();
         $("#newUserCreation").hide();
         $("#editUserDetails").hide();
-    },
-
-    //function to prefetch and display branch names in drop down box
-    fetchBranchNameAndAppendOptions : function(selectionId){
-        $.ajax({
-            url: "../restaurantManagement/fetchBranchNames",
-            type: 'GET',
-            success: function(branchNameList){
-                //show user the list of branches for this restaurant
-                $("#"+selectionId).append('<option>-- Select Branch --</option>');
-                $.each(branchNameList,function(index, value){
-                    $("#"+selectionId).append('<option>'+value+'</option>');
-                });
-            },
-            error: function(response){
-            }
-        });
     },
 
     //before update, collect the updated values
@@ -718,12 +701,61 @@ var handleEvents = {
     showExistingMenuDetails : function(){
         $("#existingMenuDetails").show();
         $("#menuHandling").hide();
-    }
+    },
 
     //    END : Menu Management view handler
+
+    //    START : Branch Wise Menu Management view handler
+
+    selectedBranch  :   "",
+    branchWiseMenuManagementView : function(){
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#menuManagementView").addClass('active');
+        $("#branchMenuManagementView").addClass('active');
+
+        //function to prefetch and display branch names in drop down box
+        show.fetchBranchNameAndAppendOptions("branchOptionProvider");
+
+        $("#submitBranchChoice").click(function(){
+            handleEvents.selectedBranch = $("#branchOptionProvider").val();
+
+            if(handleEvents.selectedBranch == "-- Select Branch --"){
+                BootstrapDialog.alert("Please select branch");
+            }else{
+                show.fetchBranchWiseMenuInformation();
+            }
+        });
+    }
+
+    //    END : Branch Wise Menu Management view handler
 };
 
-var show = {};
+var show = {
+
+    //function to prefetch and display branch names in drop down box
+    fetchBranchNameAndAppendOptions : function(selectionId){
+        $.ajax({
+            url: "../restaurantManagement/fetchBranchNames",
+            type: 'GET',
+            success: function(branchNameList){
+                //show user the list of branches for this restaurant
+                $("#"+selectionId).append('<option>-- Select Branch --</option>');
+                $.each(branchNameList,function(index, value){
+                    $("#"+selectionId).append('<option>'+value+'</option>');
+                });
+            },
+            error: function(response){
+            }
+        });
+    },
+
+    fetchBranchWiseMenuInformation : function(){
+
+    }
+
+};
+
 var commonUtilities = {
 
     removeValidationClass : function(){

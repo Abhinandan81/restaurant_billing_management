@@ -1,6 +1,7 @@
 package com.restaurant.service
 
 import com.restaurant.domain.management.Branch
+import com.restaurant.domain.management.BranchMenu
 import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
 import grails.transaction.Transactional
@@ -17,6 +18,8 @@ class RestaurantManagementService {
      */
     Map newBranchCreation(String name, String address, String contactNumber, String restaurantId){
         Map newBranchCreationStatusMap  =   [:]
+        Boolean menuAddStatus   =   false
+        String successMessage
         try {
             Restaurant restaurant = Restaurant.findById(restaurantId)
 
@@ -25,9 +28,17 @@ class RestaurantManagementService {
                 if (branch){
                     newBranchCreationStatusMap << [ status: false, message: "Branch with the name ${name} already exist.Please choose another name"]
                 }else {
-                    new Branch(name: name, address: address, contactNumber: contactNumber, restaurant: restaurant)
-                            .save(flush: true, failOnError: true)
-                    newBranchCreationStatusMap << [ status: true, message: "Branch with the name ${name} created successfully"]
+                    Branch newBranch    =   new Branch(name: name, address: address, contactNumber: contactNumber, restaurant: restaurant)
+                    newBranch.save(flush: true, failOnError: true)
+
+                    menuAddStatus   = addMenusToBranch(restaurant, newBranch.id as String)
+                    if (menuAddStatus){
+                        successMessage  =   "Branch ${name} created and Menus are added successfully to the branch."
+                    }else {
+                        successMessage = "Branch ${name} created successfully.No menu added the branch"
+                    }
+
+                    newBranchCreationStatusMap << [ status: true, message: successMessage]
                 }
             }else {
                 newBranchCreationStatusMap << [ status: false, message: "Invalid restaurant"]
@@ -208,6 +219,34 @@ class RestaurantManagementService {
             return allMenuList
         }catch (Exception e){
             println "Error in fetching menu"+e.printStackTrace()
+        }
+    }
+
+    /**
+     * Adding menus to the given branch
+     * @param restaurant
+     * @param branchId
+     * @return
+     */
+    Boolean addMenusToBranch(Restaurant restaurant, String branchId){
+        Boolean menuAdditionStatus  =   false
+        try {
+            List menus  =  Menu.findAllByRestaurant(restaurant)
+
+            if (menus.size() > 0){
+                menus.each { menu ->
+                    try {
+                        new BranchMenu(branchId: branchId, menuId: menu.id).save(flush: true, failOnError: true)
+                    }catch (Exception e){
+                        println "Error in adding menu to the menu"
+                    }
+
+                }
+                menuAdditionStatus = true
+            }
+            return menuAdditionStatus
+        }catch (Exception e){
+            println "Error in adding menus to the branch"
         }
     }
 }

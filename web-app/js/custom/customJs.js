@@ -8,9 +8,10 @@ var init = {
 };
 
 var ajaxCalls = {
-    branchDetailsDataTable : "",
-    userDetailsDataTable : "",
-    menuDetailsDataTable : "",
+    branchDetailsDataTable          : "",
+    userDetailsDataTable            : "",
+    menuDetailsDataTable            : "",
+    branchWiseMenuDetailsDataTable  : "",
 
     //START : reload the branchDetailsDataTable
     branchDetailsTableReload :  function(){
@@ -65,6 +66,7 @@ var ajaxCalls = {
         ajaxCalls.menuDetailsDataTable.destroy();
         ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable({
             "ajax": '../restaurantManagement/fetchMenu',
+            "data": handleEvents.selectedBranch,
 //        "sScrollY": 400,
             "columnDefs": [ {
                 "targets": -1,
@@ -73,8 +75,26 @@ var ajaxCalls = {
                     "<i id='menuDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
             } ]
         });
-    }
+    },
     //END : reload the MenuDetailsDataTable
+
+    //START : reload the branchDetailsDataTable
+    branchWiseMenuDetailsTableReload :  function(){
+        ajaxCalls.branchWiseMenuDetailsDataTable = "";
+        ajaxCalls.branchWiseMenuDetailsDataTable = $('#branchWiseMenuDataTable').DataTable();
+        ajaxCalls.branchWiseMenuDetailsDataTable.destroy();
+        ajaxCalls.branchWiseMenuDetailsDataTable = $('#branchWiseMenuDataTable').DataTable({
+            "ajax": '../restaurantManagement/fetchBranchWiseMenuDetails',
+//            "sScrollY": 400,
+            "columnDefs": [ {
+                "targets": -1,
+                "data": null,
+                "defaultContent": ["<i id='branchUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                    "<i id='branchDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
+            }]
+        });
+    }
+    //END : reload the branchDetailsDataTable
 };
 
 var deleteData = {
@@ -717,6 +737,8 @@ var handleEvents = {
         //function to prefetch and display branch names in drop down box
         show.fetchBranchNameAndAppendOptions("branchOptionProvider");
 
+        $("#branchMenuDetailsTable").hide();
+
         $("#submitBranchChoice").click(function(){
             handleEvents.selectedBranch = $("#branchOptionProvider").val();
 
@@ -751,7 +773,9 @@ var show = {
     },
 
     fetchBranchWiseMenuInformation : function(){
-
+        $("#branchMenuDetailsTable").show();
+        $("#branchMenu").hide();
+        ajaxCalls.branchWiseMenuDetailsTableReload();
     }
 
 };

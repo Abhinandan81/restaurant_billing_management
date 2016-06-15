@@ -390,4 +390,27 @@ class RestaurantManagementService {
             println "Error in user deletion"
         }
     }
+
+    List fetchBranchWiseMenuDetails(String branchId){
+        List allMenuDetails =   []
+        List menuDetails
+
+        try {
+            List menus  =   BranchMenu.findAllByBranchId(branchId)
+            println "branchId :"+branchId
+            if (menus){
+                menus.each { menu ->
+                    menuDetails = []
+                    menuDetails = [menu.menuId, menu.price, menu.id]
+                    println "menu.menuId :"+menu.menuId
+
+                    allMenuDetails << menuDetails
+                }
+            }
+            return allMenuDetails
+        }catch (Exception e){
+            println "Error in fetching branch wise menu information"
+        }
+
+    }
 }

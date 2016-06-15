@@ -62,6 +62,25 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
+                    <div id="branchMenuDetailsTable" class="box">
+                        <div class="box-header">
+                            <h4 class="box-title">Branch Wise Menu Details</h4>
+
+                        </div><!-- /.box-header -->
+
+                        <div class="box-body">
+                            <table id="branchWiseMenuDataTable" class="table table-bordered table-striped tableWidth dataTable">
+                                <thead>
+                                <tr>
+                                    <th>Menu Name</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </section><!-- /.content -->

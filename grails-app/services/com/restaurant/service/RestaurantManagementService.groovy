@@ -1,5 +1,6 @@
 package com.restaurant.service
 
+import com.restaurant.domain.auth.User
 import com.restaurant.domain.management.Branch
 import com.restaurant.domain.management.BranchMenu
 import com.restaurant.domain.management.Menu
@@ -8,6 +9,7 @@ import grails.transaction.Transactional
 
 @Transactional
 class RestaurantManagementService {
+    def userManagementService
 
     /**
      * New branch creation
@@ -109,11 +111,26 @@ class RestaurantManagementService {
      */
     Map deleteBranch(String branchId){
         Map branchDeletionStatus    =   [:]
+        Boolean branchRelatedMenuDeletion = false
+        Boolean branchRelatedUserDeletion = false
+        String branchName
+        String branchDeletionMessage
         try {
             Branch branch   =   Branch.findById(branchId)
             if (branch){
+                branchName = branch.name
                 branch.delete(flush: true)
-                branchDeletionStatus << [status: true, message: "Branch has been deleted successfully"]
+
+                branchRelatedMenuDeletion = deleteBranchRelatedMenus(branch.id as String)
+                branchRelatedUserDeletion = deleteUserOnBranchDelete(branch.id as String)
+
+                if (branchRelatedMenuDeletion && branchRelatedUserDeletion){
+                    branchDeletionMessage = "Branch ${branchName} , it's related users and menus are deleted successfully"
+                }else {
+                    branchDeletionMessage = "Branch ${branchName} is deleted successfully"
+                }
+
+                branchDeletionStatus << [status: true, message: branchDeletionMessage]
             }else {
                 branchDeletionStatus << [status: false, message: "Invalid branch details"]
             }
@@ -143,8 +160,16 @@ class RestaurantManagementService {
         }
     }
 
+    /**
+     * New menu creation
+     * @param restaurantId
+     * @param name
+     * @return
+     */
     Map createMenu(String restaurantId, String name){
         Map menuCreationStatusMap   =   [:]
+        Boolean menuBranchAssociationStatus = false
+        String menuCreationStatusMessage
         try {
             Restaurant restaurant = Restaurant.findById(restaurantId)
 
@@ -153,8 +178,17 @@ class RestaurantManagementService {
                 if (menu){
                     menuCreationStatusMap << [status: false, message: "Menu with the name ${name} already exist.Please choose another name"]
                 }else {
-                    new Menu(name: name, restaurant: restaurant).save(flush: true, failOnError: true)
-                    menuCreationStatusMap << [status: true, message: "Menu with the name ${name} created successfully."]
+                    Menu newMenu    =   new Menu(name: name, restaurant: restaurant)
+                    newMenu.save(flush: true, failOnError: true)
+
+                    menuBranchAssociationStatus = addMenuToBranches(restaurant, newMenu.id as String)
+                    if (menuBranchAssociationStatus){
+                        menuCreationStatusMessage = "Menu with the name ${name} created successfully and added to all existing brances"
+                    }else {
+                        menuCreationStatusMessage = "Menu with the name ${name} created successfully"
+                    }
+
+                    menuCreationStatusMap << [status: true, message: menuCreationStatusMessage]
                 }
             }else {
                 menuCreationStatusMap << [status: false, message: "Invalid restaurantId"]
@@ -183,15 +217,28 @@ class RestaurantManagementService {
         }
     }
 
+    /**
+     * Menu deletion
+     * @param menuId
+     * @return
+     */
     Map deleteMenu(String menuId){
         Map menuDeleteStatusMap   =   [:]
         String menuName
+        String menuDeleteStatusMessage
+        Boolean menuDeletionFromBranchStatus = false
         try {
             Menu menu   =   Menu.findById(menuId)
             if (menu){
                 menuName    =   menu.name
                 menu.delete()
-                menuDeleteStatusMap << [status: true, message: "Menu with the name ${menuName} deleted successfully."]
+                menuDeletionFromBranchStatus    =    deleteMenuFromBranches(menu.id as String)
+                if(menuDeletionFromBranchStatus){
+                    menuDeleteStatusMessage = "Menu ${menuName} deleted successfully from restaurant and all the branches"
+                }else {
+                    menuDeleteStatusMessage = "Menu ${menuName} deleted successfully from restaurant"
+                }
+                menuDeleteStatusMap << [status: true, message: menuDeleteStatusMessage]
             }else {
                 menuDeleteStatusMap << [status: false, message: "Menu doesn't exist"]
             }
@@ -233,7 +280,7 @@ class RestaurantManagementService {
         try {
             List menus  =  Menu.findAllByRestaurant(restaurant)
 
-            if (menus.size() > 0){
+            if (menus){
                 menus.each { menu ->
                     try {
                         new BranchMenu(branchId: branchId, menuId: menu.id).save(flush: true, failOnError: true)
@@ -247,6 +294,100 @@ class RestaurantManagementService {
             return menuAdditionStatus
         }catch (Exception e){
             println "Error in adding menus to the branch"
+        }
+    }
+
+    /**
+     * Menu deletion
+     * @param branchId
+     * @return
+     */
+    Boolean deleteBranchRelatedMenus(String branchId){
+        Boolean menuDeletionStatus  =   false
+        List branchMenuList =   []
+        try {
+            branchMenuList  =   BranchMenu.findAllByBranchId(branchId)
+
+            if (branchMenuList){
+                branchMenuList.each { branchMenu ->
+                    branchMenu.delete(flush: true)
+                }
+                menuDeletionStatus = true
+            }
+            return menuDeletionStatus
+        }catch (Exception e){
+            println "Error in deleting menus from the branch"
+        }
+    }
+
+    /**
+     * addMenuToBranches
+     * @param restaurant
+     * @param menuId
+     * @return
+     */
+    Boolean addMenuToBranches(Restaurant restaurant, String menuId){
+        Boolean menuAddStatus    =   false
+
+        try {
+            List branches   =   Branch.findAllByRestaurant(restaurant)
+
+            if (branches){
+                branches.each { branch ->
+                    new BranchMenu(branchId: branch.id, menuId: menuId).save(flush: true, failOnError: true)
+                }
+                menuAddStatus   =   true
+            }
+            return  menuAddStatus
+        }catch (Exception e){
+            println "Error in adding menu to the Branches"
+        }
+    }
+
+    /**
+     * deleteMenuFromBranches
+     * @param menuId
+     * @return
+     */
+    Boolean deleteMenuFromBranches(String menuId){
+        Boolean menuDeletionStatus    =   false
+        List branchMenuList =   []
+
+        try {
+            branchMenuList  =   BranchMenu.findAllByMenuId(menuId)
+
+            if (branchMenuList){
+                branchMenuList.each { branchMenu ->
+                    branchMenu.delete(flush: true)
+                }
+                menuDeletionStatus = true
+            }
+            return  menuDeletionStatus
+        }catch (Exception e){
+            println "Error in adding menu to the Branches"
+        }
+    }
+
+    /**
+     * deleteUserOnBranchDelete
+     * @return
+     */
+    Boolean deleteUserOnBranchDelete(String branchId){
+        Boolean userDeletionStatus  =   false
+        Map userDeletionStatusMap   =   [:]
+
+        try {
+            List users  =   User.findAllByBranchId(branchId)
+
+            if(users){
+                users.each { user ->
+                    userDeletionStatusMap = userManagementService.deleteUser(user.id as String)
+                }
+                userDeletionStatus = true
+            }
+            return userDeletionStatus
+        }catch (Exception e){
+            println "Error in user deletion"
         }
     }
 }

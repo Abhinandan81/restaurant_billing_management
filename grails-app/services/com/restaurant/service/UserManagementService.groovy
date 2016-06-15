@@ -134,7 +134,7 @@ class UserManagementService {
     }
 
     /**
-     * Error while deleting the user
+     * delete user
      * @param userId
      * @return : userDeletionStatusMap
      */

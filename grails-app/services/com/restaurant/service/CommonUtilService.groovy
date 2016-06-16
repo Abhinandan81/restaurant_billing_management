@@ -2,6 +2,7 @@
 package com.restaurant.service
 
 import com.restaurant.domain.management.Branch
+import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
 import grails.transaction.Transactional
 
@@ -36,5 +37,21 @@ class CommonUtilService {
             println "Error while fetching branch details"
         }
 
+    }
+
+    String fetchMenuNameByMenuId(String menuId){
+        String menuName = ""
+
+        try{
+            Menu menu   =   Menu.findById(menuId)
+
+            if (menu){
+                menuName    =   menu.name
+            }
+            return  menuName
+        }catch (Exception e){
+            println "Error in fetching menu name"
+
+        }
     }
 }

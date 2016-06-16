@@ -66,7 +66,6 @@ var ajaxCalls = {
         ajaxCalls.menuDetailsDataTable.destroy();
         ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable({
             "ajax": '../restaurantManagement/fetchMenu',
-            "data": handleEvents.selectedBranch,
 //        "sScrollY": 400,
             "columnDefs": [ {
                 "targets": -1,
@@ -84,7 +83,10 @@ var ajaxCalls = {
         ajaxCalls.branchWiseMenuDetailsDataTable = $('#branchWiseMenuDataTable').DataTable();
         ajaxCalls.branchWiseMenuDetailsDataTable.destroy();
         ajaxCalls.branchWiseMenuDetailsDataTable = $('#branchWiseMenuDataTable').DataTable({
-            "ajax": '../restaurantManagement/fetchBranchWiseMenuDetails',
+            "ajax":{
+                url : '../restaurantManagement/fetchBranchWiseMenuDetails',
+                "data": {"branchName" : handleEvents.selectedBranch}
+            },
 //            "sScrollY": 400,
             "columnDefs": [ {
                 "targets": -1,

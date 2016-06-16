@@ -171,14 +171,12 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def fetchBranchWiseMenuDetails(){
-        println "inside--"+params
         Map branchWiseMenuDetailsMap    =   [:]
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
         String branchId = commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
         List branchWiseMenuDetails  = restaurantManagementService.fetchBranchWiseMenuDetails(branchId)
         branchWiseMenuDetailsMap << [data: branchWiseMenuDetails]
-        println "inside--" +branchWiseMenuDetailsMap
 
         render branchWiseMenuDetailsMap as JSON
     }

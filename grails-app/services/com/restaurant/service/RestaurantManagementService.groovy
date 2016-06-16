@@ -10,6 +10,7 @@ import grails.transaction.Transactional
 @Transactional
 class RestaurantManagementService {
     def userManagementService
+    def commonUtilService
 
     /**
      * New branch creation
@@ -394,22 +395,24 @@ class RestaurantManagementService {
     List fetchBranchWiseMenuDetails(String branchId){
         List allMenuDetails =   []
         List menuDetails
+        String menuName = ""
 
         try {
             List menus  =   BranchMenu.findAllByBranchId(branchId)
-            println "branchId :"+branchId
             if (menus){
                 menus.each { menu ->
-                    menuDetails = []
-                    menuDetails = [menu.menuId, menu.price, menu.id]
-                    println "menu.menuId :"+menu.menuId
+                    menuName    =   commonUtilService.fetchMenuNameByMenuId(menu.menuId as String)
 
-                    allMenuDetails << menuDetails
+                    if (menuName != ""){
+                        menuDetails = []
+                        menuDetails = [menuName, menu.price, menu.id]
+                        allMenuDetails << menuDetails
+                    }
                 }
             }
             return allMenuDetails
         }catch (Exception e){
-            println "Error in fetching branch wise menu information"
+            println "Error in fetching branch wise menu information"+e.printStackTrace()
         }
 
     }

@@ -72,7 +72,12 @@ var ajaxCalls = {
                 "data": null,
                 "defaultContent": ["<i id='menuUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
                     "<i id='menuDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
-            } ]
+            },
+                {
+                    "targets": [-1],
+                    "orderable": false
+                }
+            ]
         });
     },
     //END : reload the MenuDetailsDataTable
@@ -91,12 +96,40 @@ var ajaxCalls = {
             "columnDefs": [ {
                 "targets": -1,
                 "data": null,
-                "defaultContent": ["<i id='branchUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
-                    "<i id='branchDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
-            }]
+                "defaultContent": ["<i id='priceUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"]
+            },
+                {
+                    "targets": [-1],
+                    "orderable": false
+                }]
         });
-    }
+    },
     //END : reload the branchDetailsDataTable
+
+    updateMenuPrice : function(){
+        $.ajax({
+            url: '../restaurantManagement/updateBranchWiseMenuPrice',                                   //Path of the controller action
+            type: 'POST',
+            data: {branchMenuId : handleEvents.branchMenuDetailsFromTableRow[2],
+                price       : handleEvents.updatedMenuPrice },
+            success: function (response) {
+                if(response.status == true){
+                    $("#updateMenuPriceModal").modal('hide');
+                    //reload the branchDetailsDataTable
+                    ajaxCalls.branchWiseMenuDetailsTableReload();
+                    commonUtilities.show_stack_bottomleft("success", handleEvents.branchMenuDetailsFromTableRow[0]+"'s price updated to "+handleEvents.updatedMenuPrice+" successfully");
+                }else{
+                    $("#updateMenuPriceModal").modal('hide');
+                    commonUtilities.show_stack_bottomleft("error", handleEvents.branchMenuDetailsFromTableRow[0]+"'s price update failed");
+                }
+            },
+            error: function (response) {
+                $("#updateMenuPriceModal").modal('hide');
+                commonUtilities.show_stack_bottomleft("error", "Please try again later");
+            }
+        });
+
+    }
 };
 
 var deleteData = {
@@ -730,6 +763,8 @@ var handleEvents = {
     //    START : Branch Wise Menu Management view handler
 
     selectedBranch  :   "",
+    branchMenuDetailsFromTableRow :   "",
+    updatedMenuPrice: 0,
     branchWiseMenuManagementView : function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -746,12 +781,32 @@ var handleEvents = {
 
             if(handleEvents.selectedBranch == "-- Select Branch --"){
                 BootstrapDialog.alert("Please select branch");
+                $("#branchMenuDetailsTable").hide();
             }else{
                 show.fetchBranchWiseMenuInformation();
             }
         });
-    }
 
+        //Function for handling update button click event
+        $('body').on('click', '#branchWiseMenuDataTable tbody tr #priceUpdate', function () {
+            $("#invalidMessage").html("");
+            handleEvents.branchMenuDetailsFromTableRow = ajaxCalls.branchWiseMenuDetailsDataTable.row( $(this).parents('tr') ).data();
+            $("#updateMenuPriceModal").modal('show');
+            $("#menuPrice").val(handleEvents.branchMenuDetailsFromTableRow[1]);
+
+
+        } );
+
+        $("#confirmPriceUpdate").click(function(){
+            handleEvents.updatedMenuPrice   =   $("#menuPrice").val();
+
+            if(handleEvents.updatedMenuPrice  == "" ){
+                $("#invalidMessage").html("Please enter a valid price");
+            }else{
+                ajaxCalls.updateMenuPrice();
+            }
+        });
+    }
     //    END : Branch Wise Menu Management view handler
 };
 
@@ -776,7 +831,8 @@ var show = {
 
     fetchBranchWiseMenuInformation : function(){
         $("#branchMenuDetailsTable").show();
-        $("#branchMenu").hide();
+
+        $("#branchMenuHeader").html(handleEvents.selectedBranch+" - menu price details");
         ajaxCalls.branchWiseMenuDetailsTableReload();
     }
 

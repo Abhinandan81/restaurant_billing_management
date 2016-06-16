@@ -181,5 +181,13 @@ class RestaurantManagementController {
         render branchWiseMenuDetailsMap as JSON
     }
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def updateBranchWiseMenuPrice(){
+        println "parans:"+params
+
+        Map menuPriceUpdateStatus   =   restaurantManagementService.updateBranchWiseMenuPrice(params.branchMenuId, params.price as Float)
+        render menuPriceUpdateStatus as JSON
+    }
+
     /*-------------------------- END : Menu Management -----------------------*/
 }

@@ -96,3 +96,11 @@
     /* If max-width does not work, try using width instead */
     width: 350px;
 }
+
+.rightMargin{
+    margin-right: 15px;
+}
+
+.backgroundColor{
+    background-color: #eaeaea;
+}

@@ -28,85 +28,75 @@
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-lg-12">
 
-                    <div id="branchMenu" class="box">
-                        <div class="box-header">
-                        </div><!-- /.box-header -->
+                    <div  class="box">
+                        <div id="branchMenu" class="backgroundColor">
 
-                        <div class="box-body">
+                            <div class="box-body">
 
-                            <div class="row form-group">
-                                <div class="col-md-6" >
-                                    <label class="text-info">Select Branch from below to view and set branch wise Menu price</label>
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label class="text-info">Select Branch from below to view and set branch wise Menu price</label>
+                                    </div>
+
                                 </div>
 
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col-md-2" >
-                                    <label class="labelColor">Select Branch</label>
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <select id="branchOptionProvider" name="branchName" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i id='submitBranchChoice' class='glyphicon glyphicon-ok-circle text-info dataTableAddActionSize' aria-hidden='true'></i>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <select id="branchOptionProvider" name="branchName" class="form-control">
-                                    </select>
-                                </div>
-                            </div>
 
-                        <div class="row form-group">
-                            <div class="col-md-2" >
-                            </div>
-                            <div class="col-md-6">
-                                <button id="submitBranchChoice" class="btn btn-success">Go</button>
-                            </div>
+                            </div><!-- /.box-body -->
                         </div>
 
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
+                        <div id="branchMenuDetailsTable">
 
-                    <div id="branchMenuDetailsTable" class="box">
-                        <div class="box-header">
-                            <h4 class="box-title">Branch Wise Menu Details</h4>
+                            <div class="box-header">
+                                <h4 id="branchMenuHeader" class="box-title"> menu price details</h4>
 
-                        </div><!-- /.box-header -->
+                            </div><!-- /.box-header -->
 
-                        <div class="box-body">
-                            <table id="branchWiseMenuDataTable" class="table table-bordered table-striped tableWidth dataTable">
-                                <thead>
-                                <tr>
-                                    <th>Menu Name</th>
-                                    <th>Price</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div><!-- /.box-body -->
+                            <div class="box-body">
+                                <table id="branchWiseMenuDataTable"
+                                       class="table table-bordered table-striped tableWidth dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Menu Name</th>
+                                        <th>Price</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div><!-- /.box-body -->
+
+                        </div>
                     </div><!-- /.box -->
 
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
-
-    <div id="deleteBranchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteBranchModal">
+    <div id="updateMenuPriceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateMenuPriceModal">
         <div class="modal-dialog modalWidth" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
 
-                    <h2 class="modal-title text-warning">Delete Branch</h2>
+                    <h2 class="modal-title text-warning">Update Price</h2>
                 </div>
 
-                <div  id="deleteBranchModalBody" class="modal-body fontColor">
-                    <p id="branchDeletionMessage" class="text-info"></p>
-                    <div id="branchDeletionModalBody">
-                        <input id="branchNameValidator" class="form-control" type="text" placeholder="Branch Name here">
-                        <span class="customError" id="invalidBranchNameMessage"></span>
-                    </div>
-
+                <div  id="updateMenuPriceModalBody" class="modal-body fontColor">
+                        <input id="menuPrice" class="form-control" type="number" placeholder="menu price - only digits allowed">
+                        <span class="customError" id="invalidMessage"></span>
                 </div>
 
                 <div class="modal-footer">
-                    <button id="confirmBranchDelete" type="button" class="btn btn-danger">Delete</button>
+                    <button id="confirmPriceUpdate" type="button" class="btn btn-success">Update</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

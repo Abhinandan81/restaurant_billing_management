@@ -7,6 +7,8 @@ import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
 import grails.transaction.Transactional
 
+import java.lang.reflect.MalformedParameterizedTypeException
+
 @Transactional
 class RestaurantManagementService {
     def userManagementService
@@ -415,5 +417,23 @@ class RestaurantManagementService {
             println "Error in fetching branch wise menu information"+e.printStackTrace()
         }
 
+    }
+
+    Map updateBranchWiseMenuPrice(String branchMenuId, Float price){
+        Map priceUpdateStatusMap    =   [:]
+
+        try {
+            BranchMenu branchMenu   =   BranchMenu.findById(branchMenuId)
+
+            if (branchMenu){
+                branchMenu.price    =   price
+                branchMenu.save(flush: true, failOnError: true)
+                priceUpdateStatusMap << [status: true]
+            }else {
+                priceUpdateStatusMap << [status: false]
+            }
+        }catch (Exception e){
+            println "Error in updating price"
+        }
     }
 }

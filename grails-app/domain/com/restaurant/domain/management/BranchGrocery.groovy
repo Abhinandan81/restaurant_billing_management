@@ -3,7 +3,7 @@ package com.restaurant.domain.management
 class BranchGrocery {
     Float quantity
     Float price
-    Date date
+    Long date
     String branchId
     String groceryId
     String operationType

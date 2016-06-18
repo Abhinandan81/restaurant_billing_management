@@ -1,7 +1,7 @@
 <form class="form-horizontal" id="groceryForm" method="POST">
     <div class="row form-group">
         <div class="col-md-2" >
-            <label class="control-label labelColor" for="groceryName">Menu Name</label>
+            <label class="control-label labelColor" for="groceryName">Grocery Name</label>
         </div>
         <div class="col-md-6">
             <input type="text" class="form-control" id="groceryName" name="groceryName">

@@ -212,7 +212,7 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateGrocery(){
-        Map groceryUpdateStatusMap    =   restaurantManagementService.updatingGrocery(params.groceryId)
+        Map groceryUpdateStatusMap    =   restaurantManagementService.updatingGrocery(params.groceryId, params.groceryName)
         render groceryUpdateStatusMap as JSON
     }
 

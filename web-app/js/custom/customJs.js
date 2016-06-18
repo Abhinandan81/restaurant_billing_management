@@ -886,6 +886,7 @@ var handleEvents = {
     //    START : Grocery Management view handler
     grocerySubmitUrl    :   "",
     groceryId   : "",
+    groceryDetailsFromTableRow : "",
     groceryManagementView : function(){
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -914,12 +915,81 @@ var handleEvents = {
             handleEvents.showExistingGroceryDetails();
             commonUtilities.removeValidationClass();
         });
+
+        //Function for handling update button click event
+        $('body').on('click', '#groceryDataTable tbody tr #groceryUpdate', function () {
+
+            $("#existingGroceryDetails").hide();
+            $("#groceryHandling").show();
+
+            commonUtilities.clearForm("groceryForm")
+
+            //change the submit button value
+            $("#grocerySubmit").val("Update");
+
+            handleEvents.groceryDetailsFromTableRow = ajaxCalls.groceryDetailsDataTable.row( $(this).parents('tr') ).data();
+            //pre populate branch details in the input field
+            $("#groceryName").val(handleEvents.groceryDetailsFromTableRow[0]);
+            handleEvents.groceryId =   handleEvents.groceryDetailsFromTableRow[1];
+
+            console.log("-----"+handleEvents.groceryDetailsFromTableRow);
+
+            handleEvents.grocerySubmitUrl  =   "../restaurantManagement/updateGrocery"
+        } );
+
+        //Function for handling delete button click event
+        $('body').on('click', '#groceryDataTable tbody tr #groceryDelete', function () {
+
+            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row( $(this).parents('tr') ).data();
+
+            BootstrapDialog.show({
+                title:'Delete Menu',
+                type: BootstrapDialog.TYPE_DANGER,
+                message:"Do you really want to proceed with the menu delete?",
+                closable: false,
+                buttons: [{
+                    id: 'btn-yes',
+                    label: 'Yes',
+                    cssClass: 'btn-danger',
+                    action: function(dialogRef){
+                        $.ajax({
+                            url: "../restaurantManagement/deleteMenu",
+                            data:{menuId : handleEvents.menuDetailsFromTableRow[1]},
+                            type: 'POST',
+                            success: function(response){
+                                if(response.status == true){
+                                    //Loading existing user details data to the Data table
+                                    ajaxCalls.menuDetailsDataTableReload();
+                                    commonUtilities.show_stack_bottomleft("success", response.message);
+                                }else{
+                                    commonUtilities.show_stack_bottomleft("error", response.message);
+                                }
+                                dialogRef.close();
+                            },
+                            error: function(response){
+                                commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
+                                dialogRef.close();
+                            }
+                        });
+                    }
+                },
+                    {
+                        id: 'btn-cancel',
+                        label: 'Cancel',
+                        cssClass: 'btn-primary',
+                        action: function(dialogRef){
+                            dialogRef.close();
+                        }
+                    }]
+            });
+
+        } );
+
     },
 
     showExistingGroceryDetails : function(){
         $("#existingGroceryDetails").show();
         $("#groceryHandling").hide();
-
     }
 
     //    END : Grocery Management view handler

@@ -465,7 +465,7 @@ class RestaurantManagementService {
             if(grocery){
                 grocery.name    =   name
                 grocery.save(flush: true, failOnError: true)
-                groceryUpdateStatusMap << [status: false, message: "Grocery updated successfully"]
+                groceryUpdateStatusMap << [status: true, message: "Grocery updated successfully"]
             }else {
                 groceryUpdateStatusMap << [status: false, message: "Invalid Grocery"]
             }

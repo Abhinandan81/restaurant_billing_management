@@ -172,10 +172,13 @@ class RestaurantManagementController {
     @Secured(['ROLE_SUPER_ADMIN'])
     def fetchBranchWiseMenuDetails(){
         Map branchWiseMenuDetailsMap    =   [:]
+        List branchWiseMenuDetails  = []
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
         String branchId = commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
-        List branchWiseMenuDetails  = restaurantManagementService.fetchBranchWiseMenuDetails(branchId)
+        if (branchId != ""){
+            branchWiseMenuDetails  = restaurantManagementService.fetchBranchWiseMenuDetails(branchId)
+        }
         branchWiseMenuDetailsMap << [data: branchWiseMenuDetails]
 
         render branchWiseMenuDetailsMap as JSON
@@ -183,8 +186,6 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateBranchWiseMenuPrice(){
-        println "parans:"+params
-
         Map menuPriceUpdateStatus   =   restaurantManagementService.updateBranchWiseMenuPrice(params.branchMenuId, params.price as Float)
         render menuPriceUpdateStatus as JSON
     }
@@ -233,7 +234,7 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def addGroceryToStock(){
-        Map groceryAdditionStatusMap    =   restaurantManagementService.addGrocery("1", "2", "Add",2,20,123456)
+        Map groceryAdditionStatusMap    =   restaurantManagementService.addGrocery("1", "3", "Deduct",1,20,123456)
         render groceryAdditionStatusMap as JSON
     }
 
@@ -249,7 +250,19 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def fetchGroceryStockDetails(){
+        println "params :"+params
+        Map groceryDetails  =   [:]
+        List groceryDetailsList =   []
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        String branchId = commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
+        if (branchId != ""){
+            groceryDetailsList = restaurantManagementService.fetchBranchWiseGroceryDetails(branchId)
+            println "groceryDetails :"+groceryDetailsList
 
+        }
+        groceryDetails << [data: groceryDetailsList]
+        println "groceryDetails :"+groceryDetails
+        render groceryDetails as JSON
     }
 
     /*-------------------------- END    : Grocery Management -----------------------*/

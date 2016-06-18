@@ -13,6 +13,7 @@ var ajaxCalls = {
     menuDetailsDataTable            : "",
     branchWiseMenuDetailsDataTable  : "",
     groceryDetailsDataTable            : "",
+    branchWiseGroceryDetailsDataTable  : "",
 
 
     //START : reload the branchDetailsDataTable
@@ -155,6 +156,30 @@ var ajaxCalls = {
         });
     },
     //END : reload the MenuDetailsDataTable
+
+    //START : reload the branchWiseGroceryDetailsTableReload
+    branchWiseGroceryDetailsTableReload :  function(){
+        ajaxCalls.branchWiseGroceryDetailsDataTable = "";
+        ajaxCalls.branchWiseGroceryDetailsDataTable = $('#branchWiseGroceryDataTable').DataTable();
+        ajaxCalls.branchWiseGroceryDetailsDataTable.destroy();
+        ajaxCalls.branchWiseGroceryDetailsDataTable = $('#branchWiseGroceryDataTable').DataTable({
+            "ajax":{
+                url : '../restaurantManagement/fetchGroceryStockDetails',
+                "data": {"branchName" : handleEvents.selectedBranch}
+            },
+//            "sScrollY": 400,
+            "columnDefs": [ {
+                "targets": -1,
+                "data": null,
+                "defaultContent": ["<i id='priceUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"]
+            },
+                {
+                    "targets": [-1],
+                    "orderable": false
+                }]
+        });
+    }
+    //END : reload the branchWiseGroceryDetailsTableReload
 };
 
 var deleteData = {
@@ -940,12 +965,12 @@ var handleEvents = {
         //Function for handling delete button click event
         $('body').on('click', '#groceryDataTable tbody tr #groceryDelete', function () {
 
-            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.groceryDetailsFromTableRow = ajaxCalls.groceryDetailsDataTable.row( $(this).parents('tr') ).data();
 
             BootstrapDialog.show({
-                title:'Delete Menu',
+                title:'Delete Grocery',
                 type: BootstrapDialog.TYPE_DANGER,
-                message:"Do you really want to proceed with the menu delete?",
+                message:"Do you really want to proceed with the grocery delete?",
                 closable: false,
                 buttons: [{
                     id: 'btn-yes',
@@ -953,13 +978,13 @@ var handleEvents = {
                     cssClass: 'btn-danger',
                     action: function(dialogRef){
                         $.ajax({
-                            url: "../restaurantManagement/deleteMenu",
-                            data:{menuId : handleEvents.menuDetailsFromTableRow[1]},
+                            url: "../restaurantManagement/deleteGrocery",
+                            data:{groceryId : handleEvents.groceryDetailsFromTableRow[1]},
                             type: 'POST',
                             success: function(response){
                                 if(response.status == true){
                                     //Loading existing user details data to the Data table
-                                    ajaxCalls.menuDetailsDataTableReload();
+                                    ajaxCalls.groceryDetailsDataTableReload();
                                     commonUtilities.show_stack_bottomleft("success", response.message);
                                 }else{
                                     commonUtilities.show_stack_bottomleft("error", response.message);
@@ -990,9 +1015,55 @@ var handleEvents = {
     showExistingGroceryDetails : function(){
         $("#existingGroceryDetails").show();
         $("#groceryHandling").hide();
-    }
+    },
 
     //    END : Grocery Management view handler
+
+
+    //    START : BranchWise Grocery Management view handler
+    branchWiseGroceryManagementView : function(){
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#groceryManagementView").addClass('active');
+        $("#branchGroceryManagementView").addClass('active');
+
+        //function to prefetch and display branch names in drop down box
+        show.fetchBranchNameAndAppendOptions("branchOptionProvider");
+
+        $("#branchWiseGroceryDetailsTable").hide();
+
+        $("#submitBranchChoice").click(function(){
+            handleEvents.selectedBranch = $("#branchOptionProvider").val();
+
+            if(handleEvents.selectedBranch == "-- Select Branch --"){
+                BootstrapDialog.alert("Please select branch");
+                $("#branchWiseGroceryDetailsTable").hide();
+            }else{
+                show.fetchBranchWiseGroceryInformation();
+            }
+        });
+
+        //Function for handling update button click event
+        $('body').on('click', '#branchWiseMenuDataTable tbody tr #priceUpdate', function () {
+            $("#invalidMessage").html("");
+            handleEvents.branchMenuDetailsFromTableRow = ajaxCalls.branchWiseMenuDetailsDataTable.row( $(this).parents('tr') ).data();
+            $("#updateMenuPriceModal").modal('show');
+            $("#menuPrice").val(handleEvents.branchMenuDetailsFromTableRow[1]);
+
+
+        } );
+
+        $("#confirmPriceUpdate").click(function(){
+            handleEvents.updatedMenuPrice   =   $("#menuPrice").val();
+
+            if(handleEvents.updatedMenuPrice  == "" ){
+                $("#invalidMessage").html("Please enter a valid price");
+            }else{
+                ajaxCalls.updateMenuPrice();
+            }
+        });
+    }
+    //    START : BranchWise Grocery Management view handler
 };
 
 var show = {
@@ -1019,6 +1090,14 @@ var show = {
 
         $("#branchMenuHeader").html(handleEvents.selectedBranch+" - menu price details");
         ajaxCalls.branchWiseMenuDetailsTableReload();
+    },
+
+    fetchBranchWiseGroceryInformation : function(){
+        $("#branchWiseGroceryDetailsTable").show();
+
+        $("#branchGroceryHeader").html(handleEvents.selectedBranch+" - Grocery Details");
+        console.log("------------");
+        ajaxCalls.branchWiseGroceryDetailsTableReload();
     }
 
 };

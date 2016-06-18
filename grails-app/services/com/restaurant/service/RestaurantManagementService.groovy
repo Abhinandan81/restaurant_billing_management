@@ -482,7 +482,7 @@ class RestaurantManagementService {
             Grocery grocery =   Grocery.findById(groceryId)
             if(grocery){
                 grocery.delete(flush: true)
-                groceryDeleteStatusMap << [status: false, message: "Grocery deleted successfully"]
+                groceryDeleteStatusMap << [status: true, message: "Grocery deleted successfully"]
             }else {
                 groceryDeleteStatusMap << [status: false, message: "Invalid Grocery"]
             }
@@ -526,6 +526,46 @@ class RestaurantManagementService {
             return  addGroceryStatusMap
         }catch (Exception e){
             println "Error in making grocery entry"
+        }
+    }
+
+    List fetchBranchWiseGroceryDetails (String branchId){
+        List groceriesDetailsList   =   []
+        List groceryDetailsList     =   []
+        List calculatedGroceryList  =   []
+        String groceryName
+        String groceryId
+        Float creditedQuantity      =   0
+        Float deductedQuantity      =   0
+        Float availableQuantity     =   0
+
+        try {
+            List groceries  =   BranchGrocery.findAllByBranchId(branchId)
+
+            if (groceries){
+                groceries.each { grocery ->
+                    groceryDetailsList = []
+
+                    if (!(calculatedGroceryList.contains(grocery.groceryId))){
+                        groceryName =   commonUtilService.getGroceryNameById(grocery.groceryId)
+
+                        if (groceryName != ""){
+                            creditedQuantity    =   commonUtilService.getTotalQuantity(branchId, grocery.groceryId, "Add")
+                            deductedQuantity    =   commonUtilService.getTotalQuantity(branchId, grocery.groceryId, "Deduct")
+                            availableQuantity   =   creditedQuantity - deductedQuantity
+                            groceryDetailsList  =   [groceryName, availableQuantity]
+                            groceriesDetailsList << groceryDetailsList
+                        }
+                        calculatedGroceryList << grocery.groceryId
+                    }
+                }
+                return groceriesDetailsList
+            }else {
+                return groceriesDetailsList
+            }
+
+        }catch (Exception e){
+
         }
     }
 }

@@ -67,7 +67,6 @@
                                     <tr>
                                         <th>Grocery Name</th>
                                         <th>Available Quantity</th>
-                                        <th>Actions</th>
                                     </tr>
                                     </thead>
                                 </table>

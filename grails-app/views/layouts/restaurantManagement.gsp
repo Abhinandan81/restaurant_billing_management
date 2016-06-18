@@ -218,6 +218,12 @@
         </ul>
     </li>
 
+    <li id="adminGroceryManagementView" class="treeview">
+        <a href="<%=request.getContextPath()%>/restaurantManagement/adminGroceryManagement">
+            <i class="fa fa-users"></i> <span>A Grocery Management</span>
+        </a>
+    </li>
+
 
          </ul>
         </section>

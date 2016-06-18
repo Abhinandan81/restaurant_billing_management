@@ -89,6 +89,7 @@
 
 .dataTableAddActionSize{
     font-size: 25px;
+    margin-left: 15px;
 }
 
 .tooltip-inner {
@@ -103,4 +104,8 @@
 
 .backgroundColor{
     background-color: #eaeaea;
+}
+
+.glyphicon{
+    top: 5px;
 }

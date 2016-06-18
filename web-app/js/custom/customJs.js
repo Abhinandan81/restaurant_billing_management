@@ -62,29 +62,6 @@ var ajaxCalls = {
 },
     //END : reload the userDetailsDataTable
 
-    //START : reload the GroceryDetailsDataTable
-    groceryDetailsDataTableReload :  function(){
-        ajaxCalls.groceryDetailsDataTable = "";
-        ajaxCalls.groceryDetailsDataTable = $('#groceryDataTable').DataTable();
-        ajaxCalls.groceryDetailsDataTable.destroy();
-        ajaxCalls.groceryDetailsDataTable = $('#groceryDataTable').DataTable({
-            "ajax": '../restaurantManagement/fetchGroceries',
-//        "sScrollY": 400,
-            "columnDefs": [ {
-                "targets": -1,
-                "data": null,
-                "defaultContent": ["<i id='groceryUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
-                    "<i id='groceryDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
-            },
-                {
-                    "targets": [-1],
-                    "orderable": false
-                }
-            ]
-        });
-    },
-    //START : reload the GroceryDetailsDataTable
-
     //START : reload the branchDetailsDataTable
     branchWiseMenuDetailsTableReload :  function(){
         ajaxCalls.branchWiseMenuDetailsDataTable = "";
@@ -157,6 +134,29 @@ var ajaxCalls = {
     },
     //END : reload the MenuDetailsDataTable
 
+    //START : reload the GroceryDetailsDataTable
+    groceryDetailsDataTableReload :  function(){
+        ajaxCalls.groceryDetailsDataTable = "";
+        ajaxCalls.groceryDetailsDataTable = $('#groceryDataTable').DataTable();
+        ajaxCalls.groceryDetailsDataTable.destroy();
+        ajaxCalls.groceryDetailsDataTable = $('#groceryDataTable').DataTable({
+            "ajax": '../restaurantManagement/fetchGroceries',
+//        "sScrollY": 400,
+            "columnDefs": [ {
+                "targets": -1,
+                "data": null,
+                "defaultContent": ["<i id='groceryUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                    "<i id='groceryDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
+            },
+                {
+                    "targets": [-1],
+                    "orderable": false
+                }
+            ]
+        });
+    },
+    //START : reload the GroceryDetailsDataTable
+
     //START : reload the branchWiseGroceryDetailsTableReload
     branchWiseGroceryDetailsTableReload :  function(){
         ajaxCalls.branchWiseGroceryDetailsDataTable = "";
@@ -166,17 +166,7 @@ var ajaxCalls = {
             "ajax":{
                 url : '../restaurantManagement/fetchGroceryStockDetails',
                 "data": {"branchName" : handleEvents.selectedBranch}
-            },
-//            "sScrollY": 400,
-            "columnDefs": [ {
-                "targets": -1,
-                "data": null,
-                "defaultContent": ["<i id='priceUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"]
-            },
-                {
-                    "targets": [-1],
-                    "orderable": false
-                }]
+            }
         });
     }
     //END : reload the branchWiseGroceryDetailsTableReload
@@ -1062,8 +1052,34 @@ var handleEvents = {
                 ajaxCalls.updateMenuPrice();
             }
         });
-    }
+    },
     //    START : BranchWise Grocery Management view handler
+
+    //    START : Admin Grocery Management view handler
+    adminGroceryManagementView : function(){
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#adminGroceryManagementView").addClass('active');
+
+        handleEvents.showGroceryStockDetails();
+
+        $("#addGroceryToStock").click(function(){
+
+        });
+
+        $("#deductGroceryFromStock").click(function(){
+
+        });
+    },
+
+    showGroceryStockDetails : function(){
+        $("#addGroceryView").hide();
+        $("#deductGroceryView").hide();
+        $("#branchWiseGroceryDetailsTable").show();
+
+        ajaxCalls.branchWiseGroceryDetailsTableReload();
+    }
+    //    START : Admin Grocery Management view handler
 };
 
 var show = {
@@ -1096,14 +1112,12 @@ var show = {
         $("#branchWiseGroceryDetailsTable").show();
 
         $("#branchGroceryHeader").html(handleEvents.selectedBranch+" - Grocery Details");
-        console.log("------------");
         ajaxCalls.branchWiseGroceryDetailsTableReload();
     }
 
 };
 
 var commonUtilities = {
-
     removeValidationClass : function(){
         //Remove the error class of form(if any errors has occurred previously)
         $("div.error").hide();

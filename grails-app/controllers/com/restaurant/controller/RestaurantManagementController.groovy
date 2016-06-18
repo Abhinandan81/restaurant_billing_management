@@ -204,6 +204,9 @@ class RestaurantManagementController {
 
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def adminGroceryManagement(){ }
+
     @Secured(['ROLE_SUPER_ADMIN'])
     def newGrocery(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
@@ -250,15 +253,20 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def fetchGroceryStockDetails(){
-        println "params :"+params
         Map groceryDetails  =   [:]
         List groceryDetailsList =   []
+        String branchId =   ""
+
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
-        String branchId = commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
+        if (sCtx.mainRole == "ROLE_SUPER_ADMIN"){
+            branchId = commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
+        }else {
+            if (sCtx.branchId != null)
+            branchId    =   sCtx.branchId
+        }
+
         if (branchId != ""){
             groceryDetailsList = restaurantManagementService.fetchBranchWiseGroceryDetails(branchId)
-            println "groceryDetails :"+groceryDetailsList
-
         }
         groceryDetails << [data: groceryDetailsList]
         println "groceryDetails :"+groceryDetails

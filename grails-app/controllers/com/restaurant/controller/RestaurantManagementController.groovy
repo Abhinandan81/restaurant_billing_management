@@ -192,10 +192,21 @@ class RestaurantManagementController {
     /*-------------------------- END    : Menu Management    -----------------------*/
 
     /*-------------------------- START  : Grocery Management -----------------------*/
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def groceryManagement(){
+
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def branchWiseGroceryManagement(){
+
+    }
+
     @Secured(['ROLE_SUPER_ADMIN'])
     def newGrocery(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
-        Map groceryCreationStatusMap    =   restaurantManagementService.createGrocery(sCtx.restaurantId, params.name)
+        Map groceryCreationStatusMap    =   restaurantManagementService.createGrocery(sCtx.restaurantId, params.groceryName)
         render groceryCreationStatusMap as JSON
     }
 

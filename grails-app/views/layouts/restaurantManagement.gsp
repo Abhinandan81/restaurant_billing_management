@@ -213,8 +213,8 @@
             <i class="fa fa-shopping-cart"></i> <span>Grocery Management</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li id="basicGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/groceryManagement"><i class="fa fa-circle-o"></i>Menu Basics</a></li>
-            <li id="branchGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseGroceryManagement"><i class="fa fa-circle-o"></i>Menu Prices</a></li>
+            <li id="basicGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/groceryManagement"><i class="fa fa-circle-o"></i>Grocery Basics</a></li>
+            <li id="branchGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseGroceryManagement"><i class="fa fa-circle-o"></i>Branch Wise Grocery Details</a></li>
         </ul>
     </li>
 

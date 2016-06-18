@@ -12,6 +12,8 @@ var ajaxCalls = {
     userDetailsDataTable            : "",
     menuDetailsDataTable            : "",
     branchWiseMenuDetailsDataTable  : "",
+    groceryDetailsDataTable            : "",
+
 
     //START : reload the branchDetailsDataTable
     branchDetailsTableReload :  function(){
@@ -59,19 +61,19 @@ var ajaxCalls = {
 },
     //END : reload the userDetailsDataTable
 
-    //START : reload the MenuDetailsDataTable
-    menuDetailsDataTableReload :  function(){
-        ajaxCalls.menuDetailsDataTable = "";
-        ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable();
-        ajaxCalls.menuDetailsDataTable.destroy();
-        ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable({
-            "ajax": '../restaurantManagement/fetchMenu',
+    //START : reload the GroceryDetailsDataTable
+    groceryDetailsDataTableReload :  function(){
+        ajaxCalls.groceryDetailsDataTable = "";
+        ajaxCalls.groceryDetailsDataTable = $('#groceryDataTable').DataTable();
+        ajaxCalls.groceryDetailsDataTable.destroy();
+        ajaxCalls.groceryDetailsDataTable = $('#groceryDataTable').DataTable({
+            "ajax": '../restaurantManagement/fetchGroceries',
 //        "sScrollY": 400,
             "columnDefs": [ {
                 "targets": -1,
                 "data": null,
-                "defaultContent": ["<i id='menuUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
-                    "<i id='menuDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
+                "defaultContent": ["<i id='groceryUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                    "<i id='groceryDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
             },
                 {
                     "targets": [-1],
@@ -80,7 +82,7 @@ var ajaxCalls = {
             ]
         });
     },
-    //END : reload the MenuDetailsDataTable
+    //START : reload the GroceryDetailsDataTable
 
     //START : reload the branchDetailsDataTable
     branchWiseMenuDetailsTableReload :  function(){
@@ -129,7 +131,30 @@ var ajaxCalls = {
             }
         });
 
-    }
+    },
+
+    //START : reload the MenuDetailsDataTable
+    menuDetailsDataTableReload :  function(){
+        ajaxCalls.menuDetailsDataTable = "";
+        ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable();
+        ajaxCalls.menuDetailsDataTable.destroy();
+        ajaxCalls.menuDetailsDataTable = $('#menuDataTable').DataTable({
+            "ajax": '../restaurantManagement/fetchMenu',
+//        "sScrollY": 400,
+            "columnDefs": [ {
+                "targets": -1,
+                "data": null,
+                "defaultContent": ["<i id='menuUpdate' class='glyphicon glyphicon-edit text-info dataTableActionMargin' aria-hidden='true'></i>"+
+                    "<i id='menuDelete' class='glyphicon glyphicon-trash text-danger dataTableActionMargin' aria-hidden='true'></i>"]
+            },
+                {
+                    "targets": [-1],
+                    "orderable": false
+                }
+            ]
+        });
+    },
+    //END : reload the MenuDetailsDataTable
 };
 
 var deleteData = {
@@ -372,7 +397,55 @@ var validateForms = {
                 return false;
             }
         });
+    },
+
+    validateGroceryOperation: function () {
+        $("#groceryForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                groceryName        :   {required: true}
+            },
+
+            messages: {
+                groceryName        :   "Please give grocery name"
+            },
+            //after form validation
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url: handleEvents.grocerySubmitUrl,                                   //Path of the controller action
+                    type: 'POST',
+                    data: {groceryId : handleEvents.groceryId},
+                    //on successful operation
+                    success: function (response) {
+                        if(response.status == true){
+                            handleEvents.showExistingGroceryDetails()
+                            commonUtilities.show_stack_bottomleft("success", response.message);
+                            //reload the branchDetailsDataTable
+                            ajaxCalls.groceryDetailsDataTableReload();
+                        }else{
+                            commonUtilities.show_stack_bottomleft("error", response.message);
+                        }
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
     }
+
 };
 var handleEvents = {
 
@@ -806,8 +879,50 @@ var handleEvents = {
                 ajaxCalls.updateMenuPrice();
             }
         });
-    }
+    },
     //    END : Branch Wise Menu Management view handler
+
+
+    //    START : Grocery Management view handler
+    grocerySubmitUrl    :   "",
+    groceryId   : "",
+    groceryManagementView : function(){
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#groceryManagementView").addClass('active');
+        $("#basicGroceryManagementView").addClass('active');
+
+        handleEvents.showExistingGroceryDetails();
+        ajaxCalls.groceryDetailsDataTableReload();
+
+        $("#addNewGrocery").click(function(){
+            $("#existingGroceryDetails").hide();
+            $("#groceryHandling").show();
+
+            commonUtilities.clearForm("groceryForm")
+
+            //change the submit button value
+            $("#grocerySubmit").val("Submit");
+            handleEvents.grocerySubmitUrl  =   "../restaurantManagement/newGrocery"
+        });
+
+        $("#grocerySubmit").click(function(){
+            validateForms.validateGroceryOperation();
+        });
+
+        $("#cancelButton").click(function(){
+            handleEvents.showExistingGroceryDetails();
+            commonUtilities.removeValidationClass();
+        });
+    },
+
+    showExistingGroceryDetails : function(){
+        $("#existingGroceryDetails").show();
+        $("#groceryHandling").hide();
+
+    }
+
+    //    END : Grocery Management view handler
 };
 
 var show = {

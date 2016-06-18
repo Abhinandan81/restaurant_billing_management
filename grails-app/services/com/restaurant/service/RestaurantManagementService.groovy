@@ -447,7 +447,7 @@ class RestaurantManagementService {
 
             if (restaurant){
                 new Grocery(name: name, restaurant: restaurant).save(flush: true, failOnError: true)
-                groceryCreationStatusMap << [status:  true, message: "Grocery ${name} created successfully"]
+                groceryCreationStatusMap << [status:  true, message: "${name} added successfully to the grocery"]
             }else {
                 groceryCreationStatusMap << [status:  false, message: "Invalid restaurant"]
             }

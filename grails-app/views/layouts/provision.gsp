@@ -173,33 +173,53 @@
             </div>
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li class="header">MAIN NAVIGATION</li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                        <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                    </ul>
-                </li>
-
-                <li id="branchManagementView" class="treeview">
-                    <a href="<%=request.getContextPath()%>/restaurantManagement/branchManagement">
-                        <i class="fa fa-sitemap"></i> <span>Branch Management</span>
-                    </a>
-                </li>
-
-
-                <li id="userManagementView" class="treeview">
-                    <a href="<%=request.getContextPath()%>/restaurantManagement/userManagement">
-                        <i class="fa fa-users"></i> <span>User Management</span>
-                    </a>
-                </li>
-
-
+    <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
             </ul>
+        </li>
+
+        <li id="branchManagementView" class="treeview">
+            <a href="<%=request.getContextPath()%>/restaurantManagement/branchManagement">
+                <i class="fa fa-sitemap"></i> <span>Branch Management</span>
+            </a>
+        </li>
+
+
+        <li id="userManagementView" class="treeview">
+            <a href="<%=request.getContextPath()%>/restaurantManagement/userManagement">
+                <i class="fa fa-users"></i> <span>User Management</span>
+            </a>
+        </li>
+
+        <li id="menuManagementView" class="treeview">
+            <a href="#">
+                <i class="fa fa-cutlery"></i> <span>Menu Management</span> <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li id="basicMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/menuManagement"><i class="fa fa-circle-o"></i>Menu Basics</a></li>
+                <li id="branchMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseMenuManagement"><i class="fa fa-circle-o"></i>Menu Prices</a></li>
+            </ul>
+        </li>
+
+        <li id="groceryManagementView" class="treeview">
+            <a href="#">
+                <i class="fa fa-shopping-cart"></i> <span>Grocery Management</span> <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li id="basicGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/groceryManagement"><i class="fa fa-circle-o"></i>Menu Basics</a></li>
+                <li id="branchGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseGroceryManagement"><i class="fa fa-circle-o"></i>Menu Prices</a></li>
+            </ul>
+        </li>
+
+
+    </ul>
         </section>
         <!-- /.sidebar -->
     </aside>

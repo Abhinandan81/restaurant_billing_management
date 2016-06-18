@@ -189,5 +189,28 @@ class RestaurantManagementController {
         render menuPriceUpdateStatus as JSON
     }
 
-    /*-------------------------- END : Menu Management -----------------------*/
+    /*-------------------------- END    : Menu Management    -----------------------*/
+
+    /*-------------------------- START  : Grocery Management -----------------------*/
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def addGroceryToStock(){
+        Map groceryAdditionStatusMap    =   restaurantManagementService.addGrocery()
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def updateGroceryInStock(){
+
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def deductGroceryFromStock(){
+
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def fetchGroceryStockDetails(){
+
+    }
+
+    /*-------------------------- END    : Grocery Management -----------------------*/
 }

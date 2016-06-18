@@ -66,7 +66,7 @@
                                     <thead>
                                     <tr>
                                         <th>Menu Name</th>
-                                        <th>Price</th>
+                                        <th>Price(Rs.)</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>

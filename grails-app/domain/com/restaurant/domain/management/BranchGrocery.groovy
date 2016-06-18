@@ -5,11 +5,12 @@ class BranchGrocery {
     Float price
     Date date
     String branchId
-    String groceryName
+    String groceryId
     String operationType
     Float totalQuantity
 
 
     static constraints = {
+        price nullable: true
     }
 }

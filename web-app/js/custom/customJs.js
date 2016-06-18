@@ -117,7 +117,7 @@ var ajaxCalls = {
                     $("#updateMenuPriceModal").modal('hide');
                     //reload the branchDetailsDataTable
                     ajaxCalls.branchWiseMenuDetailsTableReload();
-                    commonUtilities.show_stack_bottomleft("success", handleEvents.branchMenuDetailsFromTableRow[0]+"'s price updated to "+handleEvents.updatedMenuPrice+" successfully");
+                    commonUtilities.show_stack_bottomleft("success", handleEvents.branchMenuDetailsFromTableRow[0]+"'s price updated to Rs."+handleEvents.updatedMenuPrice+" successfully");
                 }else{
                     $("#updateMenuPriceModal").modal('hide');
                     commonUtilities.show_stack_bottomleft("error", handleEvents.branchMenuDetailsFromTableRow[0]+"'s price update failed");

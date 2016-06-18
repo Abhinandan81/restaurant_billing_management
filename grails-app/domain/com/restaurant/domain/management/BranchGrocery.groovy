@@ -7,8 +7,6 @@ class BranchGrocery {
     String branchId
     String groceryId
     String operationType
-    Float totalQuantity
-
 
     static constraints = {
         price nullable: true

@@ -2,6 +2,7 @@ package com.restaurant.service
 
 import com.restaurant.domain.auth.User
 import com.restaurant.domain.management.Branch
+import com.restaurant.domain.management.BranchGrocery
 import com.restaurant.domain.management.BranchMenu
 import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
@@ -435,5 +436,30 @@ class RestaurantManagementService {
         }catch (Exception e){
             println "Error in updating price"
         }
+    }
+
+    Map addGrocery(String branchId, String groceryId, String operationType, String quantity, String price, Date date){
+        Map addGroceryStatusMap =   [:]
+        Boolean grocerySummaryUpdateStatus
+
+        try {
+
+            BranchGrocery branchGrocery =   new BranchGrocery(branchId: branchId, groceryId: groceryId, quantity: quantity,
+            price: price, operationType: operationType, date: date)
+            branchGrocery.save(flush: true, failOnError: true)
+
+            grocerySummaryUpdateStatus = grocerySummaryUpdate(branchId, groceryId, quantity, operationType)
+            if (grocerySummaryUpdateStatus){
+                addGroceryStatusMap << [status: true, message: "Grocery successfully added to the stock"]
+            }
+
+            return  addGroceryStatusMap
+        }catch (Exception e){
+            println "Error in making grocery entry"
+        }
+    }
+
+    Boolean grocerySummaryUpdate(String branchId, String goceryId, Float quantity, String operationType){
+
     }
 }

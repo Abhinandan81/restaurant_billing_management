@@ -447,7 +447,7 @@ class RestaurantManagementService {
 
             if (restaurant){
                 new Grocery(name: name, restaurant: restaurant).save(flush: true, failOnError: true)
-                groceryCreationStatusMap << [status:  false, message: "Invalid restaurant"]
+                groceryCreationStatusMap << [status:  true, message: "Grocery ${name} created successfully"]
             }else {
                 groceryCreationStatusMap << [status:  false, message: "Invalid restaurant"]
             }
@@ -456,6 +456,63 @@ class RestaurantManagementService {
             println "Error in creating grocery"
         }
 
+    }
+
+    Map updatingGrocery(String groceryId, String name){
+        Map groceryUpdateStatusMap = [:]
+        try {
+            Grocery grocery =   Grocery.findById(groceryId)
+            if(grocery){
+                grocery.name    =   name
+                grocery.save(flush: true, failOnError: true)
+                groceryUpdateStatusMap << [status: false, message: "Grocery updated successfully"]
+            }else {
+                groceryUpdateStatusMap << [status: false, message: "Invalid Grocery"]
+            }
+            return groceryUpdateStatusMap
+        }catch (Exception e){
+            println "Error in creating grocery"
+        }
+
+    }
+
+    Map deletingGrocery(String groceryId){
+        Map groceryDeleteStatusMap = [:]
+        try {
+            Grocery grocery =   Grocery.findById(groceryId)
+            if(grocery){
+                grocery.delete(flush: true)
+                groceryDeleteStatusMap << [status: false, message: "Grocery deleted successfully"]
+            }else {
+                groceryDeleteStatusMap << [status: false, message: "Invalid Grocery"]
+            }
+            return groceryDeleteStatusMap
+        }catch (Exception e){
+            println "Error in creating grocery"
+        }
+
+    }
+
+    List fetchGroceryByRestaurantId(String restaurantId){
+        List groceriesDetails  =   []
+        List groceryDetails  =   []
+        try {
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+
+            if (restaurant){
+                List groceries  =   Grocery.findAllByRestaurant(restaurant)
+                if (groceries){
+                    groceries.each { grocery ->
+                        groceryDetails = []
+                        groceryDetails = [grocery.name, grocery.id]
+                        groceriesDetails << groceryDetails
+                    }
+                }
+            }
+            return groceriesDetails
+        }catch (Exception e){
+            println "Error in creating grocery"
+        }
     }
 
     Map addGrocery(String branchId, String groceryId, String operationType, Float quantity, Float price, Long date){

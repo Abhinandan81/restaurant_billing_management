@@ -195,22 +195,30 @@ class RestaurantManagementController {
     @Secured(['ROLE_SUPER_ADMIN'])
     def newGrocery(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
-        Map groceryCreationStatusMap    =   restaurantManagementService
-        render groceryCreationStatusMap
+        Map groceryCreationStatusMap    =   restaurantManagementService.createGrocery(sCtx.restaurantId, params.name)
+        render groceryCreationStatusMap as JSON
     }
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateGrocery(){
+        Map groceryUpdateStatusMap    =   restaurantManagementService.updatingGrocery(params.groceryId)
+        render groceryUpdateStatusMap as JSON
     }
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def deleteGrocery(){
+        Map groceryDeletionStatusMap    =   restaurantManagementService.deletingGrocery(params.groceryId)
+        render groceryDeletionStatusMap as JSON
     }
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def fetchGroceries(){
+        Map groceryDetails = [:]
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        List groceryDetailsList   =   restaurantManagementService.fetchGroceryByRestaurantId(sCtx.restaurantId)
+        groceryDetails << [data: groceryDetailsList]
+        render groceryDetails as JSON
     }
-
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def addGroceryToStock(){

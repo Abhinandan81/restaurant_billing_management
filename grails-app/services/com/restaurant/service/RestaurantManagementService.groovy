@@ -4,6 +4,7 @@ import com.restaurant.domain.auth.User
 import com.restaurant.domain.management.Branch
 import com.restaurant.domain.management.BranchGrocery
 import com.restaurant.domain.management.BranchMenu
+import com.restaurant.domain.management.Grocery
 import com.restaurant.domain.management.GrocerySummary
 import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
@@ -439,55 +440,35 @@ class RestaurantManagementService {
         }
     }
 
-    Map addGrocery(String branchId, String groceryId, String operationType, String quantity, String price, Long date){
-        Map addGroceryStatusMap =   [:]
-        Boolean grocerySummaryUpdateStatus
-
+    Map createGrocery(String restaurantId, String name){
+        Map groceryCreationStatusMap = [:]
         try {
+            Restaurant restaurant = Restaurant.findById(restaurantId)
 
+            if (restaurant){
+                new Grocery(name: name, restaurant: restaurant).save(flush: true, failOnError: true)
+                groceryCreationStatusMap << [status:  false, message: "Invalid restaurant"]
+            }else {
+                groceryCreationStatusMap << [status:  false, message: "Invalid restaurant"]
+            }
+            return groceryCreationStatusMap
+        }catch (Exception e){
+            println "Error in creating grocery"
+        }
+
+    }
+
+    Map addGrocery(String branchId, String groceryId, String operationType, Float quantity, Float price, Long date){
+        Map addGroceryStatusMap =   [:]
+        try {
             BranchGrocery branchGrocery =   new BranchGrocery(branchId: branchId, groceryId: groceryId, quantity: quantity,
             price: price, operationType: operationType, date: date)
             branchGrocery.save(flush: true, failOnError: true)
 
-            grocerySummaryUpdateStatus = grocerySummaryUpdate(branchId, groceryId, quantity, operationType)
-            if (grocerySummaryUpdateStatus){
-                addGroceryStatusMap << [status: true, message: "Grocery successfully added to the stock"]
-            }
-
+            addGroceryStatusMap << [status: true, message: "Grocery successfully added to the stock"]
             return  addGroceryStatusMap
         }catch (Exception e){
             println "Error in making grocery entry"
         }
-    }
-
-    Boolean grocerySummaryUpdate(String branchId, String groceryId, Float quantity, String operationType){
-        try {
-            GrocerySummary grocerySummary   =   GrocerySummary.findByBranchIdAndGroceryId(branchId, groceryId)
-
-            if (grocerySummary){
-
-                if (operationType == "Add"){
-                    grocerySummary.totalQuantity += quantity
-                    grocerySummary.save(flush: true, failOnError: true)
-                    return true
-                }else if (operationType == "Deduct"){
-                    grocerySummary.totalQuantity -= quantity
-                    grocerySummary.save(flush: true, failOnError: true)
-                    return true
-                }
-            }else {
-                if (operationType == "Add"){
-                    new GrocerySummary(branchId: branchId, groceryId: groceryId, totalQuantity: quantity).save(flush: true, failOnError: true)
-                    return  true
-                }else {
-                    return false
-                }
-            }
-
-        }catch (Exception e){
-            println "Error in updating grocery update"
-        }
-
-
     }
 }

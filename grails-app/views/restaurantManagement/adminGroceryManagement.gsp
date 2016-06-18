@@ -47,7 +47,7 @@
                             </div><!-- /.box-body -->
                         </div>
 
-                        <div id="branchWiseGroceryDetailsTable">
+                        <div id="adminGroceryDetailsTable">
 
                             <div class="box-header">
                                 <h4 id="branchGroceryHeader" class="box-title">Grocery Details</h4>
@@ -59,7 +59,7 @@
                             </div><!-- /.box-header -->
 
                             <div class="box-body">
-                                <table id="branchWiseGroceryDataTable"
+                                <table id="adminViewGroceryDataTable"
                                        class="table table-bordered table-striped tableWidth dataTable">
                                     <thead>
                                     <tr>

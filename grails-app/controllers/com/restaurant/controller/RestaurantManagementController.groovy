@@ -195,16 +195,12 @@ class RestaurantManagementController {
     /*-------------------------- START  : Grocery Management -----------------------*/
 
     @Secured(['ROLE_SUPER_ADMIN'])
-    def groceryManagement(){
-
-    }
+    def groceryManagement(){ }
 
     @Secured(['ROLE_SUPER_ADMIN'])
-    def branchWiseGroceryManagement(){
+    def branchWiseGroceryManagement(){ }
 
-    }
-
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN'])
     def adminGroceryManagement(){ }
 
     @Secured(['ROLE_SUPER_ADMIN'])
@@ -251,11 +247,13 @@ class RestaurantManagementController {
 
     }
 
-    @Secured(['ROLE_SUPER_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN'])
     def fetchGroceryStockDetails(){
         Map groceryDetails  =   [:]
         List groceryDetailsList =   []
         String branchId =   ""
+
+        println "params :"+params
 
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
         if (sCtx.mainRole == "ROLE_SUPER_ADMIN"){

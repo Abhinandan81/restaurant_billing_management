@@ -14,6 +14,7 @@ var ajaxCalls = {
     branchWiseMenuDetailsDataTable  : "",
     groceryDetailsDataTable            : "",
     branchWiseGroceryDetailsDataTable  : "",
+    adminViewGroceryDetailsDataTable  : "",
 
 
     //START : reload the branchDetailsDataTable
@@ -167,6 +168,17 @@ var ajaxCalls = {
                 url : '../restaurantManagement/fetchGroceryStockDetails',
                 "data": {"branchName" : handleEvents.selectedBranch}
             }
+        });
+    },
+    //END : reload the branchWiseGroceryDetailsTableReload
+
+    //START : reload the branchWiseGroceryDetailsTableReload
+    adminViewGroceryDetailsTableReload :  function(){
+        ajaxCalls.adminViewGroceryDetailsDataTable = "";
+        ajaxCalls.adminViewGroceryDetailsDataTable = $('#adminViewGroceryDataTable').DataTable();
+        ajaxCalls.adminViewGroceryDetailsDataTable.destroy();
+        ajaxCalls.adminViewGroceryDetailsDataTable = $('#adminViewGroceryDataTable').DataTable({
+            "ajax": '../restaurantManagement/fetchGroceryStockDetails'
         });
     }
     //END : reload the branchWiseGroceryDetailsTableReload
@@ -1063,21 +1075,37 @@ var handleEvents = {
 
         handleEvents.showGroceryStockDetails();
 
+        ajaxCalls.adminViewGroceryDetailsTableReload();
+
         $("#addGroceryToStock").click(function(){
+            $("#addGroceryView").show();
+            $("#deductGroceryView").hide();
+//            $("#branchWiseGroceryDetailsTable").hide();
+
 
         });
 
         $("#deductGroceryFromStock").click(function(){
+            $("#deductGroceryView").show();
+            $("#addGroceryView").hide();
+//            $("#branchWiseGroceryDetailsTable").hide();
+        });
 
+        $("#cancelGroceryAddition").click(function(){
+            handleEvents.showGroceryStockDetails();
+            commonUtilities.removeValidationClass();
+        });
+
+        $("#cancelGroceryDeduction").click(function(){
+            handleEvents.showGroceryStockDetails();
+            commonUtilities.removeValidationClass();
         });
     },
 
     showGroceryStockDetails : function(){
+        $("#adminGroceryDetailsTable").show();
         $("#addGroceryView").hide();
         $("#deductGroceryView").hide();
-        $("#branchWiseGroceryDetailsTable").show();
-
-        ajaxCalls.branchWiseGroceryDetailsTableReload();
     }
     //    START : Admin Grocery Management view handler
 };

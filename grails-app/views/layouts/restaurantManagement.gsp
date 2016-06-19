@@ -16,6 +16,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/fontAwsome/font-awesome.css">
     <!-- Ionicons -->

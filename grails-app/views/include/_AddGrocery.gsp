@@ -1,16 +1,16 @@
 <form class="form-horizontal" id="addingGroceryForm" method="POST">
     <div class="row form-group">
         <div class="col-md-2">
-            <input type="text" class="form-control" id="groceryName" name="groceryName" placeholder="Grocery Name">
+            <input type="text" class="form-control" id="addGroceryName" name="addGroceryName" placeholder="Grocery Name">
         </div>
 
 
         <div class="col-md-2">
-            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity(Kg / Ltr)">
+            <input type="number" class="form-control" id="addQuantity" name="addQuantity" placeholder="Quantity(Kg / Ltr)">
         </div>
 
         <div class="col-md-2">
-            <input type="number" class="form-control" id="price" name="price" placeholder="Price(Rs.)">
+            <input type="number" class="form-control" id="addPrice" name="addPrice" placeholder="Price(Rs.)">
         </div>
         <div class="col-md-2">
 

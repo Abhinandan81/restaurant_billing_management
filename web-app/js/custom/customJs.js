@@ -1099,6 +1099,12 @@ var handleEvents = {
 
         });
 
+        $("#deductGroceryDate").click(function(){
+            $("#deductGroceryView").show();
+            $("#addGroceryView").hide();
+            show.getListOfGroceriesForAutoComplete("deductGroceryName");
+        });
+
         $("#cancelGroceryAddition").on('click',function(){
             handleEvents.showGroceryStockDetails();
             commonUtilities.removeValidationClass();
@@ -1127,7 +1133,7 @@ var show = {
             type: 'GET',
             success: function(grocery){
                 show.listOfGroceries = grocery
-                $( "#groceryNames" ).autocomplete({
+                $( "#addGroceryName").autocomplete({
                     source: show.listOfGroceries,
                     autoFocus:true
                 });

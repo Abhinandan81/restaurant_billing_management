@@ -44,20 +44,15 @@
     %{--progress bar--}%
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/progressBar/centerCircle.css">
 
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="<%=request.getContextPath()%>/js/html5shiv.min.js"></script>
-        <script src="<%=request.getContextPath()%>/js/respond.min.js"></script>
-
         <!-- jQuery 2.1.4 -->
     <script src="<%=request.getContextPath()%>/css/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
     %{--custom validation--}%
     <script src="<%=request.getContextPath()%>/js/validate/jquery.validate.js"></script>
     <script src="<%=request.getContextPath()%>/js/validate/jquery.form.js"></script>
     <script src="<%=request.getContextPath()%>/js/validate/customValidationRules.js"></script>
+    <script src="<%=request.getContextPath()%>/js/datePicker/bootstrap-datepicker.min.js"></script>
+
 
     <!-- Bootstrap 3.3.5 -->
     <script src="<%=request.getContextPath()%>/js/bootstrap/bootstrap.min.js"></script>
@@ -74,11 +69,9 @@
     <script src="<%=request.getContextPath()%>/css/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="<%=request.getContextPath()%>/css/plugins/fastclick/fastclick.min.js"></script>
-    <script src="<%=request.getContextPath()%>/js/datePicker/bootstrap-datepicker.min.js"></script>
 
     <script src="<%=request.getContextPath()%>/js/jsonValidator/jquery.validate-json.js"></script>
-    %{--<script src="<%=request.getContextPath()%>/js/materialDesign/materialize.js"></script>--}%
-    %{--<script src="<%=request.getContextPath()%>/js/jquery.scoped.js"></script>--}%
+
     <script src="<%=request.getContextPath()%>/js/pnotify.custom.min.js"></script>
 
     %{--alert dialog plugin--}%

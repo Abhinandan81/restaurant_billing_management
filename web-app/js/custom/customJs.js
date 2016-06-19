@@ -1080,7 +1080,20 @@ var handleEvents = {
         $("#addGroceryToStock").click(function(){
             $("#addGroceryView").show();
             $("#deductGroceryView").hide();
-            show.getListOfGroceriesForAutoComplete();
+//            show.getListOfGroceriesForAutoComplete();
+            $.ajax({
+                url: "../restaurantManagement/fetchGroceriesForAutoComplete",
+                type: 'GET',
+                success: function(grocery){
+                    show.listOfGroceries = grocery;
+                    console.log("aotu --"+show.listOfGroceries);
+                    $("#addGroceryName").autocomplete({
+                        source: show.listOfGroceries
+                    });
+                },
+                error: function(response){
+                }
+            });
         });
 
         $("#addGroceryDate").datepicker({
@@ -1096,13 +1109,6 @@ var handleEvents = {
         $("#deductGroceryFromStock").click(function(){
             $("#deductGroceryView").show();
             $("#addGroceryView").hide();
-
-        });
-
-        $("#deductGroceryDate").click(function(){
-            $("#deductGroceryView").show();
-            $("#addGroceryView").hide();
-            show.getListOfGroceriesForAutoComplete("deductGroceryName");
         });
 
         $("#cancelGroceryAddition").on('click',function(){
@@ -1132,8 +1138,9 @@ var show = {
             url: "../restaurantManagement/fetchGroceriesForAutoComplete",
             type: 'GET',
             success: function(grocery){
-                show.listOfGroceries = grocery
-                $( "#addGroceryName").autocomplete({
+                show.listOfGroceries = grocery;
+                console.log("aotu --"+show.listOfGroceries);
+                $("#addGroceryName").autocomplete({
                     source: show.listOfGroceries,
                     autoFocus:true
                 });

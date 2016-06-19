@@ -10,7 +10,7 @@
         </div>
 
         <div class="col-md-2">
-            <div id="deductGroceryDate" class="col-md-2 input-group input-append date">
+            <div id="deductGroceryDate" class="input-group input-append date">
                 <input type="text" class="form-control" id="groceryDeductDate" name="groceryDeductDate" placeholder="Select Date" readonly="readonly">
                 <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>

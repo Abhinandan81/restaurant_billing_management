@@ -927,7 +927,7 @@ var handleEvents = {
             $("#existingGroceryDetails").hide();
             $("#groceryHandling").show();
 
-            commonUtilities.clearForm("groceryForm")
+            commonUtilities.clearForm("groceryForm");
 
             //change the submit button value
             $("#grocerySubmit").val("Submit");
@@ -958,9 +958,6 @@ var handleEvents = {
             //pre populate branch details in the input field
             $("#groceryName").val(handleEvents.groceryDetailsFromTableRow[0]);
             handleEvents.groceryId =   handleEvents.groceryDetailsFromTableRow[1];
-
-            console.log("-----"+handleEvents.groceryDetailsFromTableRow);
-
             handleEvents.grocerySubmitUrl  =   "../restaurantManagement/updateGrocery"
         } );
 
@@ -1080,20 +1077,8 @@ var handleEvents = {
         $("#addGroceryToStock").click(function(){
             $("#addGroceryView").show();
             $("#deductGroceryView").hide();
-//            show.getListOfGroceriesForAutoComplete();
-            $.ajax({
-                url: "../restaurantManagement/fetchGroceriesForAutoComplete",
-                type: 'GET',
-                success: function(grocery){
-                    show.listOfGroceries = grocery;
-                    console.log("aotu --"+show.listOfGroceries);
-                    $("#addGroceryName").autocomplete({
-                        source: show.listOfGroceries
-                    });
-                },
-                error: function(response){
-                }
-            });
+            commonUtilities.clearForm("addingGroceryForm");
+            show.getListOfGroceriesForAutoComplete("addGroceryName");
         });
 
         $("#addGroceryDate").datepicker({
@@ -1105,16 +1090,25 @@ var handleEvents = {
 //            $('#eventForm').formValidation('revalidateField', 'date');
         });
 
-
-        $("#deductGroceryFromStock").click(function(){
-            $("#deductGroceryView").show();
-            $("#addGroceryView").hide();
-        });
-
         $("#cancelGroceryAddition").on('click',function(){
             handleEvents.showGroceryStockDetails();
             commonUtilities.removeValidationClass();
         });
+
+
+        $("#deductGroceryFromStock").click(function(){
+            $("#deductGroceryView").show();
+            $("#addGroceryView").hide();
+            commonUtilities.clearForm("deductGroceryForm");
+
+            show.getListOfGroceriesForAutoComplete("deductGroceryName");
+        });
+
+        $("#deductGroceryDate").datepicker({
+            format: 'dd/mm/yyyy'
+        });
+
+
 
         $("#cancelGroceryDeduction").click(function(){
             handleEvents.showGroceryStockDetails();
@@ -1133,14 +1127,13 @@ var handleEvents = {
 var show = {
     listOfGroceries : [],
 
-    getListOfGroceriesForAutoComplete : function(){
+    getListOfGroceriesForAutoComplete : function(fieldId){
         $.ajax({
             url: "../restaurantManagement/fetchGroceriesForAutoComplete",
             type: 'GET',
             success: function(grocery){
                 show.listOfGroceries = grocery;
-                console.log("aotu --"+show.listOfGroceries);
-                $("#addGroceryName").autocomplete({
+                $("#"+fieldId).autocomplete({
                     source: show.listOfGroceries,
                     autoFocus:true
                 });

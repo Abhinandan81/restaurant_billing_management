@@ -16,7 +16,6 @@
     <!-- Tell the browser to be responsive to screen width -->
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/fontAwsome/font-awesome.css">
     <!-- Ionicons -->
@@ -28,7 +27,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable/select.dataTables.min.css">
 
     %{--material design--}%
-    %{--<link rel="stylesheet" href="<%=request.getContextPath()%>/css/materialDesign/materialize.css">--}%
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/pnotify.custom.min.css">
 
 
@@ -47,13 +45,10 @@
 
         <!-- jQuery 2.1.4 -->
     <script src="<%=request.getContextPath()%>/css/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
     %{--custom validation--}%
     <script src="<%=request.getContextPath()%>/js/validate/jquery.validate.js"></script>
     <script src="<%=request.getContextPath()%>/js/validate/jquery.form.js"></script>
     <script src="<%=request.getContextPath()%>/js/validate/customValidationRules.js"></script>
-    <script src="<%=request.getContextPath()%>/js/datePicker/bootstrap-datepicker.min.js"></script>
-
 
     <!-- Bootstrap 3.3.5 -->
     <script src="<%=request.getContextPath()%>/js/bootstrap/bootstrap.min.js"></script>
@@ -70,6 +65,7 @@
     <script src="<%=request.getContextPath()%>/css/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="<%=request.getContextPath()%>/css/plugins/fastclick/fastclick.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/datePicker/bootstrap-datepicker.min.js"></script>
 
     <script src="<%=request.getContextPath()%>/js/jsonValidator/jquery.validate-json.js"></script>
 

@@ -1,20 +1,20 @@
 <form class="form-horizontal" id="addingGroceryForm" method="POST">
     <div class="row form-group">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="text" class="form-control" id="groceryName" name="groceryName" placeholder="Grocery Name">
         </div>
 
 
-        <div class="col-md-3">
-            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity">
+        <div class="col-md-2">
+            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity(Kg / Ltr)">
         </div>
 
-        <div class="col-md-3">
-            <input type="number" class="form-control" id="price" name="price" placeholder="Price">
+        <div class="col-md-2">
+            <input type="number" class="form-control" id="price" name="price" placeholder="Price(Rs.)">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
 
-            <div id="addGroceryDate" class="col-md-2 input-group input-append date">
+            <div id="addGroceryDate" class="input-group input-append date">
             <input type="text" class="form-control" id="groceryAddDate" name="groceryAddDate" placeholder="Select Date" readonly="readonly">
             <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>

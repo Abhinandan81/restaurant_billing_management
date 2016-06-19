@@ -39,6 +39,8 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/custom/eyeStyleSheet.css">   %{-- custom css --}%
 %{-- alert dialog plugin css --}%
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/plugins/alertDialog/bootstrap-dialog.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/plugins/datepicker/datepicker.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/plugins/datepicker/datepicker3.min.css">
     %{--progress bar--}%
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/progressBar/centerCircle.css">
 
@@ -57,7 +59,6 @@
     <script src="<%=request.getContextPath()%>/js/validate/jquery.form.js"></script>
     <script src="<%=request.getContextPath()%>/js/validate/customValidationRules.js"></script>
 
-
     <!-- Bootstrap 3.3.5 -->
     <script src="<%=request.getContextPath()%>/js/bootstrap/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/fuelux.min.js"></script>
@@ -73,6 +74,7 @@
     <script src="<%=request.getContextPath()%>/css/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="<%=request.getContextPath()%>/css/plugins/fastclick/fastclick.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/datePicker/bootstrap-datepicker.min.js"></script>
 
     <script src="<%=request.getContextPath()%>/js/jsonValidator/jquery.validate-json.js"></script>
     %{--<script src="<%=request.getContextPath()%>/js/materialDesign/materialize.js"></script>--}%

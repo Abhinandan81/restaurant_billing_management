@@ -5,12 +5,9 @@ import com.restaurant.domain.management.Branch
 import com.restaurant.domain.management.BranchGrocery
 import com.restaurant.domain.management.BranchMenu
 import com.restaurant.domain.management.Grocery
-import com.restaurant.domain.management.GrocerySummary
 import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
 import grails.transaction.Transactional
-
-import java.lang.reflect.MalformedParameterizedTypeException
 
 @Transactional
 class RestaurantManagementService {
@@ -506,6 +503,25 @@ class RestaurantManagementService {
                         groceryDetails = []
                         groceryDetails = [grocery.name, grocery.id]
                         groceriesDetails << groceryDetails
+                    }
+                }
+            }
+            return groceriesDetails
+        }catch (Exception e){
+            println "Error in creating grocery"
+        }
+    }
+
+    List getGroceryListByRestaurantId(String restaurantId){
+        List groceriesDetails  =   []
+        try {
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+
+            if (restaurant){
+                List groceries  =   Grocery.findAllByRestaurant(restaurant)
+                if (groceries){
+                    groceries.each { grocery ->
+                        groceriesDetails << grocery.name
                     }
                 }
             }

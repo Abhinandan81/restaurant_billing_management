@@ -231,6 +231,13 @@ class RestaurantManagementController {
         render groceryDetails as JSON
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def fetchGroceriesForAutoComplete(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        List groceryDetailsList   =   restaurantManagementService.getGroceryListByRestaurantId(sCtx.restaurantId)
+        render groceryDetailsList as JSON
+    }
+
     @Secured(['ROLE_SUPER_ADMIN'])
     def addGroceryToStock(){
         Map groceryAdditionStatusMap    =   restaurantManagementService.addGrocery("1", "3", "Deduct",1,20,123456)
@@ -253,8 +260,6 @@ class RestaurantManagementController {
         List groceryDetailsList =   []
         String branchId =   ""
 
-        println "params :"+params
-
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
         if (sCtx.mainRole == "ROLE_SUPER_ADMIN"){
             branchId = commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
@@ -267,7 +272,6 @@ class RestaurantManagementController {
             groceryDetailsList = restaurantManagementService.fetchBranchWiseGroceryDetails(branchId)
         }
         groceryDetails << [data: groceryDetailsList]
-        println "groceryDetails :"+groceryDetails
         render groceryDetails as JSON
     }
 

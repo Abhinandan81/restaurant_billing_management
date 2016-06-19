@@ -1080,18 +1080,26 @@ var handleEvents = {
         $("#addGroceryToStock").click(function(){
             $("#addGroceryView").show();
             $("#deductGroceryView").hide();
-//            $("#branchWiseGroceryDetailsTable").hide();
-
-
+            show.getListOfGroceriesForAutoComplete();
         });
+
+        $("#addGroceryDate").datepicker({
+            format: 'dd/mm/yyyy'
+        });
+
+        $('#addGroceryDate').on('changeDate', function(e) {
+            // Revalidate the date field
+//            $('#eventForm').formValidation('revalidateField', 'date');
+        });
+
 
         $("#deductGroceryFromStock").click(function(){
             $("#deductGroceryView").show();
             $("#addGroceryView").hide();
-//            $("#branchWiseGroceryDetailsTable").hide();
+
         });
 
-        $("#cancelGroceryAddition").click(function(){
+        $("#cancelGroceryAddition").on('click',function(){
             handleEvents.showGroceryStockDetails();
             commonUtilities.removeValidationClass();
         });
@@ -1111,6 +1119,23 @@ var handleEvents = {
 };
 
 var show = {
+    listOfGroceries : [],
+
+    getListOfGroceriesForAutoComplete : function(){
+        $.ajax({
+            url: "../restaurantManagement/fetchGroceriesForAutoComplete",
+            type: 'GET',
+            success: function(grocery){
+                show.listOfGroceries = grocery
+                $( "#groceryNames" ).autocomplete({
+                    source: show.listOfGroceries,
+                    autoFocus:true
+                });
+            },
+            error: function(response){
+            }
+        });
+    },
 
     //function to prefetch and display branch names in drop down box
     fetchBranchNameAndAppendOptions : function(selectionId){

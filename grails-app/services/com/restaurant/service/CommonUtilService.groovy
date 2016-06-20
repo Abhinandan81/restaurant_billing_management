@@ -8,6 +8,8 @@ import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
 import grails.transaction.Transactional
 
+import java.text.SimpleDateFormat
+
 @Transactional
 class CommonUtilService {
 
@@ -72,6 +74,23 @@ class CommonUtilService {
         }
     }
 
+    String getGroceryIdByName(String restaurantId, String groceryName){
+        String groceryId  =   ""
+        try {
+            Restaurant restaurant   =   Restaurant.findById(restaurantId)
+            if (restaurant){
+                Grocery grocery =   Grocery.findByRestaurantAndName(restaurant, groceryName)
+                if (grocery){
+                    groceryId =   grocery.id as String
+                }
+            }
+            return groceryId
+        }catch (Exception e){
+            println "Error in fetching grocery name"
+
+        }
+    }
+
     Float getTotalQuantity(String branchId, String groceryId, String operationType){
         Float availableQuantity =   0
 
@@ -86,6 +105,18 @@ class CommonUtilService {
             return availableQuantity
         }catch (Exception e){
             println "Error in fetching available quantity"
+        }
+    }
+
+    Long stringDateToLong(String date){
+        long longDate
+        try {
+            SimpleDateFormat f  = new SimpleDateFormat("dd/MM/yyyy")
+            Date d              = f.parse(date)
+            longDate            = d.getTime()
+            return longDate
+        }catch (Exception e){
+            println "Error in converting date"+e.printStackTrace()
         }
     }
 }

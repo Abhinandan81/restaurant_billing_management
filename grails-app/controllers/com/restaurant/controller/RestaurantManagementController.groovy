@@ -1,6 +1,7 @@
 package com.restaurant.controller
 
 import com.constants.CodeConstants
+import com.constants.CommonUtils
 import com.utils.ServiceContext
 import com.utils.SessionUtil
 import grails.converters.JSON
@@ -238,10 +239,17 @@ class RestaurantManagementController {
         render groceryDetailsList as JSON
     }
 
-    @Secured(['ROLE_SUPER_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def addGroceryToStock(){
-        println "params :"+params
-        Map groceryAdditionStatusMap    =   restaurantManagementService.addGrocery("1", "3", "Deduct",1,20,123456)
+        Map groceryAdditionStatusMap    =   [:]
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        Long timeStamp  =   commonUtilService.stringDateToLong(params.groceryAddDate)
+        String groceryId    =   commonUtilService.getGroceryIdByName(sCtx.restaurantId, params.addGroceryName)
+        if (groceryId != ""){
+            groceryAdditionStatusMap    =   restaurantManagementService.addGrocery(sCtx.branchId, groceryId,
+                    "Add",params.addQuantity as Float, params.addPrice as Float, timeStamp)
+        }
+
         render groceryAdditionStatusMap as JSON
     }
 

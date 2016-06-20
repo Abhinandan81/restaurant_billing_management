@@ -297,5 +297,30 @@ class RestaurantManagementController {
         render groceryDetails as JSON
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def fetchAvailableGroceryQuantity(){
+        String branchId
+        Float availableGroceryQuantity
+        Map availableGroceryMap    =   [:]
+
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        String groceryId    =   commonUtilService.getGroceryIdByName(sCtx.restaurantId, params.groceryName)
+
+        if (groceryId != ""){
+            if (sCtx.mainRole == "ROLE_SUPER_ADMIN"){
+                branchId = commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
+            }else {
+                if (sCtx.branchId != null)
+                    branchId    =   sCtx.branchId
+            }
+
+            availableGroceryQuantity = restaurantManagementService.getAvailableGroceryQuantity(branchId, groceryId)
+            availableGroceryMap    <<  [status: true, message: availableGroceryQuantity]
+        }else {
+            availableGroceryMap    << [status: false, message: "Invalid grocery name"]
+        }
+        render availableGroceryMap as JSON
+    }
+
     /*-------------------------- END    : Grocery Management -----------------------*/
 }

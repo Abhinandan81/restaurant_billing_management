@@ -598,4 +598,26 @@ class RestaurantManagementService {
 
         }
     }
+
+    Float getAvailableGroceryQuantity(String branchId, String groceryId){
+        Float creditedQuantity      =   0
+        Float deductedQuantity      =   0
+        Float availableQuantity     =   0
+
+        try {
+
+            BranchGrocery branchGrocery =   BranchGrocery.findByBranchIdAndGroceryId(branchId, groceryId)
+
+            if (branchGrocery){
+                creditedQuantity    =   commonUtilService.getTotalQuantity(branchId, groceryId, "Add")
+                deductedQuantity    =   commonUtilService.getTotalQuantity(branchId, groceryId, "Deduct")
+                availableQuantity   =   creditedQuantity - deductedQuantity
+            }
+
+            return availableQuantity
+        }catch (Exception e){
+
+        }
+
+    }
 }

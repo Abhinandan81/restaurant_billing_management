@@ -1187,11 +1187,6 @@ var handleEvents = {
             endDate: '+0d'
         });
 
-        $('#addGroceryDate').on('changeDate', function(e) {
-            // Revalidate the date field
-//            $('#eventForm').formValidation('revalidateField', 'date');
-        });
-
         $("#submitGrocery").on('click',function(){
             validateForms.validateGroceryAddOperation();
         });
@@ -1235,6 +1230,7 @@ var handleEvents = {
 
 var show = {
     listOfGroceries : [],
+    selectedGroceryName : "",
 
     getListOfGroceriesForAutoComplete : function(fieldId){
         $.ajax({
@@ -1244,10 +1240,34 @@ var show = {
                 show.listOfGroceries = grocery;
                 $("#"+fieldId).autocomplete({
                     source: show.listOfGroceries,
-                    autoFocus:true
+                    autoFocus:true,
+                    select: function (event, ui) {
+                        show.selectedGroceryName = ui.item.value;
+                        if(fieldId == "deductGroceryName"){
+                            show.getAvailableGroceryQuantity();
+                        }
+                    }
                 });
             },
             error: function(response){
+            }
+        });
+    },
+
+    getAvailableGroceryQuantity :  function(){
+        $.ajax({
+            url: '../restaurantManagement/fetchAvailableGroceryQuantity',
+            type: 'POST',
+            data: {groceryName : show.selectedGroceryName},
+            success: function(response){
+                if(response.status == true){
+                    $("#deductQuantity").val(response.message);
+                }else{
+                    commonUtilities.show_stack_bottomleft("error", response.message);
+                }
+            },
+            error: function(response){
+                commonUtilities.show_stack_bottomleft("error", "Please try again later");
             }
         });
     },

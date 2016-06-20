@@ -249,33 +249,32 @@ class RestaurantManagementController {
             groceryAdditionStatusMap    =   restaurantManagementService.addGrocery(sCtx.branchId, groceryId,
                     "Add", params.addQuantity as Float, params.addPrice as Float, timeStamp)
         }else {
-            groceryAdditionStatusMap << [status: false, message: "Invalid grocery"]
+            groceryAdditionStatusMap << [status: false, message: "Invalid grocery name"]
         }
 
         render groceryAdditionStatusMap as JSON
     }
 
+    /**
+     * Deduct grocery from the stock
+     * @return
+     */
     @Secured(['ROLE_ADMIN'])
     def deductGroceryFromStock(){
         Map deductGroceryStatusMap    =   [:]
+
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
-        Long timeStamp  =   commonUtilService.stringDateToLong(params.groceryAddDate)
-        String groceryId    =   commonUtilService.getGroceryIdByName(sCtx.restaurantId, params.addGroceryName)
+        Long timeStamp  =   commonUtilService.stringDateToLong(params.groceryDeductDate)
+        String groceryId    =   commonUtilService.getGroceryIdByName(sCtx.restaurantId, params.deductGroceryName)
         if (groceryId != ""){
             deductGroceryStatusMap    =   restaurantManagementService.deductGrocery(sCtx.branchId, groceryId,
-                    "Deduct", params.addQuantity as Float, timeStamp)
+                    "Deduct", params.deductQuantity as Float, timeStamp)
         }else {
-            deductGroceryStatusMap << [status: false, message: "Invalid grocery"]
+            deductGroceryStatusMap << [status: false, message: "Invalid grocery name"]
         }
 
         render deductGroceryStatusMap as JSON
     }
-
-    @Secured(['ROLE_ADMIN'])
-    def updateGroceryInStock(){
-
-    }
-
 
     @Secured(['ROLE_ADMIN'])
     def fetchGroceryStockDetails(){

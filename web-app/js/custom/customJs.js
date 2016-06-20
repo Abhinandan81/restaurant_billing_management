@@ -523,9 +523,57 @@ var validateForms = {
                 return false;
             }
         });
+    },
+
+    validateGroceryDeductOperation: function () {
+        $("#deductGroceryForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                deductGroceryName  :   {required: true},
+                deductQuantity     :   {required: true},
+                groceryDeductDate  :   {required: true}
+            },
+
+            messages: {
+                deductGroceryName  :   "Please give grocery name",
+                deductQuantity     :   "Please give grocery quantity",
+                groceryDeductDate  :    "Please select Date"
+            },
+            //after form validation
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url: '../restaurantManagement/deductGroceryFromStock',                                   //Path of the controller action
+                    type: 'POST',
+                    //on successful operation
+                    success: function (response) {
+                        if(response.status == true){
+                            handleEvents.showGroceryStockDetails();
+                            commonUtilities.show_stack_bottomleft("success", response.message);
+                            //reload the branchDetailsDataTable
+                            ajaxCalls.adminViewGroceryDetailsTableReload();
+                        }else{
+                            commonUtilities.show_stack_bottomleft("error", response.message);
+                        }
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
     }
-
-
 };
 var handleEvents = {
 
@@ -1165,7 +1213,9 @@ var handleEvents = {
             format: 'dd/mm/yyyy'
         });
 
-
+        $("#deductGrocery").on('click',function(){
+            validateForms.validateGroceryDeductOperation();
+        });
 
         $("#cancelGroceryDeduction").click(function(){
             handleEvents.showGroceryStockDetails();

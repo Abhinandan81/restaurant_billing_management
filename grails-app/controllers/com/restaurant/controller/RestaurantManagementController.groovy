@@ -240,6 +240,7 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def addGroceryToStock(){
+        println "params :"+params
         Map groceryAdditionStatusMap    =   restaurantManagementService.addGrocery("1", "3", "Deduct",1,20,123456)
         render groceryAdditionStatusMap as JSON
     }

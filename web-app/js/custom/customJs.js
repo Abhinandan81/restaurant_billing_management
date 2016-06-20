@@ -456,7 +456,7 @@ var validateForms = {
                     //on successful operation
                     success: function (response) {
                         if(response.status == true){
-                            handleEvents.showExistingGroceryDetails()
+                            handleEvents.showExistingGroceryDetails();
                             commonUtilities.show_stack_bottomleft("success", response.message);
                             //reload the branchDetailsDataTable
                             ajaxCalls.groceryDetailsDataTableReload();
@@ -471,7 +471,60 @@ var validateForms = {
                 return false;
             }
         });
+    },
+
+    validateGroceryAddOperation: function () {
+        $("#addingGroceryForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                addGroceryName  :   {required: true},
+                addQuantity     :   {required: true},
+                addPrice        :   {required: true},
+                groceryAddDate  :   {required: true}
+            },
+
+            messages: {
+                addGroceryName  :   "Please give grocery name",
+                addQuantity     :   "Please give grocery quantity",
+                addPrice        :   "Please give total grocery price",
+                groceryAddDate  :   "Please select Date"
+            },
+            //after form validation
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url: '../restaurantManagement/addGroceryToStock',                                   //Path of the controller action
+                    type: 'POST',
+                    //on successful operation
+                    success: function (response) {
+                        if(response.status == true){
+                            handleEvents.showGroceryStockDetails();
+                            commonUtilities.show_stack_bottomleft("success", response.message);
+                            //reload the branchDetailsDataTable
+                            ajaxCalls.adminViewGroceryDetailsTableReload();
+                        }else{
+                            commonUtilities.show_stack_bottomleft("error", response.message);
+                        }
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
     }
+
 
 };
 var handleEvents = {
@@ -1088,6 +1141,10 @@ var handleEvents = {
         $('#addGroceryDate').on('changeDate', function(e) {
             // Revalidate the date field
 //            $('#eventForm').formValidation('revalidateField', 'date');
+        });
+
+        $("#submitGrocery").on('click',function(){
+            validateForms.validateGroceryAddOperation();
         });
 
         $("#cancelGroceryAddition").on('click',function(){

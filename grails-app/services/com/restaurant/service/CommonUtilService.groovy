@@ -60,14 +60,11 @@ class CommonUtilService {
     String getGroceryNameById(String groceryId){
         String groceryName  =   ""
         try {
-            println "groceryId : "+groceryId
             Grocery grocery =   Grocery.findById(groceryId)
 
             if (grocery){
-                println "in grosser:"
                 groceryName =   grocery.name
             }
-            println "groceryName :"+groceryName
             return groceryName
         }catch (Exception e){
             println "Error in fetching grocery name"

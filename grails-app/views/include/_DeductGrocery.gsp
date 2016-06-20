@@ -17,8 +17,9 @@
         </div>
 
         <div class="col-md-3">
-            <i id="deductGrocery" class="glyphicon glyphicon-ok-circle text-success dataTableAddActionSize" aria-hidden="true"></i>
-            <i id="cancelGroceryDeduction" class="glyphicon glyphicon-remove-circle text-warning dataTableAddActionSize" aria-hidden="true"></i>
+            <button id="deductGrocery" class="btn btn-success">Deduct</button>
+            <button id="cancelGroceryDeduction" class="btn btn-warning">Cancel</button>
+
         </div>
     </div>
 </form>

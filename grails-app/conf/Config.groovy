@@ -1,3 +1,5 @@
+import com.constants.CodeConstants
+
 // locations to search for config files that get merged into the main config;
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
@@ -118,6 +120,10 @@ log4j.main = {
 
 
 
+// Static role hierarchy
+grails.plugin.springsecurity.roleHierarchy = """
+${CodeConstants.ROLE_SUPER_ADMIN} > ${CodeConstants.ROLE_ADMIN}
+"""
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.restaurant.domain.auth.User'

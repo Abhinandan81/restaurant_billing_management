@@ -1183,7 +1183,8 @@ var handleEvents = {
         });
 
         $("#addGroceryDate").datepicker({
-            format: 'dd/mm/yyyy'
+            format: 'dd/mm/yyyy',
+            endDate: '+0d'
         });
 
         $('#addGroceryDate').on('changeDate', function(e) {
@@ -1210,7 +1211,8 @@ var handleEvents = {
         });
 
         $("#deductGroceryDate").datepicker({
-            format: 'dd/mm/yyyy'
+            format: 'dd/mm/yyyy',
+            endDate: '+0d'
         });
 
         $("#deductGrocery").on('click',function(){

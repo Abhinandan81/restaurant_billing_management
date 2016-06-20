@@ -546,14 +546,14 @@ class RestaurantManagementService {
     }
 
     Map deductGrocery(String branchId, String groceryId, String operationType, Float quantity, Long date){
-        Map addGroceryStatusMap =   [:]
+        Map deductGroceryStatusMap =   [:]
         try {
             BranchGrocery branchGrocery =   new BranchGrocery(branchId: branchId, groceryId: groceryId, quantity: quantity,
-                    price: price, operationType: operationType, date: date)
+                    operationType: operationType, date: date)
             branchGrocery.save(flush: true, failOnError: true)
 
-            addGroceryStatusMap << [status: true, message: "Grocery successfully added to the stock"]
-            return  addGroceryStatusMap
+            deductGroceryStatusMap << [status: true, message: "Grocery successfully deducted from the stock"]
+            return  deductGroceryStatusMap
         }catch (Exception e){
             println "Error in making grocery entry"
         }

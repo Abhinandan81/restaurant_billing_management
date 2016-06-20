@@ -255,29 +255,29 @@ class RestaurantManagementController {
         render groceryAdditionStatusMap as JSON
     }
 
-    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN'])
     def deductGroceryFromStock(){
-        Map groceryAdditionStatusMap    =   [:]
+        Map deductGroceryStatusMap    =   [:]
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
         Long timeStamp  =   commonUtilService.stringDateToLong(params.groceryAddDate)
         String groceryId    =   commonUtilService.getGroceryIdByName(sCtx.restaurantId, params.addGroceryName)
         if (groceryId != ""){
-            groceryAdditionStatusMap    =   restaurantManagementService.addGrocery(sCtx.branchId, groceryId,
+            deductGroceryStatusMap    =   restaurantManagementService.deductGrocery(sCtx.branchId, groceryId,
                     "Deduct", params.addQuantity as Float, timeStamp)
         }else {
-            groceryAdditionStatusMap << [status: false, message: "Invalid grocery"]
+            deductGroceryStatusMap << [status: false, message: "Invalid grocery"]
         }
 
-        render groceryAdditionStatusMap as JSON
+        render deductGroceryStatusMap as JSON
     }
 
-    @Secured(['ROLE_SUPER_ADMIN'])
+    @Secured(['ROLE_ADMIN'])
     def updateGroceryInStock(){
 
     }
 
 
-    @Secured(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN'])
     def fetchGroceryStockDetails(){
         Map groceryDetails  =   [:]
         List groceryDetailsList =   []

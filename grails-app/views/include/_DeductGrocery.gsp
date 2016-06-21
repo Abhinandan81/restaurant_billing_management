@@ -17,9 +17,8 @@
         </div>
 
         <div class="col-md-3">
-            <button id="deductGrocery" class="btn btn-success">Deduct</button>
-            <button id="cancelGroceryDeduction" class="btn btn-warning">Cancel</button>
-
+            <input type="submit" id="deductGrocery" class="btn btn-success" value="Deduct">
+            <button type="button" id="cancelGroceryDeduction" class="btn btn-warning">Cancel</button>
         </div>
     </div>
 </form>

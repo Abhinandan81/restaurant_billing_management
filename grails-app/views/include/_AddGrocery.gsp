@@ -21,8 +21,8 @@
         </div>
 
         <div class="col-md-3">
-            <button id="submitGrocery" class="btn btn-success">Add</button>
-            <button id="cancelGroceryAddition" class="btn btn-warning">Cancel</button>
+            <input type="submit" id="submitGrocery" class="btn btn-success" value="Add">
+            <button type="button" id="cancelGroceryAddition" class="btn btn-warning">Cancel</button>
         </div>
     </div>
 </form>

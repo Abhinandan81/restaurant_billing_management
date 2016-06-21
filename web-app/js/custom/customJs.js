@@ -1187,11 +1187,12 @@ var handleEvents = {
             endDate: '+0d'
         });
 
-        $("#submitGrocery").on('click',function(){
+        $("#submitGrocery").click(function(){
             validateForms.validateGroceryAddOperation();
         });
 
-        $("#cancelGroceryAddition").on('click',function(){
+        $("#cancelGroceryAddition").click(function(){
+            console.log("----------");
             handleEvents.showGroceryStockDetails();
             commonUtilities.removeValidationClass();
         });

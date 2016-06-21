@@ -1205,6 +1205,17 @@ var handleEvents = {
             show.getListOfGroceriesForAutoComplete("deductGroceryName");
         });
 
+        $('#deductQuantity').on('keyup keydown', function(e){
+            if ($(this).val() > show.availableQuantity
+                && e.keyCode != 46
+                && e.keyCode != 8
+                ) {
+                e.preventDefault();
+                $(this).val(show.availableQuantity);
+                commonUtilities.show_stack_bottomleft("info", "Only "+show.availableQuantity+" quantity available");
+            }
+        });
+
         $("#deductGroceryDate").datepicker({
             format: 'dd/mm/yyyy',
             endDate: '+0d'
@@ -1229,8 +1240,9 @@ var handleEvents = {
 };
 
 var show = {
-    listOfGroceries : [],
+    listOfGroceries     : [],
     selectedGroceryName : "",
+    availableQuantity   : 0,
 
     getListOfGroceriesForAutoComplete : function(fieldId){
         $.ajax({
@@ -1261,7 +1273,8 @@ var show = {
             data: {groceryName : show.selectedGroceryName},
             success: function(response){
                 if(response.status == true){
-                    $("#deductQuantity").val(response.message);
+                    show.availableQuantity  =   response.message;
+                    $("#deductQuantity").val(show.availableQuantity);
                 }else{
                     commonUtilities.show_stack_bottomleft("error", response.message);
                 }

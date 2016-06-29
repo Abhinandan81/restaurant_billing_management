@@ -59,6 +59,26 @@ class CommonUtilService {
         }
     }
 
+    String fetchMenuIdByMenuName(String restaurantId, String name){
+        String menuId = ""
+
+        try{
+            Restaurant restaurant   =   Restaurant.findById(restaurantId)
+            if (restaurant){
+                Menu menu   =   Menu.findByNameAndRestaurant(name, restaurant)
+
+                if (menu){
+                    menuId    =   menu.id as String
+                }
+            }
+
+            return  menuId
+        }catch (Exception e){
+            println "Error in fetching menu name"
+
+        }
+    }
+
     String getGroceryNameById(String groceryId){
         String groceryName  =   ""
         try {

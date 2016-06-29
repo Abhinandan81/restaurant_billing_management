@@ -2,7 +2,7 @@ package com.restaurant.domain.management
 
 class Bill {
     String customerName
-    Date date
+    Long date
     String orderDetails
     Float total
 

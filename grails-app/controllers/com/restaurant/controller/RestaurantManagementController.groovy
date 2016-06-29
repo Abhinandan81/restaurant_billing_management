@@ -323,4 +323,35 @@ class RestaurantManagementController {
     }
 
     /*-------------------------- END    : Grocery Management -----------------------*/
+
+
+    /*-------------------------- START    : Billing Management -----------------------*/
+    /**
+     * Billing view
+     */
+    @Secured(['ROLE_ADMIN'])
+    def billing(){
+
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def getListOfMenusForAutoComplete(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        List menuDetailsList   =   restaurantManagementService.getMenuListByRestaurantId(sCtx.restaurantId)
+        render menuDetailsList as JSON
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def fetchMenuPrice(){
+        Map menuPriceDetails    =   [:]
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        String menuId   =   commonUtilService.fetchMenuIdByMenuName(sCtx.restaurantId, params.menuName)
+        if (menuId != "") {
+            menuPriceDetails = restaurantManagementService.getMenuPriceByBranchIdAndMenuId(sCtx.branchId, menuId)
+        }
+        render menuPriceDetails as JSON
+    }
+    /*-------------------------- END    : Billing Management -------------------------*/
+
 }

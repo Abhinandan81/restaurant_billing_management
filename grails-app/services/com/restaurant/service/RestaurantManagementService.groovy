@@ -620,4 +620,40 @@ class RestaurantManagementService {
         }
 
     }
+
+    List getMenuListByRestaurantId(String restaurantId){
+        List menuDetails  =   []
+        try {
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+
+            if (restaurant){
+                List menus  =   Menu.findAllByRestaurant(restaurant)
+                if (menus){
+                    menus.each { menu ->
+                        menuDetails << menu.name
+                    }
+                }
+            }
+            return menuDetails
+        }catch (Exception e){
+            println "Error in fetching menus"
+        }
+
+    }
+
+    def getMenuPriceByBranchIdAndMenuId(String branchId, String menuId){
+        Map menuPriceDetails    =   [:]
+        try {
+            BranchMenu branchMenu   =   BranchMenu.findByBranchIdAndMenuId(branchId, menuId)
+
+            if (branchMenu){
+                menuPriceDetails    << [status: true, message: branchMenu.price]
+            }else {
+                menuPriceDetails    << [status: false, message: "Failed to get menu price"]
+            }
+            return  menuPriceDetails
+        }catch (Exception e){
+            println "Error in getting menu price"
+        }
+    }
 }

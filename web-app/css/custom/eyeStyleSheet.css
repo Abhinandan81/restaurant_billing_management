@@ -102,10 +102,22 @@
     margin-right: 15px;
 }
 
+.leftMargin{
+    margin-left: 2px;
+}
+
 .backgroundColor{
     background-color: #eaeaea;
 }
 
 .glyphicon{
     top: 5px;
+}
+
+* {
+.border-radius(0) !important;
+}
+
+#field {
+    margin-bottom:20px;
 }

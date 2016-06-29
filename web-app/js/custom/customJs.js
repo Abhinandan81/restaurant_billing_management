@@ -578,10 +578,10 @@ var validateForms = {
 var handleEvents = {
 
 //    START : Branch Management view handler
-    branchDetailsFromTableRow   :   "",
-    branchSubmitUrl             :   "",
-    branchId                    :   "",
-    branchManagementView : function(){
+    branchDetailsFromTableRow: "",
+    branchSubmitUrl: "",
+    branchId: "",
+    branchManagementView: function () {
 
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -593,7 +593,7 @@ var handleEvents = {
         ajaxCalls.branchDetailsTableReload();
 
         //on click to new branch div
-        $("#newBranch").click(function(){
+        $("#newBranch").click(function () {
             $("#branchHeader").html("");
             $("#branchHeader").html("New Branch Creation");
 
@@ -609,13 +609,13 @@ var handleEvents = {
         });
 
         //on cancelButton click from branch modification form
-        $("#cancelButton").click(function(){
-           handleEvents.showBranchDetailsTable();
+        $("#cancelButton").click(function () {
+            handleEvents.showBranchDetailsTable();
             commonUtilities.removeValidationClass();
         });
 
         //on branchSubmit (form submit)
-        $("#branchSubmit").click(function(){
+        $("#branchSubmit").click(function () {
             validateForms.validateBranchCreation();
         });
 
@@ -630,21 +630,21 @@ var handleEvents = {
 
             commonUtilities.clearForm("branchModificationForm");
 
-            handleEvents.branchDetailsFromTableRow = ajaxCalls.branchDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.branchDetailsFromTableRow = ajaxCalls.branchDetailsDataTable.row($(this).parents('tr')).data();
             //pre populate branch details in the input field
             $("#branchName").val(handleEvents.branchDetailsFromTableRow[0]);
             $("#address").val(handleEvents.branchDetailsFromTableRow[1]);
             $("#contactNumber").val(handleEvents.branchDetailsFromTableRow[2]);
 
-            handleEvents.branchId   =   "";
-            handleEvents.branchId   =   handleEvents.branchDetailsFromTableRow[3];
+            handleEvents.branchId = "";
+            handleEvents.branchId = handleEvents.branchDetailsFromTableRow[3];
 
             //give a value to the branchSubmit button
             $("#branchSubmit").val("");
             $("#branchSubmit").val("Update");
 
             handleEvents.branchSubmitUrl = "../restaurantManagement/updateBranch";
-        } );
+        });
 
         //Function for handling delete  click event
         $('body').on('click', '#branchDataTable tbody tr #branchDelete', function () {
@@ -652,30 +652,30 @@ var handleEvents = {
             $("#branchNameValidator").val("");
             $("#invalidBranchNameMessage").html("");
 
-            handleEvents.branchDetailsFromTableRow = ajaxCalls.branchDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.branchDetailsFromTableRow = ajaxCalls.branchDetailsDataTable.row($(this).parents('tr')).data();
 
-            handleEvents.branchId   =   "";
-            handleEvents.branchId   =   handleEvents.branchDetailsFromTableRow[3];
+            handleEvents.branchId = "";
+            handleEvents.branchId = handleEvents.branchDetailsFromTableRow[3];
 
             $("#branchDeletionMessage").html("");
-            $("#branchDeletionMessage").html("If you delete this branch " +handleEvents.branchDetailsFromTableRow[0]+", " +
-                "all details related to this will also get deleted.To continue with delete type <b class='text-danger'>"+handleEvents.branchDetailsFromTableRow[0]+
-            "</b> in below box.");
+            $("#branchDeletionMessage").html("If you delete this branch " + handleEvents.branchDetailsFromTableRow[0] + ", " +
+                "all details related to this will also get deleted.To continue with delete type <b class='text-danger'>" + handleEvents.branchDetailsFromTableRow[0] +
+                "</b> in below box.");
         });
 
         //on click to the confirmBranchDelete
-        $("#confirmBranchDelete").click(function(){
-            var deleteInputBoxContent   =   $("#branchNameValidator").val();
+        $("#confirmBranchDelete").click(function () {
+            var deleteInputBoxContent = $("#branchNameValidator").val();
 
-            if(deleteInputBoxContent == handleEvents.branchDetailsFromTableRow[0]){
+            if (deleteInputBoxContent == handleEvents.branchDetailsFromTableRow[0]) {
                 deleteData.deleteBranch();
-            }else{
+            } else {
                 $("#invalidBranchNameMessage").html("Invalid Branch Name entered");
             }
         });
     },
 
-    showBranchDetailsTable : function(){
+    showBranchDetailsTable: function () {
         $("#existingBranchDetails").show();
         $("#branchEditing").hide();
     },
@@ -684,10 +684,10 @@ var handleEvents = {
 
     //    START : User Management view handler
 
-    userDetailsFromTableRow :   "",
-    passwordEditFlag        :   false,
-    userUpdateDetailsMap    :   {},
-    userManagementView :  function(){
+    userDetailsFromTableRow: "",
+    passwordEditFlag: false,
+    userUpdateDetailsMap: {},
+    userManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#userManagementView").addClass('active');
@@ -698,12 +698,12 @@ var handleEvents = {
         ajaxCalls.userDetailsDataTableReload();
 
         //on click to the newUser
-        $("#newUser").click(function(){
+        $("#newUser").click(function () {
             //clear the form
             commonUtilities.clearForm("userCreationForm");
 
-            $("#userName").prop('disabled',false);
-            $("#password").prop('disabled',false);
+            $("#userName").prop('disabled', false);
+            $("#password").prop('disabled', false);
 
             //give the value to the submit button
             $("#userSubmit").val("");
@@ -717,13 +717,13 @@ var handleEvents = {
             show.fetchBranchNameAndAppendOptions("selectBranch");
         });
 
-        $("#userSubmit").click(function(){
+        $("#userSubmit").click(function () {
             //validate the form
             validateForms.validateUserCreation();
         });
 
         //on cancelButton click from branch modification form
-        $("#cancelButton").click(function(){
+        $("#cancelButton").click(function () {
             handleEvents.showExistingUserDetails();
             commonUtilities.removeValidationClass();
         });
@@ -738,7 +738,7 @@ var handleEvents = {
 
 //            commonUtilities.clearForm("userModificationForm")
 
-            handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row($(this).parents('tr')).data();
             //pre populate branch details in the input field
             $("#currentBranch").val(handleEvents.userDetailsFromTableRow[0]);
             $("#currentUserName").val(handleEvents.userDetailsFromTableRow[1]);
@@ -749,23 +749,23 @@ var handleEvents = {
             //pre fetch and load the branch names
             show.fetchBranchNameAndAppendOptions("selectNewBranch");
 
-            $("#currentUserName").prop('disabled',true);
-            $("#currentBranch").prop('disabled',true);
-            $("#newPassword").prop('disabled',true);
-        } );
+            $("#currentUserName").prop('disabled', true);
+            $("#currentBranch").prop('disabled', true);
+            $("#newPassword").prop('disabled', true);
+        });
 
-        $("#editPassword").click(function(){
-            $("#newPassword").prop('disabled',false);
+        $("#editPassword").click(function () {
+            $("#newPassword").prop('disabled', false);
             handleEvents.passwordEditFlag = true;
         });
 
-        $("#userUpdateSubmit").click(function(){
+        $("#userUpdateSubmit").click(function () {
             //validate the form
             validateForms.validateUserUpdate();
         });
 
         //on cancelUserUpdate click from branch modification form
-        $("#cancelUserUpdate").click(function(){
+        $("#cancelUserUpdate").click(function () {
             handleEvents.showExistingUserDetails();
             commonUtilities.removeValidationClass();
         });
@@ -773,77 +773,79 @@ var handleEvents = {
         //Function for handling delete  click event
         $('body').on('click', '#userDataTable tbody tr #userDelete', function () {
 
-            handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.userDetailsFromTableRow = ajaxCalls.userDetailsDataTable.row($(this).parents('tr')).data();
 
             BootstrapDialog.show({
-                title:'Delete User',
+                title: 'Delete User',
                 type: BootstrapDialog.TYPE_DANGER,
-                message:"Do you really want to proceed with the user delete?",
+                message: "Do you really want to proceed with the user delete?",
                 closable: false,
-                buttons: [{
-                    id: 'btn-yes',
-                    label: 'Yes',
-                    cssClass: 'btn-danger',
-                    action: function(dialogRef){
-                        $.ajax({
-                            url: "../restaurantManagement/deleteUser",
-                            data:{userId : handleEvents.userDetailsFromTableRow[5]},
-                            type: 'POST',
-                            success: function(response){
-                                if(response.status == true){
-                                    //Loading existing user details data to the Data table
-                                    ajaxCalls.userDetailsDataTableReload();
-                                    commonUtilities.show_stack_bottomleft("success", response.message);
-                                }else{
-                                    commonUtilities.show_stack_bottomleft("error", response.message);
+                buttons: [
+                    {
+                        id: 'btn-yes',
+                        label: 'Yes',
+                        cssClass: 'btn-danger',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: "../restaurantManagement/deleteUser",
+                                data: {userId: handleEvents.userDetailsFromTableRow[5]},
+                                type: 'POST',
+                                success: function (response) {
+                                    if (response.status == true) {
+                                        //Loading existing user details data to the Data table
+                                        ajaxCalls.userDetailsDataTableReload();
+                                        commonUtilities.show_stack_bottomleft("success", response.message);
+                                    } else {
+                                        commonUtilities.show_stack_bottomleft("error", response.message);
+                                    }
+                                    dialogRef.close();
+                                },
+                                error: function (response) {
+                                    commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
+                                    dialogRef.close();
                                 }
-                                dialogRef.close();
-                            },
-                            error: function(response){
-                                commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
-                                dialogRef.close();
-                            }
-                        });
-                    }
-                },
+                            });
+                        }
+                    },
                     {
                         id: 'btn-cancel',
                         label: 'Cancel',
                         cssClass: 'btn-primary',
-                        action: function(dialogRef){
+                        action: function (dialogRef) {
                             dialogRef.close();
                         }
-                    }]
+                    }
+                ]
             });
 
-        } );
+        });
     },
 
     //function to shoe user management home page
-    showExistingUserDetails : function(){
+    showExistingUserDetails: function () {
         $("#existingUserDetails").show();
         $("#newUserCreation").hide();
         $("#editUserDetails").hide();
     },
 
     //before update, collect the updated values
-    userUpdateInformationMap    :   function(){
-        handleEvents.userUpdateDetailsMap    =   {};
+    userUpdateInformationMap: function () {
+        handleEvents.userUpdateDetailsMap = {};
 
-        handleEvents.userUpdateDetailsMap.userId        =   handleEvents.userDetailsFromTableRow[5];
-        handleEvents.userUpdateDetailsMap.firstName     =   $("#currentFirstName").val();
-        handleEvents.userUpdateDetailsMap.lastName      =   $("#currentLastName").val();
-        handleEvents.userUpdateDetailsMap.contactNumber =   $("#currentContactNumber").val();
+        handleEvents.userUpdateDetailsMap.userId = handleEvents.userDetailsFromTableRow[5];
+        handleEvents.userUpdateDetailsMap.firstName = $("#currentFirstName").val();
+        handleEvents.userUpdateDetailsMap.lastName = $("#currentLastName").val();
+        handleEvents.userUpdateDetailsMap.contactNumber = $("#currentContactNumber").val();
 
-        if(handleEvents.passwordEditFlag == true && ($("#newPassword").val() != "")){
-            handleEvents.userUpdateDetailsMap.password =   $("#newPassword").val();
-        }else{
-            handleEvents.userUpdateDetailsMap.password  =   "";
+        if (handleEvents.passwordEditFlag == true && ($("#newPassword").val() != "")) {
+            handleEvents.userUpdateDetailsMap.password = $("#newPassword").val();
+        } else {
+            handleEvents.userUpdateDetailsMap.password = "";
         }
 
-        if($("#selectNewBranch").val() == "-- Select Branch --"){
+        if ($("#selectNewBranch").val() == "-- Select Branch --") {
             handleEvents.userUpdateDetailsMap.branchName = "";
-        }else{
+        } else {
             handleEvents.userUpdateDetailsMap.branchName = $("#selectNewBranch").val();
         }
     },
@@ -852,10 +854,10 @@ var handleEvents = {
 
     //    START : Menu Management view handler
 
-    menuSubmitUrl   :   "",
-    menuDetailsFromTableRow :   "",
-    menuId  : "",
-    menuManagementView : function(){
+    menuSubmitUrl: "",
+    menuDetailsFromTableRow: "",
+    menuId: "",
+    menuManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#menuManagementView").addClass('active');
@@ -865,7 +867,7 @@ var handleEvents = {
 
         ajaxCalls.menuDetailsDataTableReload();
 
-        $("#addNewMenu").click(function(){
+        $("#addNewMenu").click(function () {
             $("#existingMenuDetails").hide();
             $("#menuHandling").show();
 
@@ -873,14 +875,14 @@ var handleEvents = {
 
             //change the submit button value
             $("#menuSubmit").val("Submit");
-            handleEvents.menuSubmitUrl  =   "../restaurantManagement/newMenu"
+            handleEvents.menuSubmitUrl = "../restaurantManagement/newMenu"
         });
 
-        $("#menuSubmit").click(function(){
+        $("#menuSubmit").click(function () {
             validateForms.validateMenuOperation();
         });
 
-        $("#cancelButton").click(function(){
+        $("#cancelButton").click(function () {
             handleEvents.showExistingMenuDetails();
             commonUtilities.removeValidationClass();
         });
@@ -896,65 +898,67 @@ var handleEvents = {
             //change the submit button value
             $("#menuSubmit").val("Update");
 
-            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row($(this).parents('tr')).data();
             //pre populate branch details in the input field
             $("#menuName").val(handleEvents.menuDetailsFromTableRow[0]);
-            handleEvents.menuId =   handleEvents.menuDetailsFromTableRow[1];
+            handleEvents.menuId = handleEvents.menuDetailsFromTableRow[1];
 
-            handleEvents.menuSubmitUrl  =   "../restaurantManagement/updateMenu"
+            handleEvents.menuSubmitUrl = "../restaurantManagement/updateMenu"
 
-        } );
+        });
 
         //Function for handling delete button click event
         $('body').on('click', '#menuDataTable tbody tr #menuDelete', function () {
 
-            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.menuDetailsFromTableRow = ajaxCalls.menuDetailsDataTable.row($(this).parents('tr')).data();
 
             BootstrapDialog.show({
-                title:'Delete Menu',
+                title: 'Delete Menu',
                 type: BootstrapDialog.TYPE_DANGER,
-                message:"Do you really want to proceed with the menu delete?",
+                message: "Do you really want to proceed with the menu delete?",
                 closable: false,
-                buttons: [{
-                    id: 'btn-yes',
-                    label: 'Yes',
-                    cssClass: 'btn-danger',
-                    action: function(dialogRef){
-                        $.ajax({
-                            url: "../restaurantManagement/deleteMenu",
-                            data:{menuId : handleEvents.menuDetailsFromTableRow[1]},
-                            type: 'POST',
-                            success: function(response){
-                                if(response.status == true){
-                                    //Loading existing user details data to the Data table
-                                    ajaxCalls.menuDetailsDataTableReload();
-                                    commonUtilities.show_stack_bottomleft("success", response.message);
-                                }else{
-                                    commonUtilities.show_stack_bottomleft("error", response.message);
+                buttons: [
+                    {
+                        id: 'btn-yes',
+                        label: 'Yes',
+                        cssClass: 'btn-danger',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: "../restaurantManagement/deleteMenu",
+                                data: {menuId: handleEvents.menuDetailsFromTableRow[1]},
+                                type: 'POST',
+                                success: function (response) {
+                                    if (response.status == true) {
+                                        //Loading existing user details data to the Data table
+                                        ajaxCalls.menuDetailsDataTableReload();
+                                        commonUtilities.show_stack_bottomleft("success", response.message);
+                                    } else {
+                                        commonUtilities.show_stack_bottomleft("error", response.message);
+                                    }
+                                    dialogRef.close();
+                                },
+                                error: function (response) {
+                                    commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
+                                    dialogRef.close();
                                 }
-                                dialogRef.close();
-                            },
-                            error: function(response){
-                                commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
-                                dialogRef.close();
-                            }
-                        });
-                    }
-                },
+                            });
+                        }
+                    },
                     {
                         id: 'btn-cancel',
                         label: 'Cancel',
                         cssClass: 'btn-primary',
-                        action: function(dialogRef){
+                        action: function (dialogRef) {
                             dialogRef.close();
                         }
-                    }]
+                    }
+                ]
             });
 
-        } );
+        });
     },
 
-    showExistingMenuDetails : function(){
+    showExistingMenuDetails: function () {
         $("#existingMenuDetails").show();
         $("#menuHandling").hide();
     },
@@ -963,10 +967,10 @@ var handleEvents = {
 
     //    START : Branch Wise Menu Management view handler
 
-    selectedBranch  :   "",
-    branchMenuDetailsFromTableRow :   "",
+    selectedBranch: "",
+    branchMenuDetailsFromTableRow: "",
     updatedMenuPrice: 0,
-    branchWiseMenuManagementView : function(){
+    branchWiseMenuManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#menuManagementView").addClass('active');
@@ -977,13 +981,13 @@ var handleEvents = {
 
         $("#branchMenuDetailsTable").hide();
 
-        $("#submitBranchChoice").click(function(){
+        $("#submitBranchChoice").click(function () {
             handleEvents.selectedBranch = $("#branchOptionProvider").val();
 
-            if(handleEvents.selectedBranch == "-- Select Branch --"){
+            if (handleEvents.selectedBranch == "-- Select Branch --") {
                 BootstrapDialog.alert("Please select branch");
                 $("#branchMenuDetailsTable").hide();
-            }else{
+            } else {
                 show.fetchBranchWiseMenuInformation();
             }
         });
@@ -991,19 +995,19 @@ var handleEvents = {
         //Function for handling update button click event
         $('body').on('click', '#branchWiseMenuDataTable tbody tr #priceUpdate', function () {
             $("#invalidMessage").html("");
-            handleEvents.branchMenuDetailsFromTableRow = ajaxCalls.branchWiseMenuDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.branchMenuDetailsFromTableRow = ajaxCalls.branchWiseMenuDetailsDataTable.row($(this).parents('tr')).data();
             $("#updateMenuPriceModal").modal('show');
             $("#menuPrice").val(handleEvents.branchMenuDetailsFromTableRow[1]);
 
 
-        } );
+        });
 
-        $("#confirmPriceUpdate").click(function(){
-            handleEvents.updatedMenuPrice   =   $("#menuPrice").val();
+        $("#confirmPriceUpdate").click(function () {
+            handleEvents.updatedMenuPrice = $("#menuPrice").val();
 
-            if(handleEvents.updatedMenuPrice  == "" ){
+            if (handleEvents.updatedMenuPrice == "") {
                 $("#invalidMessage").html("Please enter a valid price");
-            }else{
+            } else {
                 ajaxCalls.updateMenuPrice();
             }
         });
@@ -1012,10 +1016,10 @@ var handleEvents = {
 
 
     //    START : Grocery Management view handler
-    grocerySubmitUrl    :   "",
-    groceryId   : "",
-    groceryDetailsFromTableRow : "",
-    groceryManagementView : function(){
+    grocerySubmitUrl: "",
+    groceryId: "",
+    groceryDetailsFromTableRow: "",
+    groceryManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#groceryManagementView").addClass('active');
@@ -1024,7 +1028,7 @@ var handleEvents = {
         handleEvents.showExistingGroceryDetails();
         ajaxCalls.groceryDetailsDataTableReload();
 
-        $("#addNewGrocery").click(function(){
+        $("#addNewGrocery").click(function () {
             $("#existingGroceryDetails").hide();
             $("#groceryHandling").show();
 
@@ -1032,14 +1036,14 @@ var handleEvents = {
 
             //change the submit button value
             $("#grocerySubmit").val("Submit");
-            handleEvents.grocerySubmitUrl  =   "../restaurantManagement/newGrocery"
+            handleEvents.grocerySubmitUrl = "../restaurantManagement/newGrocery"
         });
 
-        $("#grocerySubmit").click(function(){
+        $("#grocerySubmit").click(function () {
             validateForms.validateGroceryOperation();
         });
 
-        $("#cancelButton").click(function(){
+        $("#cancelButton").click(function () {
             handleEvents.showExistingGroceryDetails();
             commonUtilities.removeValidationClass();
         });
@@ -1055,64 +1059,66 @@ var handleEvents = {
             //change the submit button value
             $("#grocerySubmit").val("Update");
 
-            handleEvents.groceryDetailsFromTableRow = ajaxCalls.groceryDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.groceryDetailsFromTableRow = ajaxCalls.groceryDetailsDataTable.row($(this).parents('tr')).data();
             //pre populate branch details in the input field
             $("#groceryName").val(handleEvents.groceryDetailsFromTableRow[0]);
-            handleEvents.groceryId =   handleEvents.groceryDetailsFromTableRow[1];
-            handleEvents.grocerySubmitUrl  =   "../restaurantManagement/updateGrocery"
-        } );
+            handleEvents.groceryId = handleEvents.groceryDetailsFromTableRow[1];
+            handleEvents.grocerySubmitUrl = "../restaurantManagement/updateGrocery"
+        });
 
         //Function for handling delete button click event
         $('body').on('click', '#groceryDataTable tbody tr #groceryDelete', function () {
 
-            handleEvents.groceryDetailsFromTableRow = ajaxCalls.groceryDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.groceryDetailsFromTableRow = ajaxCalls.groceryDetailsDataTable.row($(this).parents('tr')).data();
 
             BootstrapDialog.show({
-                title:'Delete Grocery',
+                title: 'Delete Grocery',
                 type: BootstrapDialog.TYPE_DANGER,
-                message:"Do you really want to proceed with the grocery delete?",
+                message: "Do you really want to proceed with the grocery delete?",
                 closable: false,
-                buttons: [{
-                    id: 'btn-yes',
-                    label: 'Yes',
-                    cssClass: 'btn-danger',
-                    action: function(dialogRef){
-                        $.ajax({
-                            url: "../restaurantManagement/deleteGrocery",
-                            data:{groceryId : handleEvents.groceryDetailsFromTableRow[1]},
-                            type: 'POST',
-                            success: function(response){
-                                if(response.status == true){
-                                    //Loading existing user details data to the Data table
-                                    ajaxCalls.groceryDetailsDataTableReload();
-                                    commonUtilities.show_stack_bottomleft("success", response.message);
-                                }else{
-                                    commonUtilities.show_stack_bottomleft("error", response.message);
+                buttons: [
+                    {
+                        id: 'btn-yes',
+                        label: 'Yes',
+                        cssClass: 'btn-danger',
+                        action: function (dialogRef) {
+                            $.ajax({
+                                url: "../restaurantManagement/deleteGrocery",
+                                data: {groceryId: handleEvents.groceryDetailsFromTableRow[1]},
+                                type: 'POST',
+                                success: function (response) {
+                                    if (response.status == true) {
+                                        //Loading existing user details data to the Data table
+                                        ajaxCalls.groceryDetailsDataTableReload();
+                                        commonUtilities.show_stack_bottomleft("success", response.message);
+                                    } else {
+                                        commonUtilities.show_stack_bottomleft("error", response.message);
+                                    }
+                                    dialogRef.close();
+                                },
+                                error: function (response) {
+                                    commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
+                                    dialogRef.close();
                                 }
-                                dialogRef.close();
-                            },
-                            error: function(response){
-                                commonUtilities.show_stack_bottomleft("error", "Error in deleting user.Please try after some time.");
-                                dialogRef.close();
-                            }
-                        });
-                    }
-                },
+                            });
+                        }
+                    },
                     {
                         id: 'btn-cancel',
                         label: 'Cancel',
                         cssClass: 'btn-primary',
-                        action: function(dialogRef){
+                        action: function (dialogRef) {
                             dialogRef.close();
                         }
-                    }]
+                    }
+                ]
             });
 
-        } );
+        });
 
     },
 
-    showExistingGroceryDetails : function(){
+    showExistingGroceryDetails: function () {
         $("#existingGroceryDetails").show();
         $("#groceryHandling").hide();
     },
@@ -1121,7 +1127,7 @@ var handleEvents = {
 
 
     //    START : BranchWise Grocery Management view handler
-    branchWiseGroceryManagementView : function(){
+    branchWiseGroceryManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#groceryManagementView").addClass('active');
@@ -1132,13 +1138,13 @@ var handleEvents = {
 
         $("#branchWiseGroceryDetailsTable").hide();
 
-        $("#submitBranchChoice").click(function(){
+        $("#submitBranchChoice").click(function () {
             handleEvents.selectedBranch = $("#branchOptionProvider").val();
 
-            if(handleEvents.selectedBranch == "-- Select Branch --"){
+            if (handleEvents.selectedBranch == "-- Select Branch --") {
                 BootstrapDialog.alert("Please select branch");
                 $("#branchWiseGroceryDetailsTable").hide();
-            }else{
+            } else {
                 show.fetchBranchWiseGroceryInformation();
             }
         });
@@ -1146,19 +1152,19 @@ var handleEvents = {
         //Function for handling update button click event
         $('body').on('click', '#branchWiseMenuDataTable tbody tr #priceUpdate', function () {
             $("#invalidMessage").html("");
-            handleEvents.branchMenuDetailsFromTableRow = ajaxCalls.branchWiseMenuDetailsDataTable.row( $(this).parents('tr') ).data();
+            handleEvents.branchMenuDetailsFromTableRow = ajaxCalls.branchWiseMenuDetailsDataTable.row($(this).parents('tr')).data();
             $("#updateMenuPriceModal").modal('show');
             $("#menuPrice").val(handleEvents.branchMenuDetailsFromTableRow[1]);
 
 
-        } );
+        });
 
-        $("#confirmPriceUpdate").click(function(){
-            handleEvents.updatedMenuPrice   =   $("#menuPrice").val();
+        $("#confirmPriceUpdate").click(function () {
+            handleEvents.updatedMenuPrice = $("#menuPrice").val();
 
-            if(handleEvents.updatedMenuPrice  == "" ){
+            if (handleEvents.updatedMenuPrice == "") {
                 $("#invalidMessage").html("Please enter a valid price");
-            }else{
+            } else {
                 ajaxCalls.updateMenuPrice();
             }
         });
@@ -1166,7 +1172,7 @@ var handleEvents = {
     //    START : BranchWise Grocery Management view handler
 
     //    START : Admin Grocery Management view handler
-    adminGroceryManagementView : function(){
+    adminGroceryManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#adminGroceryManagementView").addClass('active');
@@ -1175,9 +1181,10 @@ var handleEvents = {
 
         ajaxCalls.adminViewGroceryDetailsTableReload();
 
-        $("#addGroceryToStock").click(function(){
+        $("#addGroceryToStock").click(function () {
             $("#addGroceryView").show();
             $("#deductGroceryView").hide();
+
             commonUtilities.clearForm("addingGroceryForm");
             show.getListOfGroceriesForAutoComplete("addGroceryName");
         });
@@ -1187,18 +1194,18 @@ var handleEvents = {
             endDate: '+0d'
         });
 
-        $("#submitGrocery").click(function(){
+        $("#submitGrocery").click(function () {
             validateForms.validateGroceryAddOperation();
         });
 
-        $("#cancelGroceryAddition").click(function(){
+        $("#cancelGroceryAddition").click(function () {
             console.log("----------");
             handleEvents.showGroceryStockDetails();
             commonUtilities.removeValidationClass();
         });
 
 
-        $("#deductGroceryFromStock").click(function(){
+        $("#deductGroceryFromStock").click(function () {
             $("#deductGroceryView").show();
             $("#addGroceryView").hide();
             commonUtilities.clearForm("deductGroceryForm");
@@ -1206,14 +1213,14 @@ var handleEvents = {
             show.getListOfGroceriesForAutoComplete("deductGroceryName");
         });
 
-        $('#deductQuantity').on('keyup keydown', function(e){
+        $('#deductQuantity').on('keyup keydown', function (e) {
             if ($(this).val() > show.availableQuantity
                 && e.keyCode != 46
                 && e.keyCode != 8
                 ) {
                 e.preventDefault();
                 $(this).val(show.availableQuantity);
-                commonUtilities.show_stack_bottomleft("info", "Only "+show.availableQuantity+" quantity available");
+                commonUtilities.show_stack_bottomleft("info", "Only " + show.availableQuantity + " quantity available");
             }
         });
 
@@ -1222,28 +1229,73 @@ var handleEvents = {
             endDate: '+0d'
         });
 
-        $("#deductGrocery").on('click',function(){
+        $("#deductGrocery").on('click', function () {
             validateForms.validateGroceryDeductOperation();
         });
 
-        $("#cancelGroceryDeduction").click(function(){
+        $("#cancelGroceryDeduction").click(function () {
             handleEvents.showGroceryStockDetails();
             commonUtilities.removeValidationClass();
         });
     },
 
-    showGroceryStockDetails : function(){
+    showGroceryStockDetails: function () {
         $("#adminGroceryDetailsTable").show();
         $("#addGroceryView").hide();
         $("#deductGroceryView").hide();
-    }
+    },
     //    START : Admin Grocery Management view handler
+
+    //    START : Billing Management view handler
+
+    billingManagementView: function () {
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#billingView").addClass('active');
+
+        $("#addBillDate").datepicker("setDate", new Date());
+
+        handleEvents.addingMenuToBill();
+
+        show.getListOfMenusForAutoComplete();
+
+        $("#addMoreItem").click(function(){
+            show.menuAutoComplete("billMenuName");
+        });
+
+    },
+
+    addingMenuToBill: function () {
+
+        var max_fields      = 50; //maximum input boxes allowed
+        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_field_button"); //Add button ID
+
+        var x = 1; //initlal text box count
+        $(add_button).click(function(e){ //on add input button click
+            e.preventDefault();
+            if(x < max_fields){ //max input box allowed
+                x++; //text box increment
+                var billMenuNameId = "billMenuName_"+x;
+                console.log("billMenuNameId :"+billMenuNameId);
+                $(wrapper).append('<div><input id=billMenuNameId class="billMenuName leftMargin" type="text" name="menuName[]"><input id="billMenuPrice_"+x class="leftMargin" type="number" name="menuPrice[]"><input id="quantity_"+x class="leftMargin" type="number" name="quantity[]"><input id="menuTotalPrice_"+x class="leftMargin" type="number" name="menuTotalPrice[]"><a href="#" class="remove_field">Remove</a></div>');
+            }
+        });
+
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+        })
+        //    START : Billing Management view handler
+    }
 };
 
 var show = {
     listOfGroceries     : [],
+    listOfMenus         : [],
     selectedGroceryName : "",
+    selectedMenuName : "",
     availableQuantity   : 0,
+    menuPrice   : 0,
 
     getListOfGroceriesForAutoComplete : function(fieldId){
         $.ajax({
@@ -1315,8 +1367,51 @@ var show = {
 
         $("#branchGroceryHeader").html(handleEvents.selectedBranch+" - Grocery Details");
         ajaxCalls.branchWiseGroceryDetailsTableReload();
-    }
+    },
 
+    getListOfMenusForAutoComplete : function(){
+
+        $.ajax({
+            url: "../restaurantManagement/getListOfMenusForAutoComplete",
+            type: 'GET',
+            success: function(menuList){
+                show.listOfMenus = menuList;
+                show.menuAutoComplete("billMenuName");
+            },
+            error: function(response){
+            }
+        });
+    },
+
+    menuAutoComplete :  function(fieldId){
+        $("."+fieldId).autocomplete({
+            source: show.listOfMenus,
+            autoFocus:true,
+            select: function (event, ui) {
+                show.selectedMenuName = ui.item.value;
+                show.getMenuPrice();
+            }
+        });
+    },
+
+    getMenuPrice :  function(){
+        $.ajax({
+            url: '../restaurantManagement/fetchMenuPrice',
+            type: 'POST',
+            data: {menuName : show.selectedMenuName},
+            success: function(response){
+                if(response.status == true){
+                    show.menuPrice  =   response.message;
+                    $(".billMenuPrice").val(show.menuPrice);
+                }else{
+                    commonUtilities.show_stack_bottomleft("error", response.message);
+                }
+            },
+            error: function(response){
+                commonUtilities.show_stack_bottomleft("error", "Please try again later");
+            }
+        });
+    }
 };
 
 var commonUtilities = {

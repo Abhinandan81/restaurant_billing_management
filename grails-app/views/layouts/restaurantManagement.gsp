@@ -220,6 +220,12 @@
         </a>
     </li>
 
+    <li id="billingView" class="treeview">
+        <a href="<%=request.getContextPath()%>/restaurantManagement/billing">
+            <i class="glyphicon glyphicon-list-alt"></i> <span>Billing</span>
+        </a>
+    </li>
+
 
          </ul>
         </section>

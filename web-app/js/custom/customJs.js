@@ -1248,6 +1248,7 @@ var handleEvents = {
 
     //    START : Billing Management view handler
 
+    currentMenuBillId : "",
     billingManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -1260,9 +1261,12 @@ var handleEvents = {
         show.getListOfMenusForAutoComplete();
 
         $("#addMoreItem").click(function(){
+            $('input').on("focus", function() {
+                handleEvents.currentMenuBillId = $(this).attr('id');
+            });
+
             show.menuAutoComplete("billMenuName");
         });
-
     },
 
     addingMenuToBill: function () {
@@ -1276,9 +1280,12 @@ var handleEvents = {
             e.preventDefault();
             if(x < max_fields){ //max input box allowed
                 x++; //text box increment
-                var billMenuNameId = "billMenuName_"+x;
-                console.log("billMenuNameId :"+billMenuNameId);
-                $(wrapper).append('<div><input id=billMenuNameId class="billMenuName leftMargin" type="text" name="menuName[]"><input id="billMenuPrice_"+x class="leftMargin" type="number" name="menuPrice[]"><input id="quantity_"+x class="leftMargin" type="number" name="quantity[]"><input id="menuTotalPrice_"+x class="leftMargin" type="number" name="menuTotalPrice[]"><a href="#" class="remove_field">Remove</a></div>');
+
+                $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName[]"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice[]" readonly="true"><input id="tempQuantity" class="leftMargin" type="number" name="quantity[]"><input id="tempPrice" class="leftMargin" type="number" name="menuTotalPrice[]" readonly="true"><a href="#" class="remove_field">Remove</a></div>');
+                $("#tempMenuName").attr('id',"billMenuName_"+x);
+                $("#tempPrice").attr('id',"billMenuPrice_"+x);
+                $("#tempQuantity").attr('id',"quantity_"+x);
+                $("#tempPrice").attr('id',"menuTotalPrice_"+x);
             }
         });
 
@@ -1402,7 +1409,12 @@ var show = {
             success: function(response){
                 if(response.status == true){
                     show.menuPrice  =   response.message;
-                    $(".billMenuPrice").val(show.menuPrice);
+                    if(handleEvents.currentMenuBillId == ""){
+                        $("#billMenuPrice_1").val(show.menuPrice);
+                    }else{
+                        var splitedString = handleEvents.currentMenuBillId.split("_");
+                        $("#billMenuPrice_"+splitedString[1]).val(show.menuPrice);
+                    }
                 }else{
                     commonUtilities.show_stack_bottomleft("error", response.message);
                 }

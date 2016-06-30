@@ -1279,8 +1279,14 @@ var handleEvents = {
         $('input.billMenuQuantity').on("change", function() {
             handleEvents.currentMenuQuantity = $(this).attr('id');
 
+            var splittedString = handleEvents.currentMenuQuantity.split("_");
+
             if($(this).val() == ""){
                 $("#"+handleEvents.currentMenuQuantity).val(1);
+
+                show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
+            }else{
+                show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
             }
         });
 
@@ -1299,9 +1305,17 @@ var handleEvents = {
             $('input.billMenuQuantity').on("change", function() {
                 handleEvents.currentMenuQuantity = $(this).attr('id');
 
-                if($(this).val() == ""){
-                    $("#"+handleEvents.currentMenuQuantity).val(1);
-                }
+                var splittedString = handleEvents.currentMenuQuantity.split("_");
+
+                    if($(this).val() == ""){
+                        $("#"+handleEvents.currentMenuQuantity).val(1);
+                        console.log("empty---");
+                        show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
+                    }else{
+                        console.log("not empty---");
+
+                        show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
+                    }
             });
 
         });
@@ -1333,7 +1347,7 @@ var handleEvents = {
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
 
-                    $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice" readonly="true"><input id="tempQuantity" class="billMenuQuantity leftMargin" type="number" name="quantity"><input id="tempPrice" class="leftMargin" type="number" name="menuTotalPrice" readonly="true"><a href="#" class="remove_field">Remove</a></div>');
+                    $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice" readonly="true"><input id="tempQuantity" class="billMenuQuantity leftMargin" type="number" name="quantity" min="1"><input id="tempPrice" class="leftMargin" type="number" name="menuTotalPrice" readonly="true"><a href="#" class="remove_field">Remove</a></div>');
                     $("#tempMenuName").attr('id', "billMenuName_" + x);
                     $("#tempPrice").attr('id', "billMenuPrice_" + x);
                     $("#tempQuantity").attr('id', "quantity_" + x);
@@ -1468,11 +1482,16 @@ var show = {
                         $("#billMenuPrice_1").val(show.menuPrice);
                         $("#quantity_1").val(1);
 
+                        //update total price for menu according to quantity
+                        show.updateTotalPriceForMenu("billMenuPrice_1", "quantity_1", "menuTotalPrice_1");
                     }else{
                         var splittedString = handleEvents.currentMenuId.split("_");
 
                         $("#billMenuPrice_"+splittedString[1]).val(show.menuPrice);
                         $("#quantity_"+splittedString[1]).val(1);
+
+                        //update total price for menu according to quantity
+                        show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
                     }
                 }else{
                     commonUtilities.show_stack_bottomleft("error", response.message);
@@ -1482,6 +1501,19 @@ var show = {
                 commonUtilities.show_stack_bottomleft("error", "Please try again later");
             }
         });
+    },
+
+    //updating total menu quantity price
+    updateTotalPriceForMenu : function(menuPriceField, menuQuantityField, totalMenuPrice){
+        var menuPrice   =   $("#"+menuPriceField).val();
+        var menuQuantity   =   $("#"+menuQuantityField).val();
+
+        var menuTotalPrice = menuPrice * menuQuantity;
+
+        console.log("price:"+menuPriceField);
+
+
+        $("#"+totalMenuPrice).val(menuTotalPrice);
     }
 };
 

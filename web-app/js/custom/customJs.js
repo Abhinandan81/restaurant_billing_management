@@ -1283,12 +1283,12 @@ var handleEvents = {
 
             if($(this).val() == ""){
                 $("#"+handleEvents.currentMenuQuantity).val(1);
-
                 show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
             }else{
                 show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
             }
         });
+
 
         $("#addMoreItem").click(function(){
 
@@ -1332,7 +1332,7 @@ var handleEvents = {
 
         $(add_button).click(function(e){ //on add input button click
 
-            $('input[name="menuName"]').each(function(){
+            $('input[name="menuName[]"]').each(function(){
                 if($(this).val() == '') {
                     detailsFilledFlag = 0;
                     BootstrapDialog.alert("Please fill the empty entries.");
@@ -1347,7 +1347,7 @@ var handleEvents = {
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
 
-                    $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice" readonly="true"><input id="tempQuantity" class="billMenuQuantity leftMargin" type="number" name="quantity" min="1"><input id="tempPrice" class="leftMargin" type="number" name="menuTotalPrice" readonly="true"><a href="#" class="remove_field">Remove</a></div>');
+                    $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName[]"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice[]" readonly="true"><input id="tempQuantity" class="billMenuQuantity leftMargin" type="number" name="quantity[]" min="1"><input id="tempPrice" class="billMenuTotalPrice leftMargin" type="number" name="menuTotalPrice[]" readonly="true"><button type="button" class="remove_field">Remove</button></div>');
                     $("#tempMenuName").attr('id', "billMenuName_" + x);
                     $("#tempPrice").attr('id', "billMenuPrice_" + x);
                     $("#tempQuantity").attr('id', "quantity_" + x);
@@ -1360,7 +1360,10 @@ var handleEvents = {
 
         $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
             e.preventDefault(); $(this).parent('div').remove(); x--;
-        })
+
+            //update total bill amount
+            show.calculateAndUpdateTotalBillAmount();
+        });
         //    START : Billing Management view handler
     }
 };
@@ -1508,12 +1511,21 @@ var show = {
         var menuPrice   =   $("#"+menuPriceField).val();
         var menuQuantity   =   $("#"+menuQuantityField).val();
 
-        var menuTotalPrice = menuPrice * menuQuantity;
-
-        console.log("price:"+menuPriceField);
-
-
+        var menuTotalPrice = 0;
+        menuTotalPrice  =   menuPrice * menuQuantity;
         $("#"+totalMenuPrice).val(menuTotalPrice);
+        show.calculateAndUpdateTotalBillAmount();
+    },
+
+    //calculating total bill amount
+    calculateAndUpdateTotalBillAmount :  function(){
+        var totalBillAmount  =   0;
+
+        $("input.billMenuTotalPrice").each(function(){
+            totalBillAmount = totalBillAmount + parseInt($(this).val(), 10);
+        });
+
+        $("#totalBillAmount").val(totalBillAmount);
     }
 };
 

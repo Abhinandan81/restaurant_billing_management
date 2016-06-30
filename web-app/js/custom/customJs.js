@@ -211,6 +211,18 @@ var deleteData = {
 
 var validateForms = {
 
+    validatingMenuQuantity : function(){
+        console.log("quantity --");
+
+        $('.billMenuQuantity').on('keyup keydown', function (e) {
+            var code = e.keyCode || e.which;
+            if (this.value.length === 0 && code === 96) {
+                e.preventDefault();
+                $(this).val(1);
+            }
+        });
+    },
+
 //    branch modification form validator
     validateBranchCreation: function () {
         $("#branchModificationForm").validate({
@@ -1248,7 +1260,8 @@ var handleEvents = {
 
     //    START : Billing Management view handler
 
-    currentMenuBillId : "",
+    currentMenuId : "",
+    currentMenuQuantity : "",
     billingManagementView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -1260,12 +1273,37 @@ var handleEvents = {
 
         show.getListOfMenusForAutoComplete();
 
+        //preventing user from entering the 0 as a quantity
+        validateForms.validatingMenuQuantity();
+
+        $('input.billMenuQuantity').on("change", function() {
+            handleEvents.currentMenuQuantity = $(this).attr('id');
+
+            if($(this).val() == ""){
+                $("#"+handleEvents.currentMenuQuantity).val(1);
+            }
+        });
+
         $("#addMoreItem").click(function(){
-            $('input').on("focus", function() {
-                handleEvents.currentMenuBillId = $(this).attr('id');
+
+            //fetching menu names
+            show.menuAutoComplete("billMenuName");
+
+            $('input.billMenuName').on("focus", function() {
+                handleEvents.currentMenuId = $(this).attr('id');
             });
 
-            show.menuAutoComplete("billMenuName");
+            //preventing user from entering the 0 as a quantity
+            validateForms.validatingMenuQuantity();
+
+            $('input.billMenuQuantity').on("change", function() {
+                handleEvents.currentMenuQuantity = $(this).attr('id');
+
+                if($(this).val() == ""){
+                    $("#"+handleEvents.currentMenuQuantity).val(1);
+                }
+            });
+
         });
     },
 
@@ -1276,16 +1314,33 @@ var handleEvents = {
         var add_button      = $(".add_field_button"); //Add button ID
 
         var x = 1; //initlal text box count
-        $(add_button).click(function(e){ //on add input button click
-            e.preventDefault();
-            if(x < max_fields){ //max input box allowed
-                x++; //text box increment
+        var detailsFilledFlag = 0;
 
-                $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName[]"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice[]" readonly="true"><input id="tempQuantity" class="leftMargin" type="number" name="quantity[]"><input id="tempPrice" class="leftMargin" type="number" name="menuTotalPrice[]" readonly="true"><a href="#" class="remove_field">Remove</a></div>');
-                $("#tempMenuName").attr('id',"billMenuName_"+x);
-                $("#tempPrice").attr('id',"billMenuPrice_"+x);
-                $("#tempQuantity").attr('id',"quantity_"+x);
-                $("#tempPrice").attr('id',"menuTotalPrice_"+x);
+        $(add_button).click(function(e){ //on add input button click
+
+            $('input[name="menuName"]').each(function(){
+                if($(this).val() == '') {
+                    detailsFilledFlag = 0;
+                    BootstrapDialog.alert("Please fill the empty entries.");
+                } else{
+                    detailsFilledFlag = 1;
+
+                }
+            });
+
+            if(detailsFilledFlag != 0) {
+                e.preventDefault();
+                if (x < max_fields) { //max input box allowed
+                    x++; //text box increment
+
+                    $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice" readonly="true"><input id="tempQuantity" class="billMenuQuantity leftMargin" type="number" name="quantity"><input id="tempPrice" class="leftMargin" type="number" name="menuTotalPrice" readonly="true"><a href="#" class="remove_field">Remove</a></div>');
+                    $("#tempMenuName").attr('id', "billMenuName_" + x);
+                    $("#tempPrice").attr('id', "billMenuPrice_" + x);
+                    $("#tempQuantity").attr('id', "quantity_" + x);
+                    $("#tempPrice").attr('id', "menuTotalPrice_" + x);
+                }
+            }else{
+                e.preventDefault();
             }
         });
 
@@ -1409,11 +1464,15 @@ var show = {
             success: function(response){
                 if(response.status == true){
                     show.menuPrice  =   response.message;
-                    if(handleEvents.currentMenuBillId == ""){
+                    if(handleEvents.currentMenuId == ""){
                         $("#billMenuPrice_1").val(show.menuPrice);
+                        $("#quantity_1").val(1);
+
                     }else{
-                        var splitedString = handleEvents.currentMenuBillId.split("_");
-                        $("#billMenuPrice_"+splitedString[1]).val(show.menuPrice);
+                        var splittedString = handleEvents.currentMenuId.split("_");
+
+                        $("#billMenuPrice_"+splittedString[1]).val(show.menuPrice);
+                        $("#quantity_"+splittedString[1]).val(1);
                     }
                 }else{
                     commonUtilities.show_stack_bottomleft("error", response.message);

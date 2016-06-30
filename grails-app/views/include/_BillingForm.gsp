@@ -20,10 +20,10 @@
             <div class="row">
                     <div class="input_fields_wrap">
 
-                        <input id="billMenuName_1" class="billMenuName" type="text" name="menuName[]">
-                        <input id="billMenuPrice_1" class="billMenuPrice" type="number" name="menuPrice[]" readonly="true">
-                        <input id="quantity_1" type="number" name="quantity[]">
-                        <input id="menuTotalPrice_1" type="number" name="menuTotalPrice[]" readonly="true">
+                        <input id="billMenuName_1" class="billMenuName" type="text" name="menuName">
+                        <input id="billMenuPrice_1" class="billMenuPrice" type="number" name="menuPrice" readonly="true">
+                        <input id="quantity_1" class="billMenuQuantity" type="number" name="quantity">
+                        <input id="menuTotalPrice_1" type="number" name="menuTotalPrice" readonly="true">
                         <button id="addMoreItem" class="add_field_button">Add More Fields</button>
                     </div>
             </div>

@@ -1290,7 +1290,7 @@ var handleEvents = {
         });
 
 
-        $("#addMoreItem").click(function(){
+        $("#add_field_button").click(function(){
 
             //fetching menu names
             show.menuAutoComplete("billMenuName");
@@ -1325,7 +1325,7 @@ var handleEvents = {
 
         var max_fields      = 50; //maximum input boxes allowed
         var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-        var add_button      = $(".add_field_button"); //Add button ID
+        var add_button      = $("#add_field_button"); //Add button ID
 
         var x = 1; //initlal text box count
         var detailsFilledFlag = 0;
@@ -1347,18 +1347,24 @@ var handleEvents = {
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
 
-                    $(wrapper).append('<div><input id="tempMenuName" class="billMenuName leftMargin" type="text" name="menuName[]"><input id="tempPrice" class="leftMargin" type="number" name="menuPrice[]" readonly="true"><input id="tempQuantity" class="billMenuQuantity leftMargin" type="number" name="quantity[]" min="1"><input id="tempPrice" class="billMenuTotalPrice leftMargin" type="number" name="menuTotalPrice[]" readonly="true"><button type="button" class="remove_field">Remove</button></div>');
+                    console.log("inside ---");
+                    $(wrapper).append('<div class="row col-md-12"><div class="col-md-2"><input id="tempMenuName" class="billMenuName" type="text" name="menuName[]" placeholder="Menu Name"></div>' +
+                        '<div class="col-md-2"><input id="tempPrice" class="billMenuPrice" type="number" name="menuPrice[]" readonly="true" placeholder="Price"></div>'+
+                        '<div class="col-md-2"><input id="tempQuantity" class="billMenuQuantity" type="number" name="quantity[]" min="1" placeholder="Quantity"></div>'+
+                        '<div class="col-md-2"><input id="tempMenuTotalPrice" class="billMenuTotalPrice" type="number" name="menuTotalPrice[]" readonly="true" placeholder="Total Price"></div>'+
+                        '<i id="remove_field" class = "glyphicon glyphicon-remove-circle text-danger dataTableAddActionSize"></i></div>');
+
                     $("#tempMenuName").attr('id', "billMenuName_" + x);
                     $("#tempPrice").attr('id', "billMenuPrice_" + x);
                     $("#tempQuantity").attr('id', "quantity_" + x);
-                    $("#tempPrice").attr('id', "menuTotalPrice_" + x);
+                    $("#tempMenuTotalPrice").attr('id', "menuTotalPrice_" + x);
                 }
             }else{
                 e.preventDefault();
             }
         });
 
-        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        $(wrapper).on("click","#remove_field", function(e){ //user click on remove text
             e.preventDefault(); $(this).parent('div').remove(); x--;
 
             //update total bill amount
@@ -1520,9 +1526,14 @@ var show = {
     //calculating total bill amount
     calculateAndUpdateTotalBillAmount :  function(){
         var totalBillAmount  =   0;
+        var menuAmount = 0;
 
         $("input.billMenuTotalPrice").each(function(){
-            totalBillAmount = totalBillAmount + parseInt($(this).val(), 10);
+            menuAmount = $(this).val();
+            if(menuAmount == ""){
+                menuAmount = 0;
+            }
+            totalBillAmount = totalBillAmount + parseInt(menuAmount, 10);
         });
 
         $("#totalBillAmount").val(totalBillAmount);

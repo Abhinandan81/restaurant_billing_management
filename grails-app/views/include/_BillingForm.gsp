@@ -24,9 +24,7 @@
                         <input id="billMenuPrice_1" class="billMenuPrice" type="number" name="menuPrice[]" readonly="true">
                         <input id="quantity_1" class="billMenuQuantity" type="number" name="quantity[]" min="1">
                         <input id="menuTotalPrice_1" class="billMenuTotalPrice" type="number" name="menuTotalPrice[]" readonly="true">
-                        <button id="addMoreItem" class="add_field_button">Add More Fields</button>
-                    </div>
-
+                        <i id="add_field_button" class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize" aria-hidden="true"></i>                    </div>
                 <div>
                     <input id="totalBillAmount" type="number" name="billTotalPrice" readonly="true">
                 </div>

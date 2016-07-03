@@ -1435,16 +1435,21 @@ var handleEvents = {
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
 
-                    $(wrapper).append('<div class="row col-md-12 dynamicAddition"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" placeholder="Menu Name"></div>' +
-                        '<div class="col-md-2"><span id="tempPrice" class="billMenuPrice" name="menuPrice[]"></span></div>'+
+                    $(wrapper).append('<div class="row dynamicAddition"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" autofocus></div>' +
+                        '<div class="col-md-1"><span id="tempPrice" class="billMenuPrice" name="menuPrice[]"></span></div>'+
                         '<div class="col-md-1"><input id="tempQuantity" class="billMenuQuantity inputBoxWidth" type="number" name="quantity[]" min="1" placeholder="Quantity"></div>'+
-                        '<div class="col-md-2"><span id="tempMenuTotalPrice" class="billMenuTotalPrice" name="menuTotalPrice[]"></span></div>'+
+                        '<div class="col-md-1"><span id="tempMenuTotalPrice" class="billMenuTotalPrice" name="menuTotalPrice[]"></span></div>'+
                         '<i id="remove_field" class = "glyphicon glyphicon-remove-circle text-danger dataTableAddActionSize"></i></div>');
 
                     $("#tempMenuName").attr('id', "billMenuName_" + x);
                     $("#tempPrice").attr('id', "billMenuPrice_" + x);
                     $("#tempQuantity").attr('id', "quantity_" + x);
                     $("#tempMenuTotalPrice").attr('id', "menuTotalPrice_" + x);
+
+                    //set focus
+                   /* var menuId = "billMenuName_"+x;
+                    console.log("menuId :"+menuId);
+                    $("#"+menuId).focus();*/
                 }
             }else{
                 e.preventDefault();

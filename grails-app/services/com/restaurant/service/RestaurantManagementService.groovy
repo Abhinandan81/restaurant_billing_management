@@ -7,6 +7,7 @@ import com.restaurant.domain.management.BranchMenu
 import com.restaurant.domain.management.Grocery
 import com.restaurant.domain.management.Menu
 import com.restaurant.domain.management.Restaurant
+import com.utils.ServiceContext
 import grails.transaction.Transactional
 
 @Transactional
@@ -641,7 +642,7 @@ class RestaurantManagementService {
 
     }
 
-    def getMenuPriceByBranchIdAndMenuId(String branchId, String menuId){
+    Map getMenuPriceByBranchIdAndMenuId(String branchId, String menuId){
         Map menuPriceDetails    =   [:]
         try {
             BranchMenu branchMenu   =   BranchMenu.findByBranchIdAndMenuId(branchId, menuId)
@@ -655,5 +656,18 @@ class RestaurantManagementService {
         }catch (Exception e){
             println "Error in getting menu price"
         }
+    }
+
+    Map persistBillDetails(ServiceContext sCtx, Map params){
+        Map persistBillDetailsMap   =   [:]
+        println "params:"+params
+
+        try {
+            persistBillDetailsMap << [status: true, message: "Bill generated successfully"]
+
+        }catch (Exception e){
+            println "Error in bill generation"+e.printStackTrace()
+        }
+
     }
 }

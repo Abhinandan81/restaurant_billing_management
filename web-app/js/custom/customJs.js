@@ -616,11 +616,8 @@ var validateForms = {
                     url     : '../restaurantManagement/persistBill',                                   //Path of the controller action
                     type    : 'POST',
                     data    : {
-                        menuNames       : JSON.stringify(handleEvents.menuNames),
-                        menuPrices      : JSON.stringify(handleEvents.menuPrice),
-                        menuQuantities  : JSON.stringify(handleEvents.menuQuantity),
-                        menuTotalPrices : JSON.stringify(handleEvents.menuTotalPrice),
-                        totalBillAmount : JSON.stringify(handleEvents.totalBillAmount)
+                        allBillMenuDetails : JSON.stringify(handleEvents.allBillMenuDetails),
+                        totalBillAmount : handleEvents.totalBillAmount
                     },
                     //on successful operation
                     success: function (response) {
@@ -1441,13 +1438,12 @@ var handleEvents = {
         //    START : Billing Management view handler
     },
 
-    menuNames : [],
-    menuPrice : [],
-    menuQuantity : [],
-    menuTotalPrice : [],
-    totalBillAmount : [],
+    allBillMenuDetails : [],
+    billMenuDetails : {},
+    totalBillAmount : 0,
     generateFinalBill : function(){
-        var count = 0;
+
+        handleEvents.allBillMenuDetails = [];
 
         $("input.billMenuName").each(function(){
             var menuName    =   $(this).val();
@@ -1460,11 +1456,21 @@ var handleEvents = {
             var menuTotalPriceId=   "menuTotalPrice_"+splittedString[1];
 
             if(menuName != ""){
-                handleEvents.menuNames[count]       = menuName;
+                handleEvents.billMenuDetails = {};
+
+                handleEvents.billMenuDetails.menuName   =   menuName;
+                handleEvents.billMenuDetails.menuPrice  =   $("#"+billMenuPriceId).text();
+                handleEvents.billMenuDetails.quantity   =   $("#"+quantityId).val();
+                handleEvents.billMenuDetails.menuTotalPrice   =   $("#"+menuTotalPriceId).text();
+
+                handleEvents.allBillMenuDetails.push(handleEvents.billMenuDetails);
+                console.log("handleEvents.allBillMenuDetails :"+handleEvents.allBillMenuDetails);
+
+               /* handleEvents.menuNames[count]       = menuName;
                 handleEvents.menuPrice[count]       = $("#"+billMenuPriceId).text();
                 handleEvents.menuQuantity[count]    = $("#"+quantityId).val();
                 handleEvents.menuTotalPrice[count]  = $("#"+menuTotalPriceId).text();
-                count ++;
+                count ++;*/
             }
         });
 

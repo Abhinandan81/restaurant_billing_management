@@ -352,6 +352,10 @@ class RestaurantManagementController {
         }
         render menuPriceDetails as JSON
     }
+
+    @Secured(['ROLE_ADMIN'])
+    def persistBill(){
+    }
     /*-------------------------- END    : Billing Management -------------------------*/
 
 }

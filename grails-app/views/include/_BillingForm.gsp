@@ -7,11 +7,13 @@
         <div class="col-md-2">
 
             <div id="addBillDate" class="input-group input-append date" data-date-format="dd/mm/yyyy">
-                <input type="text" class="form-control" id="billDate" name="billDate">
+                <input type="text" class="form-control" id="billDate" name="billDate" readonly="readonly">
                 <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
         </div>
     </div>
+
+    <hr>
 
     <div class="row form-group">
 

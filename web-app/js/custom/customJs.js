@@ -588,6 +588,7 @@ var validateForms = {
     },
 
     validateBill: function () {
+        handleEvents.generateFinalBill();
         $("#billingForm").validate({
             errorElement : 'div',
 
@@ -602,35 +603,30 @@ var validateForms = {
             },
 
             rules: {
-                menuName      :   {required: true},
-                menuPrice      :   {required: true},
-                quantity         :   {required: true},
-                menuTotalPrice   :   {required: true},
-                billTotalPrice   :   {required: true}
+                customerName      :   {required: true}
             },
 
             messages: {
-                menuName       :   "Please give branch name",
-                menuPrice      :   "Please give branch address",
-                quantity       :   "Please give contact number",
-                menuTotalPrice: "contact number should be of 10 digit"
+                customerName       :   "Please give customer name"
             },
             //after form validation
             submitHandler: function (form) {
+
                 $(form).ajaxSubmit({
-                    url: handleEvents.branchSubmitUrl,                                   //Path of the controller action
-                    type: 'POST',
-                    data : {branchId : handleEvents.branchId},
+                    url     : '../restaurantManagement/persistBill',                                   //Path of the controller action
+                    type    : 'POST',
+                    data    : {
+                        menuNames       : JSON.stringify(handleEvents.menuNames),
+                        menuPrices      : JSON.stringify(handleEvents.menuPrice),
+                        menuQuantities  : JSON.stringify(handleEvents.menuQuantity),
+                        menuTotalPrices : JSON.stringify(handleEvents.menuTotalPrice),
+                        totalBillAmount : JSON.stringify(handleEvents.totalBillAmount)
+                    },
                     //on successful operation
                     success: function (response) {
                         if(response.status == true){
-                            handleEvents.showBranchDetailsTable();
-                            commonUtilities.show_stack_bottomleft("success", response.message);
-                            //reload the branchDetailsDataTable
-                            ajaxCalls.branchDetailsTableReload();
-                            handleEvents.branchSubmitUrl = "";
+
                         }else{
-                            commonUtilities.show_stack_bottomleft("error", response.message);
                         }
                     },
                     error: function (response) {
@@ -1369,11 +1365,8 @@ var handleEvents = {
 
                     if($(this).val() == ""){
                         $("#"+handleEvents.currentMenuQuantity).val(1);
-                        console.log("empty---");
                         show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
                     }else{
-                        console.log("not empty---");
-
                         show.updateTotalPriceForMenu("billMenuPrice_"+splittedString[1], "quantity_"+splittedString[1], "menuTotalPrice_"+splittedString[1]);
                     }
             });
@@ -1381,7 +1374,18 @@ var handleEvents = {
         });
 
         $("#submitGrocery").click(function(){
-            validateForms.validateBranchCreation()
+            var menuName = ""
+            $("input.billMenuName").each(function(){
+                menuName = $(this).text();
+
+                if(menuName == ""){
+                }else{
+                    validateForms.validateBill();
+                }
+
+            });
+
+            validateForms.validateBill();
         });
     },
 
@@ -1435,6 +1439,36 @@ var handleEvents = {
             show.calculateAndUpdateTotalBillAmount();
         });
         //    START : Billing Management view handler
+    },
+
+    menuNames : [],
+    menuPrice : [],
+    menuQuantity : [],
+    menuTotalPrice : [],
+    totalBillAmount : [],
+    generateFinalBill : function(){
+        var count = 0;
+
+        $("input.billMenuName").each(function(){
+            var menuName    =   $(this).val();
+
+            var currentRow   =   $(this).attr('id');
+            var splittedString = currentRow.split("_");
+
+            var billMenuPriceId =   "billMenuPrice_"+splittedString[1];
+            var quantityId      =   "quantity_"+splittedString[1];
+            var menuTotalPriceId=   "menuTotalPrice_"+splittedString[1];
+
+            if(menuName != ""){
+                handleEvents.menuNames[count]       = menuName;
+                handleEvents.menuPrice[count]       = $("#"+billMenuPriceId).text();
+                handleEvents.menuQuantity[count]    = $("#"+quantityId).val();
+                handleEvents.menuTotalPrice[count]  = $("#"+menuTotalPriceId).text();
+                count ++;
+            }
+        });
+
+        handleEvents.totalBillAmount    =   $("#totalBillAmount").text();
     }
 };
 

@@ -5,6 +5,19 @@
 
 
 var init = {
+    clearBillForm : function(){
+        commonUtilities.clearForm("billingForm");
+        $(".dynamicAddition").remove();
+
+        $("#totalBillAmount").text(00);
+        $("#menuTotalPrice_1").text("");
+        $("#billMenuPrice_1").text("");
+        $("#quantity_1").text("");
+
+        //setting today's date to the datepicker
+        $("#addBillDate").datepicker("setDate", new Date());
+
+    }
 };
 
 var ajaxCalls = {
@@ -624,6 +637,9 @@ var validateForms = {
                         success: function (response) {
                             if(response.status == true){
                                 commonUtilities.show_stack_bottomleft("success", response.message);
+
+                                init.clearBillForm();
+
                             }else{
                                 commonUtilities.show_stack_bottomleft("error", response.message);
                             }
@@ -1419,8 +1435,7 @@ var handleEvents = {
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
 
-                    console.log("inside ---");
-                    $(wrapper).append('<div class="row col-md-12"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" placeholder="Menu Name"></div>' +
+                    $(wrapper).append('<div class="row col-md-12 dynamicAddition"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" placeholder="Menu Name"></div>' +
                         '<div class="col-md-2"><span id="tempPrice" class="billMenuPrice" name="menuPrice[]"></span></div>'+
                         '<div class="col-md-1"><input id="tempQuantity" class="billMenuQuantity inputBoxWidth" type="number" name="quantity[]" min="1" placeholder="Quantity"></div>'+
                         '<div class="col-md-2"><span id="tempMenuTotalPrice" class="billMenuTotalPrice" name="menuTotalPrice[]"></span></div>'+

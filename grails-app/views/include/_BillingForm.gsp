@@ -42,11 +42,21 @@
                         </div>
                     </div>
             </div>
-            <div class="col-md-1">
-                <span id="totalBillAmount" name="billTotalPrice"></span>
+            <div class="row topMargin">
+                <div class="col-md-2" >
+                    <label class="labelColor" for="totalBillAmount">Total Bill Amount:</label>
+                </div>
+                <div class="col-md-1">
+                    <span id="totalBillAmount" name="billTotalPrice">00</span>
+                </div>
             </div>
         </div>
 
+
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-3"></div>
         <div class="col-md-3">
             <input type="submit" id="submitGrocery" class="btn btn-success" value="Print">
             <button type="button" id="cancelGroceryAddition" class="btn btn-warning">Cancel</button>

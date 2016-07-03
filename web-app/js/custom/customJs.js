@@ -1393,7 +1393,7 @@ var handleEvents = {
 
         });
 
-        $("#submitGrocery").click(function(){
+        $("#generateBill").click(function(){
             var menuName = ""
             $("input.billMenuName").each(function(){
                 menuName = $(this).text();
@@ -1404,8 +1404,10 @@ var handleEvents = {
                 }
 
             });
+        });
 
-            validateForms.validateBill();
+        $("#clearBill").click(function(){
+            init.clearBillForm();
         });
     },
 
@@ -1435,9 +1437,9 @@ var handleEvents = {
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
 
-                    $(wrapper).append('<div class="row dynamicAddition"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" autofocus></div>' +
+                    $(wrapper).append('<div class="row dynamicAddition topDivMargin"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" autofocus></div>' +
                         '<div class="col-md-1"><span id="tempPrice" class="billMenuPrice" name="menuPrice[]"></span></div>'+
-                        '<div class="col-md-1"><input id="tempQuantity" class="billMenuQuantity inputBoxWidth" type="number" name="quantity[]" min="1" placeholder="Quantity"></div>'+
+                        '<div class="col-md-1"><input id="tempQuantity" class="billMenuQuantity inputBoxWidth" type="number" name="quantity[]" min="1"></div>'+
                         '<div class="col-md-1"><span id="tempMenuTotalPrice" class="billMenuTotalPrice" name="menuTotalPrice[]"></span></div>'+
                         '<i id="remove_field" class = "glyphicon glyphicon-remove-circle text-danger dataTableAddActionSize"></i></div>');
 

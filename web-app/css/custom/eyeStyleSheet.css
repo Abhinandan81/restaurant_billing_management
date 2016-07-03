@@ -129,3 +129,12 @@
 .topMargin{
     margin-top: 20px;
 }
+
+.topDivMargin{
+    margin-top: 5px;
+}
+
+.hrColor{
+    border-color: goldenrod;
+}
+

@@ -1,19 +1,22 @@
 <form class="form-horizontal" id="billingForm" method="POST">
     <div class="row form-group">
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Customer Name">
-        </div>
+        <div class="container">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Customer Name">
+            </div>
 
-        <div class="col-md-2">
+            <div class="col-md-2">
 
-            <div id="addBillDate" class="input-group input-append date" data-date-format="dd/mm/yyyy">
-                <input type="text" class="form-control" id="billDate" name="billDate" readonly="readonly">
-                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                <div id="addBillDate" class="input-group input-append date" data-date-format="dd/mm/yyyy">
+                    <input type="text" class="form-control" id="billDate" name="billDate" readonly="readonly">
+                    <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
             </div>
         </div>
+
     </div>
 
-    <hr>
+    <hr class="hrColor">
 
     <div class="row form-group">
 
@@ -65,16 +68,16 @@
 
             </div>
 
-        </div>
+            <div class="row topMargin">
+                <div class="col-md-2">
+                    <label class="labelColor" for="totalBillAmount">Total Bill Amount:</label>
+                </div>
 
-        <div class="row topMargin">
-            <div class="col-md-2">
-                <label class="labelColor" for="totalBillAmount">Total Bill Amount:</label>
+                <div class="col-md-1">
+                    <span id="totalBillAmount" name="billTotalPrice">0</span>
+                </div>
             </div>
 
-            <div class="col-md-1">
-                <span id="totalBillAmount" name="billTotalPrice">00</span>
-            </div>
         </div>
 
     </div>
@@ -83,8 +86,8 @@
         <div class="col-md-3"></div>
 
         <div class="col-md-3">
-            <input type="submit" id="submitGrocery" class="btn btn-success" value="Print">
-            <button type="button" id="cancelGroceryAddition" class="btn btn-warning">Cancel</button>
+            <input type="submit" id="generateBill" class="btn btn-success" value="Print">
+            <button type="button" id="clearBill" class="btn btn-warning">Cancel</button>
         </div>
     </div>
 </form>

@@ -1,6 +1,7 @@
 package com.restaurant.service
 
 import com.restaurant.domain.auth.User
+import com.restaurant.domain.management.Bill
 import com.restaurant.domain.management.Branch
 import com.restaurant.domain.management.BranchGrocery
 import com.restaurant.domain.management.BranchMenu
@@ -660,10 +661,20 @@ class RestaurantManagementService {
 
     Map persistBillDetails(ServiceContext sCtx, Map params){
         Map persistBillDetailsMap   =   [:]
-        println "params:"+params
+        Long billDate
 
         try {
-            persistBillDetailsMap << [status: true, message: "Bill generated successfully"]
+            Branch branch   =   Branch.findById(sCtx.branchId)
+
+            if (branch){
+                billDate = commonUtilService.stringDateToLong(params.billDate)
+                new Bill(branch: branch, customerName: params.customerName, date: billDate,
+                    total: params.totalBillAmount, orderDetails: params.allBillMenuDetails ).save(flush: true, failOnError: true)
+
+                persistBillDetailsMap << [status: true, message: "Bill generated successfully"]
+            }else {
+                persistBillDetailsMap << [status: false, message: "Error in bill generation"]
+            }
 
         }catch (Exception e){
             println "Error in bill generation"+e.printStackTrace()

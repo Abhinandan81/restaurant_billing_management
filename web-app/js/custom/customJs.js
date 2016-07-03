@@ -612,24 +612,31 @@ var validateForms = {
             //after form validation
             submitHandler: function (form) {
 
-                $(form).ajaxSubmit({
-                    url     : '../restaurantManagement/persistBill',                                   //Path of the controller action
-                    type    : 'POST',
-                    data    : {
-                        allBillMenuDetails : JSON.stringify(handleEvents.allBillMenuDetails),
-                        totalBillAmount : handleEvents.totalBillAmount
-                    },
-                    //on successful operation
-                    success: function (response) {
-                        if(response.status == true){
-
-                        }else{
+                if(handleEvents.isValidMenu == true){
+                    $(form).ajaxSubmit({
+                        url     : '../restaurantManagement/persistBill',                                   //Path of the controller action
+                        type    : 'POST',
+                        data    : {
+                            allBillMenuDetails : JSON.stringify(handleEvents.allBillMenuDetails),
+                            totalBillAmount : handleEvents.totalBillAmount
+                        },
+                        //on successful operation
+                        success: function (response) {
+                            if(response.status == true){
+                                commonUtilities.show_stack_bottomleft("success", response.message);
+                            }else{
+                                commonUtilities.show_stack_bottomleft("error", response.message);
+                            }
+                        },
+                        error: function (response) {
+                            commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
                         }
-                    },
-                    error: function (response) {
-                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
-                    }
-                });
+                    });
+
+                }else{
+                    commonUtilities.show_stack_bottomleft("error", "Invalid menu name occurred");
+                }
+
                 return false;
             }
         });
@@ -1441,11 +1448,13 @@ var handleEvents = {
     allBillMenuDetails : [],
     billMenuDetails : {},
     totalBillAmount : 0,
+    isValidMenu :  true,
     generateFinalBill : function(){
 
         handleEvents.allBillMenuDetails = [];
+        handleEvents.isValidMenu =  true;
 
-        $("input.billMenuName").each(function(){
+            $("input.billMenuName").each(function(){
             var menuName    =   $(this).val();
 
             var currentRow   =   $(this).attr('id');
@@ -1455,7 +1464,7 @@ var handleEvents = {
             var quantityId      =   "quantity_"+splittedString[1];
             var menuTotalPriceId=   "menuTotalPrice_"+splittedString[1];
 
-            if(menuName != ""){
+            if(menuName != "" && ($.inArray(menuName, show.listOfMenus) > -1)){
                 handleEvents.billMenuDetails = {};
 
                 handleEvents.billMenuDetails.menuName   =   menuName;
@@ -1464,13 +1473,8 @@ var handleEvents = {
                 handleEvents.billMenuDetails.menuTotalPrice   =   $("#"+menuTotalPriceId).text();
 
                 handleEvents.allBillMenuDetails.push(handleEvents.billMenuDetails);
-                console.log("handleEvents.allBillMenuDetails :"+handleEvents.allBillMenuDetails);
-
-               /* handleEvents.menuNames[count]       = menuName;
-                handleEvents.menuPrice[count]       = $("#"+billMenuPriceId).text();
-                handleEvents.menuQuantity[count]    = $("#"+quantityId).val();
-                handleEvents.menuTotalPrice[count]  = $("#"+menuTotalPriceId).text();
-                count ++;*/
+            }else{
+                handleEvents.isValidMenu = false
             }
         });
 

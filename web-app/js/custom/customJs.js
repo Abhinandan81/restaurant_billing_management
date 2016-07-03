@@ -585,7 +585,63 @@ var validateForms = {
                 return false;
             }
         });
+    },
+
+    validateBill: function () {
+        $("#billingForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                menuName      :   {required: true},
+                menuPrice      :   {required: true},
+                quantity         :   {required: true},
+                menuTotalPrice   :   {required: true},
+                billTotalPrice   :   {required: true}
+            },
+
+            messages: {
+                menuName       :   "Please give branch name",
+                menuPrice      :   "Please give branch address",
+                quantity       :   "Please give contact number",
+                menuTotalPrice: "contact number should be of 10 digit"
+            },
+            //after form validation
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url: handleEvents.branchSubmitUrl,                                   //Path of the controller action
+                    type: 'POST',
+                    data : {branchId : handleEvents.branchId},
+                    //on successful operation
+                    success: function (response) {
+                        if(response.status == true){
+                            handleEvents.showBranchDetailsTable();
+                            commonUtilities.show_stack_bottomleft("success", response.message);
+                            //reload the branchDetailsDataTable
+                            ajaxCalls.branchDetailsTableReload();
+                            handleEvents.branchSubmitUrl = "";
+                        }else{
+                            commonUtilities.show_stack_bottomleft("error", response.message);
+                        }
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
     }
+
 };
 var handleEvents = {
 
@@ -1267,8 +1323,10 @@ var handleEvents = {
         $(".sidebar-menu li").removeClass('active');
         $("#billingView").addClass('active');
 
+        //setting today's date to the datepicker
         $("#addBillDate").datepicker("setDate", new Date());
 
+        //for dynamically adding menu items
         handleEvents.addingMenuToBill();
 
         show.getListOfMenusForAutoComplete();
@@ -1276,6 +1334,7 @@ var handleEvents = {
         //preventing user from entering the 0 as a quantity
         validateForms.validatingMenuQuantity();
 
+        //on changing the quantity of the items
         $('input.billMenuQuantity').on("change", function() {
             handleEvents.currentMenuQuantity = $(this).attr('id');
 
@@ -1290,6 +1349,7 @@ var handleEvents = {
         });
 
 
+        //On addition of the add menu item
         $("#add_field_button").click(function(){
 
             //fetching menu names
@@ -1318,6 +1378,10 @@ var handleEvents = {
                     }
             });
 
+        });
+
+        $("#submitGrocery").click(function(){
+            validateForms.validateBranchCreation()
         });
     },
 
@@ -1348,10 +1412,10 @@ var handleEvents = {
                     x++; //text box increment
 
                     console.log("inside ---");
-                    $(wrapper).append('<div class="row col-md-12"><div class="col-md-2"><input id="tempMenuName" class="billMenuName" type="text" name="menuName[]" placeholder="Menu Name"></div>' +
-                        '<div class="col-md-2"><input id="tempPrice" class="billMenuPrice" type="number" name="menuPrice[]" readonly="true" placeholder="Price"></div>'+
-                        '<div class="col-md-2"><input id="tempQuantity" class="billMenuQuantity" type="number" name="quantity[]" min="1" placeholder="Quantity"></div>'+
-                        '<div class="col-md-2"><input id="tempMenuTotalPrice" class="billMenuTotalPrice" type="number" name="menuTotalPrice[]" readonly="true" placeholder="Total Price"></div>'+
+                    $(wrapper).append('<div class="row col-md-12"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" placeholder="Menu Name"></div>' +
+                        '<div class="col-md-2"><span id="tempPrice" class="billMenuPrice" name="menuPrice[]"></span></div>'+
+                        '<div class="col-md-1"><input id="tempQuantity" class="billMenuQuantity inputBoxWidth" type="number" name="quantity[]" min="1" placeholder="Quantity"></div>'+
+                        '<div class="col-md-2"><span id="tempMenuTotalPrice" class="billMenuTotalPrice" name="menuTotalPrice[]"></span></div>'+
                         '<i id="remove_field" class = "glyphicon glyphicon-remove-circle text-danger dataTableAddActionSize"></i></div>');
 
                     $("#tempMenuName").attr('id', "billMenuName_" + x);
@@ -1488,7 +1552,7 @@ var show = {
                 if(response.status == true){
                     show.menuPrice  =   response.message;
                     if(handleEvents.currentMenuId == ""){
-                        $("#billMenuPrice_1").val(show.menuPrice);
+                        $("#billMenuPrice_1").text(show.menuPrice);
                         $("#quantity_1").val(1);
 
                         //update total price for menu according to quantity
@@ -1496,7 +1560,7 @@ var show = {
                     }else{
                         var splittedString = handleEvents.currentMenuId.split("_");
 
-                        $("#billMenuPrice_"+splittedString[1]).val(show.menuPrice);
+                        $("#billMenuPrice_"+splittedString[1]).text(show.menuPrice);
                         $("#quantity_"+splittedString[1]).val(1);
 
                         //update total price for menu according to quantity
@@ -1514,12 +1578,12 @@ var show = {
 
     //updating total menu quantity price
     updateTotalPriceForMenu : function(menuPriceField, menuQuantityField, totalMenuPrice){
-        var menuPrice   =   $("#"+menuPriceField).val();
+        var menuPrice   =   $("#"+menuPriceField).text();
         var menuQuantity   =   $("#"+menuQuantityField).val();
 
         var menuTotalPrice = 0;
         menuTotalPrice  =   menuPrice * menuQuantity;
-        $("#"+totalMenuPrice).val(menuTotalPrice);
+        $("#"+totalMenuPrice).text(menuTotalPrice);
         show.calculateAndUpdateTotalBillAmount();
     },
 
@@ -1528,15 +1592,16 @@ var show = {
         var totalBillAmount  =   0;
         var menuAmount = 0;
 
-        $("input.billMenuTotalPrice").each(function(){
-            menuAmount = $(this).val();
+        $("span.billMenuTotalPrice").each(function(){
+            menuAmount = $(this).text();
+
             if(menuAmount == ""){
                 menuAmount = 0;
             }
             totalBillAmount = totalBillAmount + parseInt(menuAmount, 10);
         });
 
-        $("#totalBillAmount").val(totalBillAmount);
+        $("#totalBillAmount").text(totalBillAmount);
     }
 };
 

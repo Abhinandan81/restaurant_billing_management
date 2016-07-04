@@ -34,7 +34,7 @@
 
                             <div class="box-body">
                             <g:render template="/include/BillingForm"></g:render>
-                        </div><!-- /.box-body -->
+                            </div><!-- /.box-body -->
 
                         </div>
                     </div><!-- /.box -->

@@ -225,8 +225,6 @@ var deleteData = {
 var validateForms = {
 
     validatingMenuQuantity : function(){
-        console.log("quantity --");
-
         $('.billMenuQuantity').on('keyup keydown', function (e) {
             var code = e.keyCode || e.which;
             if (this.value.length === 0 && code === 96) {
@@ -1283,7 +1281,6 @@ var handleEvents = {
         });
 
         $("#cancelGroceryAddition").click(function () {
-            console.log("----------");
             handleEvents.showGroceryStockDetails();
             commonUtilities.removeValidationClass();
         });
@@ -1335,6 +1332,7 @@ var handleEvents = {
     currentMenuId : "",
     currentMenuQuantity : "",
     billingManagementView: function () {
+
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#billingView").addClass('active');
@@ -1349,6 +1347,14 @@ var handleEvents = {
 
         //preventing user from entering the 0 as a quantity
         validateForms.validatingMenuQuantity();
+
+        $("#generateBill").click(function(){
+            validateForms.validateBill();
+        });
+
+        $("#clearBill").click(function(){
+            init.clearBillForm();
+        });
 
         //on changing the quantity of the items
         $('input.billMenuQuantity').on("change", function() {
@@ -1391,23 +1397,6 @@ var handleEvents = {
                     }
             });
 
-        });
-
-        $("#generateBill").click(function(){
-            var menuName = ""
-            $("input.billMenuName").each(function(){
-                menuName = $(this).text();
-
-                if(menuName == ""){
-                }else{
-                    validateForms.validateBill();
-                }
-
-            });
-        });
-
-        $("#clearBill").click(function(){
-            init.clearBillForm();
         });
     },
 

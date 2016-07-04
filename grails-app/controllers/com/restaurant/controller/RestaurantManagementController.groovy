@@ -1,7 +1,6 @@
 package com.restaurant.controller
 
 import com.constants.CodeConstants
-import com.constants.CommonUtils
 import com.utils.ServiceContext
 import com.utils.SessionUtil
 import grails.converters.JSON
@@ -355,12 +354,17 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_ADMIN'])
     def persistBill(){
+        println "params :"+params
         Map billPersistenceDetails    =   [:]
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
         billPersistenceDetails  =   restaurantManagementService.persistBillDetails(sCtx,params)
         render billPersistenceDetails as JSON
     }
+
+    @Secured(['ROLE_ADMIN'])
+    def billPrinting(){}
+
     /*-------------------------- END    : Billing Management -------------------------*/
 
 }

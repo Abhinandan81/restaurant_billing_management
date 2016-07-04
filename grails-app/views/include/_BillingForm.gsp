@@ -83,9 +83,11 @@
     </div>
 
     <div class="row form-group">
-        <div class="col-md-3"></div>
-
         <div class="col-md-3">
+
+        </div>
+
+        <div class="col-md-3 form-group">
             <input type="submit" id="generateBill" class="btn btn-success" value="Print">
             <button type="button" id="clearBill" class="btn btn-warning">Cancel</button>
         </div>

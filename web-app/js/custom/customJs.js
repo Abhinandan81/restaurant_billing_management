@@ -16,7 +16,6 @@ var init = {
 
         //setting today's date to the datepicker
         $("#addBillDate").datepicker("setDate", new Date());
-
     }
 };
 
@@ -637,7 +636,7 @@ var validateForms = {
                                 commonUtilities.show_stack_bottomleft("success", response.message);
 
                                 init.clearBillForm();
-
+                                handleEvents.printUrl('/restaurant/restaurantManagement/billPrinting');
                             }else{
                                 commonUtilities.show_stack_bottomleft("error", response.message);
                             }
@@ -1356,6 +1355,10 @@ var handleEvents = {
             init.clearBillForm();
         });
 
+
+
+
+
         //on changing the quantity of the items
         $('input.billMenuQuantity').on("change", function() {
             handleEvents.currentMenuQuantity = $(this).attr('id');
@@ -1490,7 +1493,22 @@ var handleEvents = {
         });
 
         handleEvents.totalBillAmount    =   $("#totalBillAmount").text();
+    },
+
+    printUrl : function(url) {
+    $('#printFrame').attr('src', url);
+    $('#printFrame').load(function() {
+        var frame = document.getElementById('printFrame');
+        if (!frame) {
+            alert("Error: Can't find printing frame.");
+            return;
+        }
+        frame = frame.contentWindow;
+        frame.focus();
+        frame.print();
+    });
     }
+
 };
 
 var show = {

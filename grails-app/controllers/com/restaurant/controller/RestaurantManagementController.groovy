@@ -354,7 +354,6 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_ADMIN'])
     def persistBill(){
-        println "params :"+params
         Map billPersistenceDetails    =   [:]
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
@@ -362,7 +361,7 @@ class RestaurantManagementController {
         render billPersistenceDetails as JSON
     }
 
-    @Secured(['ROLE_ADMIN'])
+   @Secured(['ROLE_ADMIN'])
     def billPrinting(){}
 
     /*-------------------------- END    : Billing Management -------------------------*/

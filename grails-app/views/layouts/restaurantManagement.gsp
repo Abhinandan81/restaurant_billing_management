@@ -233,6 +233,7 @@
     </aside>
 
     <g:layoutBody/>
+
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.0
@@ -245,7 +246,7 @@
        immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
-
+<iframe width="1" height="1" id="printFrame" />
 
 <!-- ./wrapper -->
 <!-- page script -->

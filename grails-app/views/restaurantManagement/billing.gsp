@@ -49,7 +49,7 @@
 <!-- page script -->
 <script>
     $(document).ready(function () {
-        customRestaurantJs.eventHandlers.billingManagementView();
+           customRestaurantJs.eventHandlers.billingManagementView();
     });
 </script>
 </body>

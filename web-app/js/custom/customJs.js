@@ -24,10 +24,12 @@ var init = {
         handleEvents.allBillMenuDetails*/
 
         if(handleEvents.isValidMenu == true){
-            $("#billCustomerName").text($("#customerName").val());
-            $("#billPrintDate").text($("#billDate").val());
+            console.log("haha");
 
-        console.log("haha",$("#billCustomerName"));
+
+            $("#billCustomerName").text("Abhi");
+            $("#billPrintDate").text("22");
+
         }
     }
 };
@@ -1511,17 +1513,26 @@ var handleEvents = {
     },
 
     printUrl : function(url) {
-    $('#printFrame').attr('src', url);
-    $('#printFrame').load(function() {
-        var frame = document.getElementById('printFrame');
-        if (!frame) {
-            alert("Error: Can't find printing frame.");
-            return;
-        }
-        frame = frame.contentWindow;
-        frame.focus();
-        frame.print();
-    });
+
+        // Grab the template script
+        var theTemplateScript = $("#bill-template").html();
+
+        // Compile the template
+        var theTemplate = Handlebars.compile(theTemplateScript);
+
+        // Define our data object
+        var context={
+            "customerName": "Abhinandan Satpute",
+            "billDate": "22/02/2016"
+        };
+
+        // Pass our data to the template
+        var theCompiledHtml = theTemplate(context);
+
+        var  w=window.open("", "", "height=200,width=200");
+        w.document.write(theCompiledHtml.toString());
+        w.print();
+        w.close();
     }
 
 };

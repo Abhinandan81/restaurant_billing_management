@@ -53,6 +53,7 @@
 
     <!-- Bootstrap 3.3.5 -->
     <script src="<%=request.getContextPath()%>/js/bootstrap/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/handlebars-v4.0.5.js"></script>
     <script src="<%=request.getContextPath()%>/js/fuelux.min.js"></script>
 
     <!-- DataTables -->
@@ -294,8 +295,6 @@
        immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
-<iframe width="1" height="1" id="printFrame"/>
-
 <!-- ./wrapper -->
 <!-- page script -->
 </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -52,5 +52,71 @@
            customRestaurantJs.eventHandlers.billingManagementView();
     });
 </script>
+
+<script id="bill-template" type="text/x-handlebars-template">
+<div class="container">
+    <div>
+
+        <div style="width: 60%;display: inline-block;">
+            <p>Customer Name- {{customerName}}</p>
+
+
+            %{--  <div style="width: 30%;display: inline-block;">
+                  <label>Customer Name- {{customerName}}</label>
+              </div>--}%
+
+           %{-- <div style="width: 30%;display: inline-block;">
+                <p>{{customerName}}</p>
+            </div>--}%
+
+        </div>
+
+        <div style="width: 33.34%;display: inline-block;">
+            <p>Date - {{billDate}}</p>
+
+
+            %{-- <div style="width: 16.67%;display: inline-block;">
+                 <label>Date - {{billDate}}</label>
+             </div>--}%
+
+           %{-- <div style="width: 16.67%;display: inline-block;">
+                <p>{{billDate}}</p>
+            </div>--}%
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div style="width: 33.34%;display: inline-block;">
+            <label>Menu Name</label>
+        </div>
+
+        <div style="width: 8.33%;display: inline-block;">
+            <label>Price</label>
+        </div>
+
+        <div style="width: 8.33%;display: inline-block;">
+            <label>Quantity</label>
+        </div>
+
+        <div style="width: 8.33%;display: inline-block;">
+            <label>Total</label>
+        </div>
+    </div>
+
+    <div id="menuItems" class="row">
+
+    </div>
+
+    <div class="row">
+        <span id="totalBillAmount"></span>
+    </div>
+
+</div>
+</script>
+
 </body>
 </html>

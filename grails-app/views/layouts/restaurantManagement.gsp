@@ -44,7 +44,7 @@
     %{--progress bar--}%
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/progressBar/centerCircle.css">
 
-        <!-- jQuery 2.1.4 -->
+    <!-- jQuery 2.1.4 -->
     <script src="<%=request.getContextPath()%>/css/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     %{--custom validation--}%
     <script src="<%=request.getContextPath()%>/js/validate/jquery.validate.js"></script>
@@ -94,6 +94,7 @@
     <!-- page script -->
     %{--<![endif]-->--}%
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -120,13 +121,15 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="user-image"
+                                 alt="User Image">
                             <span class="hidden-xs"><restaurant:renderUserFullName/></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="img-circle"
+                                     alt="User Image">
 
                                 <p>
                                     <restaurant:renderUserFullName/> - <restaurant:renderUserRole/>
@@ -138,6 +141,7 @@
                                 <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
+
                                 <div class="pull-right">
                                     <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
@@ -159,8 +163,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="img-circle"
+                         alt="User Image">
                 </div>
+
                 <div class="pull-left info">
                     <p><restaurant:renderUserFullName/></p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -170,9 +176,11 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
+
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i
+                            class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
@@ -180,53 +188,94 @@
                     </ul>
                 </li>
 
-                <li id="branchManagementView" class="treeview">
-                    <a href="<%=request.getContextPath()%>/restaurantManagement/branchManagement">
-                        <i class="fa fa-sitemap"></i> <span>Branch Management</span>
-                    </a>
-                </li>
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+                    <li id="branchManagementView" class="treeview">
+                        <g:link controller="restaurantManagement" action="branchManagement">
+                            <i class="fa fa-sitemap"></i> <span>Branch Management</span>
+                        </g:link>
+                    </li>
+                </sec:ifAnyGranted>
 
 
-                <li id="userManagementView" class="treeview">
-                    <a href="<%=request.getContextPath()%>/restaurantManagement/userManagement">
-                        <i class="fa fa-users"></i> <span>User Management</span>
-                    </a>
-                </li>
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+                    <li id="userManagementView" class="treeview">
+                        <g:link controller="restaurantManagement" action="userManagement">
 
-    <li id="menuManagementView" class="treeview">
-        <a href="#">
-            <i class="fa fa-cutlery"></i> <span>Menu Management</span> <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            <li id="basicMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/menuManagement"><i class="fa fa-circle-o"></i>Menu Basics</a></li>
-            <li id="branchMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseMenuManagement"><i class="fa fa-circle-o"></i>Menu Prices</a></li>
-        </ul>
-    </li>
+                            <i class="fa fa-users"></i> <span>User Management</span>
+                        </g:link>
 
-    <li id="groceryManagementView" class="treeview">
-        <a href="#">
-            <i class="fa fa-shopping-cart"></i> <span>Grocery Management</span> <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            <li id="basicGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/groceryManagement"><i class="fa fa-circle-o"></i>Grocery Basics</a></li>
-            <li id="branchGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseGroceryManagement"><i class="fa fa-circle-o"></i>Branch Wise Grocery Details</a></li>
-        </ul>
-    </li>
-
-    <li id="adminGroceryManagementView" class="treeview">
-        <a href="<%=request.getContextPath()%>/restaurantManagement/adminGroceryManagement">
-            <i class="fa fa-users"></i> <span>A Grocery Management</span>
-        </a>
-    </li>
-
-    <li id="billingView" class="treeview">
-        <a href="<%=request.getContextPath()%>/restaurantManagement/billing">
-            <i class="glyphicon glyphicon-list-alt"></i> <span>Billing</span>
-        </a>
-    </li>
+                    </li>
+                </sec:ifAnyGranted>
 
 
-         </ul>
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+
+                    <li id="menuManagementView" class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cutlery"></i> <span>Menu Management</span> <i
+                                class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="basicMenuManagementView">
+                                <g:link controller="restaurantManagement" action="menuManagement">
+                                    <i class="fa fa-circle-o"></i>Menu Basics
+                                </g:link>
+
+                            </li>
+                            <li id="branchMenuManagementView">
+                                <g:link controller="restaurantManagement" action="branchWiseMenuManagement">
+
+                                    <i class="fa fa-circle-o"></i>Menu Prices
+                                </g:link>
+                            </li>
+                        </ul>
+                    </li>
+                </sec:ifAnyGranted>
+
+
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN, ROLE_ADMIN">
+                    <li id="groceryManagementView" class="treeview">
+                        <a href="#">
+                            <i class="fa fa-shopping-cart"></i> <span>Grocery Management</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="basicGroceryManagementView">
+                                <g:link controller="restaurantManagement" action="groceryManagement">
+
+                                    <i class="fa fa-circle-o"></i>Grocery Basics
+                                </g:link>
+                            </li>
+                            <li id="branchGroceryManagementView">
+                                <g:link controller="restaurantManagement" action="branchWiseGroceryManagement">
+                                    <i class="fa fa-circle-o"></i>Branch Wise Grocery Details
+                                </g:link>
+
+                            </li>
+                        </ul>
+                    </li>
+                </sec:ifAnyGranted>
+
+
+                <sec:ifAnyGranted roles="ROLE_ADMIN">
+
+                    <li id="adminGroceryManagementView" class="treeview">
+                        <g:link controller="restaurantManagement" action="adminGroceryManagement">
+                            <i class="fa fa-users"></i> <span>A Grocery Management</span>
+                        </g:link>
+                    </li>
+                </sec:ifAnyGranted>
+
+                <sec:ifAnyGranted roles="ROLE_ADMIN">
+                    <li id="billingView" class="treeview">
+                        <g:link controller="restaurantManagement" action="billing">
+
+                            <i class="glyphicon glyphicon-list-alt"></i> <span>Billing</span>
+                        </g:link>
+                    </li>
+                </sec:ifAnyGranted>
+
+            </ul>
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -245,7 +294,7 @@
        immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
-<iframe width="1" height="1" id="printFrame" />
+<iframe width="1" height="1" id="printFrame"/>
 
 <!-- ./wrapper -->
 <!-- page script -->

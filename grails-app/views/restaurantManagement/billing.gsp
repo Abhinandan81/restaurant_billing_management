@@ -54,68 +54,70 @@
 </script>
 
 <script id="bill-template" type="text/x-handlebars-template">
-<div class="container">
     <div>
 
-        <div style="width: 60%;display: inline-block;">
-            <p>Customer Name- {{customerName}}</p>
-
-
-            %{--  <div style="width: 30%;display: inline-block;">
-                  <label>Customer Name- {{customerName}}</label>
-              </div>--}%
-
-           %{-- <div style="width: 30%;display: inline-block;">
-                <p>{{customerName}}</p>
-            </div>--}%
-
+        <div style="width: 65%;display: inline-block;line-height: 2%;">
+            <p>Customer name- {{customerName}}</p>
         </div>
 
-        <div style="width: 33.34%;display: inline-block;">
+        <div style="width: 30%;display: inline-block;line-height: 2%;">
             <p>Date - {{billDate}}</p>
-
-
-            %{-- <div style="width: 16.67%;display: inline-block;">
-                 <label>Date - {{billDate}}</label>
-             </div>--}%
-
-           %{-- <div style="width: 16.67%;display: inline-block;">
-                <p>{{billDate}}</p>
-            </div>--}%
-
         </div>
 
     </div>
 
     <hr>
 
-    <div class="row">
-        <div style="width: 33.34%;display: inline-block;">
-            <label>Menu Name</label>
+    <div>
+        <div style="width: 5%;display: inline-block;line-height: 2%;">
         </div>
 
-        <div style="width: 8.33%;display: inline-block;">
+        <div style="width: 50%;display: inline-block;line-height: 2%;">
+            <label>Menu name</label>
+        </div>
+
+        <div style="width: 10%;display: inline-block;line-height: 2%;">
             <label>Price</label>
         </div>
 
-        <div style="width: 8.33%;display: inline-block;">
+        <div style="width: 15%;display: inline-block;line-height: 2%;">
             <label>Quantity</label>
         </div>
 
-        <div style="width: 8.33%;display: inline-block;">
+        <div style="width: 15%;display: inline-block;line-height: 2%;">
             <label>Total</label>
         </div>
     </div>
+    <hr>
+    <div>
+        {{#each menuDetails}}
+        <div style="width: 5%;display: inline-block;line-height: 2%;">
+        </div>
 
-    <div id="menuItems" class="row">
+        <div style="width: 50%;display: inline-block;line-height: 2%;">
+            <p>{{menuName}}</p>
+        </div>
+
+        <div style="width: 10%;display: inline-block;line-height: 2%;">
+            <p>{{menuPrice}}</p>
+        </div>
+
+        <div style="width: 15%;display: inline-block;line-height: 2%;">
+            <p>{{quantity}}</p>
+        </div>
+
+        <div style="width: 15%;display: inline-block;line-height: 2%;">
+            <p>{{menuTotalPrice}}</p>
+        </div>
+        {{/each}}
 
     </div>
+    <hr>
 
-    <div class="row">
-        <span id="totalBillAmount"></span>
+    <div style="width: 90%;display: inline-block;text-align: right;line-height: 5%">
+        <p>Total bill amount -{{totalBillAmount}}</p>
     </div>
 
-</div>
 </script>
 
 </body>

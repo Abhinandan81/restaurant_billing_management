@@ -18,17 +18,28 @@ var init = {
         $("#addBillDate").datepicker("setDate", new Date());
     },
 
+    theCompiledHtml : "",
     generateBillPrint : function(){
-       /* handleEvents.totalBillAmount
-
-        handleEvents.allBillMenuDetails*/
+        var customerName = $("#customerName").val();
+        var billDate = $("#billDate").val();
 
         if(handleEvents.isValidMenu == true){
-            console.log("haha");
+            // Grab the template script
+            var theTemplateScript = $("#bill-template").html();
 
+            // Compile the template
+            var theTemplate = Handlebars.compile(theTemplateScript);
 
-            $("#billCustomerName").text("Abhi");
-            $("#billPrintDate").text("22");
+            // Define our data object
+            var context={
+                "customerName": customerName,
+                "billDate": billDate,
+                "menuDetails": handleEvents.allBillMenuDetails,
+                "totalBillAmount": handleEvents.totalBillAmount
+            };
+
+            // Pass our data to the template
+            init.theCompiledHtml = theTemplate(context);
 
         }
     }
@@ -1512,29 +1523,12 @@ var handleEvents = {
         init.generateBillPrint();
     },
 
-    printUrl : function(url) {
-
-        // Grab the template script
-        var theTemplateScript = $("#bill-template").html();
-
-        // Compile the template
-        var theTemplate = Handlebars.compile(theTemplateScript);
-
-        // Define our data object
-        var context={
-            "customerName": "Abhinandan Satpute",
-            "billDate": "22/02/2016"
-        };
-
-        // Pass our data to the template
-        var theCompiledHtml = theTemplate(context);
-
+    printUrl : function() {
         var  w=window.open("", "", "height=200,width=200");
-        w.document.write(theCompiledHtml.toString());
+        w.document.write(init.theCompiledHtml.toString());
         w.print();
         w.close();
     }
-
 };
 
 var show = {

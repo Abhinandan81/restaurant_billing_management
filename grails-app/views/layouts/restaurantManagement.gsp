@@ -44,7 +44,6 @@
     %{--progress bar--}%
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/progressBar/centerCircle.css">
 
-
         <!-- jQuery 2.1.4 -->
     <script src="<%=request.getContextPath()%>/css/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     %{--custom validation--}%

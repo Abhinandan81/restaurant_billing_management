@@ -9,33 +9,50 @@
 <body>
 
 <div class="container">
-    <div class="row">
+    <div>
 
-        <div class="col-md-2">
-            <span id="customerName"></span>
+        <div style="width: 60%;display: inline-block;">
+
+            <div style="width: 30%;display: inline-block;">
+                <label>Customer Name -</label>
+            </div>
+
+            <div style="width: 30%;display: inline-block;">
+                <span id="billCustomerName"></span>
+            </div>
+
         </div>
 
-        <div class="col-md-2">
-            <span id="billDate"></span>
+        <div style="width: 33.34%;display: inline-block;">
+
+            <div style="width: 16.67%;display: inline-block;">
+                <label>Date -</label>
+            </div>
+
+            <div style="width: 16.67%;display: inline-block;">
+                <span id="billPrintDate"></span>
+            </div>
+
         </div>
+
     </div>
 
     <hr>
 
     <div class="row">
-        <div class="col-md-4">
+        <div style="width: 33.34%;display: inline-block;">
             <label>Menu Name</label>
         </div>
 
-        <div class="col-md-1">
+        <div style="width: 8.33%;display: inline-block;">
             <label>Price</label>
         </div>
 
-        <div class="col-md-1">
+        <div style="width: 8.33%;display: inline-block;">
             <label>Quantity</label>
         </div>
 
-        <div class="col-md-1">
+        <div style="width: 8.33%;display: inline-block;">
             <label>Total</label>
         </div>
     </div>

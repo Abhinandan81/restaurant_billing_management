@@ -16,6 +16,19 @@ var init = {
 
         //setting today's date to the datepicker
         $("#addBillDate").datepicker("setDate", new Date());
+    },
+
+    generateBillPrint : function(){
+       /* handleEvents.totalBillAmount
+
+        handleEvents.allBillMenuDetails*/
+
+        if(handleEvents.isValidMenu == true){
+            $("#billCustomerName").text($("#customerName").val());
+            $("#billPrintDate").text($("#billDate").val());
+
+        console.log("haha",$("#billCustomerName"));
+        }
     }
 };
 
@@ -1493,6 +1506,8 @@ var handleEvents = {
         });
 
         handleEvents.totalBillAmount    =   $("#totalBillAmount").text();
+
+        init.generateBillPrint();
     },
 
     printUrl : function(url) {

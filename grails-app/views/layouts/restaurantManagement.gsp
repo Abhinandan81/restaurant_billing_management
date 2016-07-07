@@ -178,16 +178,15 @@
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
 
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i
-                            class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                        <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                    </ul>
-                </li>
+    <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+        <li id="dashBoardView" class="treeview">
+            <g:link controller="restaurantManagement" action="branchManagement">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            </g:link>
+        </li>
+    </sec:ifAnyGranted>
+
+
 
                 <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
                     <li id="branchManagementView" class="treeview">
@@ -234,7 +233,7 @@
                 </sec:ifAnyGranted>
 
 
-                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN, ROLE_ADMIN">
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
                     <li id="groceryManagementView" class="treeview">
                         <a href="#">
                             <i class="fa fa-shopping-cart"></i> <span>Grocery Management</span>
@@ -257,24 +256,26 @@
                     </li>
                 </sec:ifAnyGranted>
 
+    <sec:ifAnyGranted roles="ROLE_ADMIN">
+        <li id="billingView" class="treeview">
+            <g:link controller="restaurantManagement" action="billing">
+
+                <i class="glyphicon glyphicon-list-alt"></i> <span>Billing</span>
+            </g:link>
+        </li>
+    </sec:ifAnyGranted>
+
 
                 <sec:ifAnyGranted roles="ROLE_ADMIN">
 
                     <li id="adminGroceryManagementView" class="treeview">
                         <g:link controller="restaurantManagement" action="adminGroceryManagement">
-                            <i class="fa fa-users"></i> <span>A Grocery Management</span>
+                            <i class="fa fa-shopping-cart"></i> <span>A Grocery Management</span>
                         </g:link>
                     </li>
                 </sec:ifAnyGranted>
 
-                <sec:ifAnyGranted roles="ROLE_ADMIN">
-                    <li id="billingView" class="treeview">
-                        <g:link controller="restaurantManagement" action="billing">
 
-                            <i class="glyphicon glyphicon-list-alt"></i> <span>Billing</span>
-                        </g:link>
-                    </li>
-                </sec:ifAnyGranted>
 
             </ul>
         </section>

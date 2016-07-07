@@ -1,7 +1,7 @@
 <form class="form-horizontal" id="billingForm" method="POST">
     <div class="row form-group">
         <div class="container">
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Customer Name">
             </div>
 

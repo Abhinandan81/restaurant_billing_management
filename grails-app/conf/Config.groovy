@@ -121,9 +121,7 @@ log4j.main = {
 
 
 // Static role hierarchy
-grails.plugin.springsecurity.roleHierarchy = """
-${CodeConstants.ROLE_SUPER_ADMIN} > ${CodeConstants.ROLE_ADMIN}
-"""
+grails.plugin.springsecurity.roleHierarchy = """"""
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.restaurant.domain.auth.User'

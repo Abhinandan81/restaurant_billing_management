@@ -231,7 +231,7 @@ class RestaurantManagementController {
         render groceryDetails as JSON
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN'])
     def fetchGroceriesForAutoComplete(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
         List groceryDetailsList   =   restaurantManagementService.getGroceryListByRestaurantId(sCtx.restaurantId)
@@ -258,7 +258,7 @@ class RestaurantManagementController {
      * Deduct grocery from the stock
      * @return
      */
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def deductGroceryFromStock(){
         Map deductGroceryStatusMap    =   [:]
 
@@ -275,7 +275,7 @@ class RestaurantManagementController {
         render deductGroceryStatusMap as JSON
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def fetchGroceryStockDetails(){
         Map groceryDetails  =   [:]
         List groceryDetailsList =   []
@@ -296,7 +296,7 @@ class RestaurantManagementController {
         render groceryDetails as JSON
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def fetchAvailableGroceryQuantity(){
         String branchId
         Float availableGroceryQuantity
@@ -328,19 +328,19 @@ class RestaurantManagementController {
     /**
      * Billing view
      */
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def billing(){
 
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def getListOfMenusForAutoComplete(){
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
         List menuDetailsList   =   restaurantManagementService.getMenuListByRestaurantId(sCtx.restaurantId)
         render menuDetailsList as JSON
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def fetchMenuPrice(){
         Map menuPriceDetails    =   [:]
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
@@ -352,7 +352,7 @@ class RestaurantManagementController {
         render menuPriceDetails as JSON
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def persistBill(){
         Map billPersistenceDetails    =   [:]
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
@@ -361,7 +361,7 @@ class RestaurantManagementController {
         render billPersistenceDetails as JSON
     }
 
-   @Secured(['ROLE_ADMIN'])
+   @Secured(['ROLE_SUPER_ADMIN','ROLE_ADMIN'])
     def billPrinting(){}
 
     /*-------------------------- END    : Billing Management -------------------------*/

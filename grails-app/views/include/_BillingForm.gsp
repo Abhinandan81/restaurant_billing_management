@@ -1,6 +1,6 @@
 <form class="form-horizontal" id="billingForm" method="POST">
-    <div class="row form-group">
-        <div class="container">
+    <div class="container">
+        <div class="row">
             <div class="col-md-4">
                 <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Customer Name">
             </div>
@@ -13,14 +13,13 @@
                 </div>
             </div>
         </div>
+        <hr class="hrColor">
 
     </div>
 
-    <hr class="hrColor">
 
-    <div class="row form-group">
+    <div class="container">
 
-        <div class="container">
             <div class="input_fields_wrap">
 
                 <div class="row">
@@ -58,38 +57,40 @@
                     <div class="col-md-1">
                         <span id="menuTotalPrice_1" class="billMenuTotalPrice" name="menuTotalPrice[]"></span>
                     </div>
+                </div>
 
-                    <div class="col-md-2 pull-right">
-                        <i id="add_field_button"
-                           class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize"
-                           aria-hidden="true"></i>
+            </div>
+        <hr class="hrColor">
+
+
+        <div class="row topMargin">
+                <div class="col-md-2 pull-left">
+                    <i id="add_field_button"
+                       class="glyphicon glyphicon-plus-sign text-success addAnotherMenu"
+                       aria-hidden="true">
+                       </i>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="col-md-5 pull-right">
+                        <label for="totalBillAmount">Total Bill Amount:</label>
+                        <span id="totalBillAmount" name="billTotalPrice">00</span>
                     </div>
                 </div>
 
             </div>
 
-            <div class="row topMargin">
-                <div class="col-md-2">
-                    <label class="labelColor" for="totalBillAmount">Total Bill Amount:</label>
-                </div>
+        <div class="row form-group topMargin">
+            <div class="col-md-3">
 
-                <div class="col-md-1">
-                    <span id="totalBillAmount" name="billTotalPrice">0</span>
-                </div>
             </div>
 
+            <div class="col-md-3 form-group">
+                <input type="submit" id="generateBill" class="btn btn-success" value="Print">
+                <button type="button" id="clearBill" class="btn btn-warning">Cancel</button>
+            </div>
         </div>
 
     </div>
 
-    <div class="row form-group">
-        <div class="col-md-3">
-
-        </div>
-
-        <div class="col-md-3 form-group">
-            <input type="submit" id="generateBill" class="btn btn-success" value="Print">
-            <button type="button" id="clearBill" class="btn btn-warning">Cancel</button>
-        </div>
-    </div>
 </form>

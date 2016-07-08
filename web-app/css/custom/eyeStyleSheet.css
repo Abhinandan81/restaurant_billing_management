@@ -25,11 +25,6 @@
 }
 
 .tableWidth {
-    width: 100%;
-    table-layout: fixed;
-}
-
-table {
     table-layout: fixed !important;
     width: 100% !important;
     word-wrap: break-word;
@@ -100,6 +95,11 @@ table {
 .dataTableAddActionSize{
     font-size: 25px;
     margin-left: 15px;
+}
+
+.addAnotherMenu{
+    font-size: 25px;
+    padding-bottom: 5px;
 }
 
 .tooltip-inner {

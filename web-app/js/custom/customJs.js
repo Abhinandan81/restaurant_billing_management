@@ -1402,7 +1402,6 @@ var handleEvents = {
 
         //On addition of the add menu item
         $("#add_field_button").click(function(){
-
             //fetching menu names
             show.menuAutoComplete("billMenuName");
 
@@ -1477,7 +1476,8 @@ var handleEvents = {
         });
 
         $(wrapper).on("click","#remove_field", function(e){ //user click on remove text
-            e.preventDefault(); $(this).parent('div').remove(); x--;
+            e.preventDefault(); $(this).parent('div').remove();
+//            x--;
 
             //update total bill amount
             show.calculateAndUpdateTotalBillAmount();
@@ -1651,6 +1651,7 @@ var show = {
                         //update total price for menu according to quantity
                         show.updateTotalPriceForMenu("billMenuPrice_1", "quantity_1", "menuTotalPrice_1");
                     }else{
+                        console.log("handleEvents.currentMenuId :"+handleEvents.currentMenuId);
                         var splittedString = handleEvents.currentMenuId.split("_");
 
                         $("#billMenuPrice_"+splittedString[1]).text(show.menuPrice);

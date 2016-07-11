@@ -32,6 +32,15 @@ class RestaurantTagLib {
         out << userRole
     }
 
+    def renderUserRestaurant = {
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+        String userRestaurant = ""
+        if (sCtx.restaurantName != ""){
+            userRestaurant = sCtx.restaurantName
+        }
+        out << userRestaurant
+    }
+
     def renderUserBranch = {
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
         String userBranch = ""
@@ -40,6 +49,8 @@ class RestaurantTagLib {
         }
         out << userBranch
     }
+
+
 
 /*    def renderUserParentEntityFullName = {
         ServiceContext sCtx = RestSessionUtil.getServiceContext(request, springSecurityService, userManagementService)

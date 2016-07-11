@@ -55,6 +55,16 @@
 
 <script id="bill-template" type="text/x-handlebars-template">
     <div>
+        <div style="width: 40%;display: inline-block;line-height: 2%;">
+            <p><restaurant:renderUserRestaurant/></p>
+        </div>
+
+        <div style="width: 50%;display: inline-block;line-height: 2%;">
+            <p>Branch- <restaurant:renderUserBranch/></p>
+        </div>
+    </div>
+
+    <div>
 
         <div style="width: 65%;display: inline-block;line-height: 2%;">
             <p>Customer name- {{customerName}}</p>

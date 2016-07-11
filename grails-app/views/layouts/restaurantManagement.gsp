@@ -96,7 +96,7 @@
     %{--<![endif]-->--}%
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini">
 <div class="wrapper">
 
     <header class="main-header">
@@ -114,12 +114,13 @@
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-                <span><restaurant:renderUserBranch/>
-                </span>
             </a>
-
             <div class="navbar-custom-menu">
+
                 <ul class="nav navbar-nav">
+                    <li class="messages-menu dropdown pull-left">
+                        <a><span class="text-bold">Branch- <restaurant:renderUserBranch/></span></a>
+                    </li>
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -139,7 +140,7 @@
                                 </p>
                             </li>
                             <!-- Menu Footer-->
-                            <li class="user-footer">
+                            <li class="user-footer backgroundColor">
                                 <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>

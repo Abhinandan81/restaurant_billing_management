@@ -98,6 +98,7 @@ class SessionUtil {
         if (restaurant){
             restaurantName = restaurant.name
         }
+
         //find branch of the restaurant name to which user belongs
         Branch branch   =   Branch.findById(branchId)
         if (branch){

@@ -668,6 +668,7 @@ class RestaurantManagementService {
 
             if (branch){
                 billDate = commonUtilService.stringDateToLong(params.billDate)
+
                 new Bill(branch: branch, customerName: params.customerName, date: billDate,
                     total: params.totalBillAmount, orderDetails: params.allBillMenuDetails ).save(flush: true, failOnError: true)
 
@@ -675,7 +676,7 @@ class RestaurantManagementService {
             }else {
                 persistBillDetailsMap << [status: false, message: "Error in bill generation"]
             }
-
+            return persistBillDetailsMap
         }catch (Exception e){
             println "Error in bill generation"+e.printStackTrace()
         }

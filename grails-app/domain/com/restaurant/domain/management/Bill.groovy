@@ -8,5 +8,6 @@ class Bill {
 
     static belongsTo = [branch: Branch]
     static constraints = {
+        orderDetails maxSize: 5000
     }
 }

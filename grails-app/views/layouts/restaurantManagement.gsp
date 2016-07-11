@@ -114,7 +114,8 @@
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span><restaurant:renderUserBranch/>
+                </span>
             </a>
 
             <div class="navbar-custom-menu">
@@ -125,6 +126,7 @@
                             <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="user-image"
                                  alt="User Image">
                             <span class="hidden-xs"><restaurant:renderUserFullName/></span>
+
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -134,7 +136,6 @@
 
                                 <p>
                                     <restaurant:renderUserFullName/> - <restaurant:renderUserRole/>
-                                    <small>Member since Nov. 2012</small>
                                 </p>
                             </li>
                             <!-- Menu Footer-->

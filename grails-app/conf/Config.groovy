@@ -93,7 +93,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-//        grails.serverURL = "http://rollpoint.in:8080/restaurant"
+        grails.serverURL = "http://rollpoint.in:8080/restaurant"
     }
 }
 

@@ -689,7 +689,6 @@ var handleEvents = {
     branchSubmitUrl: "",
     branchId: "",
     branchManagementView: function () {
-
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#branchManagementView").addClass('active');

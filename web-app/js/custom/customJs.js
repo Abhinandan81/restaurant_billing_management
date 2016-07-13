@@ -47,10 +47,8 @@ var init = {
     updateDashboardSummary : function(){
 
         $.ajax({
-            url: '../restaurantManagement/',                                   //Path of the controller action
+            url: '../restaurantManagement/getSummaryInformation',                                   //Path of the controller action
             type: 'POST',
-            data: {branchMenuId : handleEvents.branchMenuDetailsFromTableRow[2],
-                price       : handleEvents.updatedMenuPrice },
             success: function (response) {
                 if(response.status == true){
 

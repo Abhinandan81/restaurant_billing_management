@@ -682,4 +682,24 @@ class RestaurantManagementService {
         }
 
     }
+
+    Map fetchSummaryInformation(String restaurantId){
+        Map summaryMap  =   [:]
+
+        String currentDate    =   new Date().format('dd/MM/yyyy')
+        Long currentTimestamp
+        List branchList =   []
+
+        try {
+            currentTimestamp = commonUtilService.stringDateToLong(currentDate)
+
+            branchList = commonUtilService.fetchBranchIdByRestaurantId(restaurantId)
+
+
+            return  summaryMap
+
+        }catch (Exception e){
+            println "Error in fetching summary"+e.printStackTrace()
+        }
+    }
 }

@@ -43,6 +43,25 @@ class CommonUtilService {
 
     }
 
+    List fetchBranchIdByRestaurantId(String restaurantId){
+        List branchIdList =   []
+        try{
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+            if (restaurant){
+                Branch branches  =   Branch.findAllByRestaurant(restaurant)
+                if(branches){
+                    branches.each { branch->
+                        branchIdList << branch.id
+                    }
+                }
+            }
+            return branchIdList
+        }catch (Exception e){
+            println "Error while fetching branch id list"
+        }
+
+    }
+
     String fetchMenuNameByMenuId(String menuId){
         String menuName = ""
 

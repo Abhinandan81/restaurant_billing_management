@@ -15,8 +15,11 @@ class RestaurantManagementController {
     @Secured(['ROLE_SUPER_ADMIN'])
     def dashboard(){}
 
+    @Secured(['ROLE_SUPER_ADMIN'])
     def getSummaryInformation(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
+        Map summaryInformation  =   restaurantManagementService.fetchSummaryInformation(sCtx.restaurantId)
     }
 
     /*-------------------------- START : Branch Management ---------------------------------*/

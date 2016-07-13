@@ -689,8 +689,13 @@ class RestaurantManagementService {
         String currentDate    =   new Date().format('dd/MM/yyyy')
         Long currentTimestamp
         List bills =   []
+        List groceries =   []
+
         Float todayTotalEarning =   00
-        Integer todayTotalOrders =   00
+        Integer todayTotalOrders =   0
+
+        Float addedGroceryQuantity  = 0
+        Float deductedGroceryQuantity  = 0
 
         try {
             currentTimestamp = commonUtilService.stringDateToLong(currentDate)
@@ -698,13 +703,31 @@ class RestaurantManagementService {
             bills   =   Bill.findAllByDateAndRestaurantId(currentTimestamp, restaurantId)
             todayTotalOrders    =   bills.size()
 
-            bills.each { bill ->
+            if (bills){
+                bills.each { bill ->
 
-                todayTotalEarning += bill.total
+                    todayTotalEarning += bill.total
+                }
             }
 
 
-            summaryMap  <<  [todaysTotalOrders  : todayTotalOrders, todayTotalEarning : todayTotalEarning]
+            groceries = BranchGrocery.findAllByDateAndRestaurantId(currentTimestamp, restaurantId)
+
+            if (groceries){
+                groceries.each { grocery->
+                    if (grocery.operationType == "Add"){
+                        addedGroceryQuantity    += grocery.quantity
+                    }else {
+                        deductedGroceryQuantity += grocery.quantity
+                    }
+                }
+            }
+
+
+
+
+            summaryMap  <<  [todaysTotalOrders  : todayTotalOrders, todayTotalEarning : todayTotalEarning,
+                             addedGroceryQuantity: addedGroceryQuantity, deductedGroceryQuantity : deductedGroceryQuantity]
             return  summaryMap
 
         }catch (Exception e){

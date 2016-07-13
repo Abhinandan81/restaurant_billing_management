@@ -64,6 +64,8 @@ var init = {
     updateDashboard : function(updatedMap){
         $("#totalOrders").html(updatedMap.todaysTotalOrders);
         $("#totalEarning").html(updatedMap.todayTotalEarning);
+        $("#groceryAddition").html(updatedMap.addedGroceryQuantity);
+        $("#groceryConsumption").html(updatedMap.deductedGroceryQuantity);
     }
 };
 

@@ -30,7 +30,7 @@
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>150</h3>
+                <h3 id="totalOrders"></h3>
 
                 <p>Today's total orders</p>
             </div>
@@ -45,7 +45,7 @@
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3 id="totalEarning"></h3>
 
                 <p>Today's earning</p>
             </div>

@@ -50,7 +50,7 @@ var init = {
             url: '../restaurantManagement/getSummaryInformation',                                   //Path of the controller action
             type: 'POST',
             success: function (response) {
-
+                init.updateDashboard(response);
             },
             error: function (response) {
 
@@ -59,6 +59,11 @@ var init = {
         });
 
 
+    },
+
+    updateDashboard : function(updatedMap){
+        $("#totalOrders").html(updatedMap.todaysTotalOrders);
+        $("#totalEarning").html(updatedMap.todayTotalEarning);
     }
 };
 

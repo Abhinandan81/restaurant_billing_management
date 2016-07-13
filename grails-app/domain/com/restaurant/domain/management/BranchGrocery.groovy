@@ -5,6 +5,7 @@ class BranchGrocery {
     Float price =   0
     Long date
     String branchId
+    String restaurantId
     String groceryId
     String operationType
 

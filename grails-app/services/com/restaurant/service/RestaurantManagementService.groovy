@@ -533,10 +533,10 @@ class RestaurantManagementService {
         }
     }
 
-    Map addGrocery(String branchId, String groceryId, String operationType, Float quantity, Float price, Long date, String groceryName){
+    Map addGrocery(String restaurantId, String branchId, String groceryId, String operationType, Float quantity, Float price, Long date, String groceryName){
         Map addGroceryStatusMap =   [:]
         try {
-            BranchGrocery branchGrocery =   new BranchGrocery(branchId: branchId, groceryId: groceryId, quantity: quantity,
+            BranchGrocery branchGrocery =   new BranchGrocery(restaurantId: restaurantId, branchId: branchId, groceryId: groceryId, quantity: quantity,
             price: price, operationType: operationType, date: date)
             branchGrocery.save(flush: true, failOnError: true)
 
@@ -547,10 +547,10 @@ class RestaurantManagementService {
         }
     }
 
-    Map deductGrocery(String branchId, String groceryId, String operationType, Float quantity, Long date, String groceryName){
+    Map deductGrocery(String restaurantId, String branchId, String groceryId, String operationType, Float quantity, Long date, String groceryName){
         Map deductGroceryStatusMap =   [:]
         try {
-            BranchGrocery branchGrocery =   new BranchGrocery(branchId: branchId, groceryId: groceryId, quantity: quantity,
+            BranchGrocery branchGrocery =   new BranchGrocery(restaurantId: restaurantId, branchId: branchId, groceryId: groceryId, quantity: quantity,
                     operationType: operationType, date: date)
             branchGrocery.save(flush: true, failOnError: true)
 
@@ -702,6 +702,7 @@ class RestaurantManagementService {
 
                 todayTotalEarning += bill.total
             }
+
 
             summaryMap  <<  [todaysTotalOrders  : todayTotalOrders, todayTotalEarning : todayTotalEarning]
             return  summaryMap

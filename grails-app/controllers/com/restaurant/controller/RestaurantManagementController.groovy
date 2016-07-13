@@ -256,7 +256,7 @@ class RestaurantManagementController {
         Long timeStamp  =   commonUtilService.stringDateToLong(params.groceryAddDate)
         String groceryId    =   commonUtilService.getGroceryIdByName(sCtx.restaurantId, params.addGroceryName)
         if (groceryId != ""){
-            groceryAdditionStatusMap    =   restaurantManagementService.addGrocery(sCtx.branchId, groceryId,
+            groceryAdditionStatusMap    =   restaurantManagementService.addGrocery(sCtx.restaurantId, sCtx.branchId, groceryId,
                     "Add", params.addQuantity as Float, params.addPrice as Float, timeStamp, params.addGroceryName)
         }else {
             groceryAdditionStatusMap << [status: false, message: "Invalid grocery name"]
@@ -277,7 +277,7 @@ class RestaurantManagementController {
         Long timeStamp  =   commonUtilService.stringDateToLong(params.groceryDeductDate)
         String groceryId    =   commonUtilService.getGroceryIdByName(sCtx.restaurantId, params.deductGroceryName)
         if (groceryId != ""){
-            deductGroceryStatusMap    =   restaurantManagementService.deductGrocery(sCtx.branchId, groceryId,
+            deductGroceryStatusMap    =   restaurantManagementService.deductGrocery(sCtx.restaurantId, sCtx.branchId, groceryId,
                     "Deduct", params.deductQuantity as Float, timeStamp, params.deductGroceryName)
         }else {
             deductGroceryStatusMap << [status: false, message: "Invalid grocery name"]

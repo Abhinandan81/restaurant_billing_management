@@ -5,6 +5,7 @@ class Bill {
     Long date
     String orderDetails
     Float total
+    String restaurantId
 
     static belongsTo = [branch: Branch]
     static constraints = {

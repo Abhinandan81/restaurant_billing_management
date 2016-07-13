@@ -50,11 +50,7 @@ var init = {
             url: '../restaurantManagement/getSummaryInformation',                                   //Path of the controller action
             type: 'POST',
             success: function (response) {
-                if(response.status == true){
 
-                }else{
-
-                }
             },
             error: function (response) {
 

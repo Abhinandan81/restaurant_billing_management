@@ -20,6 +20,7 @@ class RestaurantManagementController {
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
         Map summaryInformation  =   restaurantManagementService.fetchSummaryInformation(sCtx.restaurantId)
+        render summaryInformation as JSON
     }
 
     /*-------------------------- START : Branch Management ---------------------------------*/

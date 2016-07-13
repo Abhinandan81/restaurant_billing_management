@@ -669,7 +669,7 @@ class RestaurantManagementService {
             if (branch){
                 billDate = commonUtilService.stringDateToLong(params.billDate)
 
-                new Bill(branch: branch, customerName: params.customerName, date: billDate,
+                new Bill(restaurantId: sCtx.restaurantId, branch: branch, customerName: params.customerName, date: billDate,
                     total: params.totalBillAmount, orderDetails: params.allBillMenuDetails ).save(flush: true, failOnError: true)
 
                 persistBillDetailsMap << [status: true, message: "Bill generated successfully"]
@@ -688,14 +688,22 @@ class RestaurantManagementService {
 
         String currentDate    =   new Date().format('dd/MM/yyyy')
         Long currentTimestamp
-        List branchList =   []
+        List bills =   []
+        Float todayTotalEarning =   00
+        Integer todayTotalOrders =   00
 
         try {
             currentTimestamp = commonUtilService.stringDateToLong(currentDate)
 
-            branchList = commonUtilService.fetchBranchIdByRestaurantId(restaurantId)
+            bills   =   Bill.findAllByDateAndRestaurantId(currentTimestamp, restaurantId)
+            todayTotalOrders    =   bills.size()
 
+            bills.each { bill ->
 
+                todayTotalEarning += bill.total
+            }
+
+            summaryMap  <<  [todaysTotalOrders  : todayTotalOrders, todayTotalEarning : todayTotalEarning]
             return  summaryMap
 
         }catch (Exception e){

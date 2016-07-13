@@ -42,6 +42,29 @@ var init = {
             init.theCompiledHtml = theTemplate(context);
 
         }
+    },
+
+    updateDashboardSummary : function(){
+
+        $.ajax({
+            url: '../restaurantManagement/',                                   //Path of the controller action
+            type: 'POST',
+            data: {branchMenuId : handleEvents.branchMenuDetailsFromTableRow[2],
+                price       : handleEvents.updatedMenuPrice },
+            success: function (response) {
+                if(response.status == true){
+
+                }else{
+
+                }
+            },
+            error: function (response) {
+
+                commonUtilities.show_stack_bottomleft("error", "Please try again later");
+            }
+        });
+
+
     }
 };
 
@@ -1527,6 +1550,15 @@ var handleEvents = {
         w.document.write(init.theCompiledHtml.toString());
         w.print();
         w.close();
+    },
+
+    dashboardView: function () {
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#dashBoardView").addClass('active');
+
+        init.updateDashboardSummary();
+
     }
 };
 

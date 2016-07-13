@@ -12,6 +12,13 @@ class RestaurantManagementController {
     def springSecurityService
     def commonUtilService
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def dashboard(){}
+
+    def getSummaryInformation(){
+
+    }
+
     /*-------------------------- START : Branch Management ---------------------------------*/
     @Secured(['ROLE_SUPER_ADMIN'])
     def branchManagement(){}

@@ -20,8 +20,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/fontAwsome/font-awesome.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/ionicons.min.css">
-    %{--fuelUX--}%
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/fuelux.min.css">
+
     <!-- DataTables -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable/select.dataTables.min.css">
@@ -119,7 +118,7 @@
 
                 <ul class="nav navbar-nav">
                     <li class="messages-menu dropdown pull-left">
-                        <a><span class="text-bold">Branch- <restaurant:renderUserBranch/></span></a>
+                        <a><span class="text-bold"> <restaurant:renderUserBranch/></span></a>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
@@ -182,7 +181,7 @@
 
     <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
         <li id="dashBoardView" class="treeview">
-            <g:link controller="restaurantManagement" action="branchManagement">
+            <g:link controller="restaurantManagement" action="dashboard">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             </g:link>
         </li>

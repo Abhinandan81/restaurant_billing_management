@@ -91,27 +91,21 @@
 <section class="connectedSortable">
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs pull-right">
-        <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-        <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-        <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
+        <li class="active"><a href="#revenue-chart" data-toggle="tab">Daily</a></li>
+        <li><a href="#sales-chart" data-toggle="tab">Overall</a></li>
+        <li class="pull-left header"><i class="fa fa-inbox"></i> Branch wise Summary</li>
     </ul>
     <div class="tab-content no-padding">
         <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
-            <div class="row">
-                <div class="col-md-3">
-                    <select  name="branchName" class="form-control">
-                    </select>
-                </div>
+            <div id="branchWiseSummary" class="container">
             </div>
         </div>
         <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-            <div class="row">
-                <div class="col-md-3">
-                    <select  name="branchName" class="form-control">
-                    </select>
+            <div class="container">
+                <div class="row">
+
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -132,5 +126,69 @@
         customRestaurantJs.eventHandlers.dashboardView();
     });
 </script>
+
+<script id="branchSummary-template" type="text/x-handlebars-template">
+
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>{{branchTotalOrders}}</h3>
+
+                <p>Total Orders</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-cart-plus" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>{{branchTotalEarning}}</h3>
+
+                <p>Total Earning</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-inr" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>{{branchGroceryAddition}}</h3>
+
+                <p>Total Grocery Provided(Kg. + Ltr.)</p>
+            </div>
+            <div class="icon">
+                <i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i>
+            </div>
+
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>{{branchGroceryConsumption}}</h3>
+
+                <p>Total Grocery consumed(Kg. + Ltr.)</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-hand-scissors-o" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+</script>
+
 </body>
 </html>

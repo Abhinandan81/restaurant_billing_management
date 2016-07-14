@@ -53,7 +53,6 @@ var init = {
                 init.updateDashboard(response);
             },
             error: function (response) {
-
                 commonUtilities.show_stack_bottomleft("error", "Please try again later");
             }
         });
@@ -61,11 +60,32 @@ var init = {
 
     },
 
+    theCompiledBranchSummaryHtml : "",
     updateDashboard : function(updatedMap){
         $("#totalOrders").html(updatedMap.todaysTotalOrders);
         $("#totalEarning").html(updatedMap.todayTotalEarning);
         $("#groceryAddition").html(updatedMap.addedGroceryQuantity);
         $("#groceryConsumption").html(updatedMap.deductedGroceryQuantity);
+
+//        update branch wise details
+        // Grab the template script
+        var theTemplateScript = $("#branchSummary-template").html();
+
+        // Compile the template
+        var theTemplate = Handlebars.compile(theTemplateScript);
+
+        // Define our data object
+        var context={
+            "branchTotalOrders": 10,
+            "branchTotalEarning": 20,
+            "branchGroceryAddition": 30,
+            "branchGroceryConsumption": 40
+        };
+
+        // Pass our data to the template
+        init.theCompiledBranchSummaryHtml = theTemplate(context);
+
+        $("#branchWiseSummary").append(init.theCompiledBranchSummaryHtml);
     }
 };
 
@@ -1559,6 +1579,8 @@ var handleEvents = {
         $("#dashBoardView").addClass('active');
 
         init.updateDashboardSummary();
+
+
 
     }
 };

@@ -714,7 +714,7 @@ class RestaurantManagementService {
             groceries = BranchGrocery.findAllByDateAndRestaurantId(currentTimestamp, restaurantId)
 
             if (groceries){
-                groceries.each { grocery->
+                groceries.each { grocery ->
                     if (grocery.operationType == "Add"){
                         addedGroceryQuantity    += grocery.quantity
                     }else {
@@ -722,9 +722,6 @@ class RestaurantManagementService {
                     }
                 }
             }
-
-
-
 
             summaryMap  <<  [todaysTotalOrders  : todayTotalOrders, todayTotalEarning : todayTotalEarning,
                              addedGroceryQuantity: addedGroceryQuantity, deductedGroceryQuantity : deductedGroceryQuantity]

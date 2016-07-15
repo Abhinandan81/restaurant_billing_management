@@ -690,14 +690,23 @@ class RestaurantManagementService {
         Long currentTimestamp
         List bills =   []
         List groceries =   []
+        List branchList =   []
+        List branchSummary  =   []
+        Map branchSummaryMap =   [:]
 
         Float todayTotalEarning =   00
         Integer todayTotalOrders =   0
+        Integer todayBranchTotalOrders =   0
+        Float todayBranchTotalEarning =   0
 
         Float addedGroceryQuantity  = 0
         Float deductedGroceryQuantity  = 0
 
+        Float branchAddedGroceryQuantity  = 0
+        Float branchDeductedGroceryQuantity  = 0
+
         try {
+            Restaurant restaurant = Restaurant.findById(restaurantId)
             currentTimestamp = commonUtilService.stringDateToLong(currentDate)
 
             bills   =   Bill.findAllByDateAndRestaurantId(currentTimestamp, restaurantId)
@@ -705,11 +714,9 @@ class RestaurantManagementService {
 
             if (bills){
                 bills.each { bill ->
-
                     todayTotalEarning += bill.total
                 }
             }
-
 
             groceries = BranchGrocery.findAllByDateAndRestaurantId(currentTimestamp, restaurantId)
 
@@ -723,8 +730,52 @@ class RestaurantManagementService {
                 }
             }
 
+            if (restaurant){
+                branchList =   Branch.findAllByRestaurant(restaurant)
+
+                if (branchList){
+                    branchList.each { branch->
+                        branchSummaryMap    =   [:]
+                        bills   =   Bill.findAllByDateAndBranch(currentTimestamp, branch)
+
+                        todayBranchTotalOrders  =   bills.size()
+
+                        if (bills){
+                            todayBranchTotalEarning =   0
+                            bills.each { bill ->
+                                todayBranchTotalEarning += bill.total
+                            }
+                        }
+
+                        groceries = BranchGrocery.findAllByDateAndBranchId(currentTimestamp, branch)
+                        if (groceries){
+                            branchAddedGroceryQuantity = 0
+                            branchDeductedGroceryQuantity = 0
+                            groceries.each { grocery ->
+                                if (grocery.operationType == "Add"){
+                                    branchAddedGroceryQuantity    += grocery.quantity
+                                }else {
+                                    branchDeductedGroceryQuantity += grocery.quantity
+                                }
+                            }
+                        }
+
+                        branchSummaryMap << [todayBranchTotalOrders : todayBranchTotalOrders,
+                                             todayBranchTotalEarning: todayBranchTotalEarning,
+                                             branchAddedGroceryQuantity: branchAddedGroceryQuantity,
+                                             branchDeductedGroceryQuantity: branchDeductedGroceryQuantity]
+
+                        branchSummary   << branchSummaryMap
+                    }
+                }
+            }
+
+
+
             summaryMap  <<  [todaysTotalOrders  : todayTotalOrders, todayTotalEarning : todayTotalEarning,
-                             addedGroceryQuantity: addedGroceryQuantity, deductedGroceryQuantity : deductedGroceryQuantity]
+                             addedGroceryQuantity: addedGroceryQuantity,
+                             deductedGroceryQuantity : deductedGroceryQuantity,
+                             branchSummary : branchSummary]
             return  summaryMap
 
         }catch (Exception e){

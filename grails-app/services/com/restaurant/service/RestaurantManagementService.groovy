@@ -736,21 +736,22 @@ class RestaurantManagementService {
                 if (branchList){
                     branchList.each { branch->
                         branchSummaryMap    =   [:]
+                        todayBranchTotalEarning =   0
+                        branchAddedGroceryQuantity = 0
+                        branchDeductedGroceryQuantity = 0
+
                         bills   =   Bill.findAllByDateAndBranch(currentTimestamp, branch)
 
                         todayBranchTotalOrders  =   bills.size()
 
                         if (bills){
-                            todayBranchTotalEarning =   0
                             bills.each { bill ->
                                 todayBranchTotalEarning += bill.total
                             }
                         }
 
-                        groceries = BranchGrocery.findAllByDateAndBranchId(currentTimestamp, branch)
+                        groceries = BranchGrocery.findAllByDateAndBranchId(currentTimestamp, branch.id as String)
                         if (groceries){
-                            branchAddedGroceryQuantity = 0
-                            branchDeductedGroceryQuantity = 0
                             groceries.each { grocery ->
                                 if (grocery.operationType == "Add"){
                                     branchAddedGroceryQuantity    += grocery.quantity
@@ -760,7 +761,8 @@ class RestaurantManagementService {
                             }
                         }
 
-                        branchSummaryMap << [todayBranchTotalOrders : todayBranchTotalOrders,
+                        branchSummaryMap << [branchName : branch.name,
+                                             todayBranchTotalOrders : todayBranchTotalOrders,
                                              todayBranchTotalEarning: todayBranchTotalEarning,
                                              branchAddedGroceryQuantity: branchAddedGroceryQuantity,
                                              branchDeductedGroceryQuantity: branchDeductedGroceryQuantity]

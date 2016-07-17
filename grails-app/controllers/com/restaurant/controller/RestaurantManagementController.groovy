@@ -20,8 +20,6 @@ class RestaurantManagementController {
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
         Map summaryInformation  =   restaurantManagementService.fetchSummaryInformation(sCtx.restaurantId)
-
-        println "summaryInformation :"+summaryInformation
         render summaryInformation as JSON
     }
 

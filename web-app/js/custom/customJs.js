@@ -76,10 +76,7 @@ var init = {
 
         // Define our data object
         var context={
-            "branchTotalOrders": 10,
-            "branchTotalEarning": 20,
-            "branchGroceryAddition": 30,
-            "branchGroceryConsumption": 40
+            "branchSummary" : updatedMap.branchSummary
         };
 
         // Pass our data to the template

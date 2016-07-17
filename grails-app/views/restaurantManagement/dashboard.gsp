@@ -96,11 +96,11 @@
         <li class="pull-left header"><i class="fa fa-inbox"></i> Branch wise Summary</li>
     </ul>
     <div class="tab-content no-padding">
-        <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
+        <div class="chart tab-pane active" id="revenue-chart" style="position: relative;">
             <div id="branchWiseSummary" class="container">
             </div>
         </div>
-        <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+        <div class="chart tab-pane" id="sales-chart" style="position: relative;">
             <div class="container">
                 <div class="row">
 
@@ -128,13 +128,27 @@
 </script>
 
 <script id="branchSummary-template" type="text/x-handlebars-template">
-
+{{#each branchSummary}}
 <div class="row">
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-3 col-md-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-gray">
+            <div class="inner">
+                <h3>{{branchName}}</h3>
+
+                <p>Branch</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-sitemap" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-xs-4">
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>{{branchTotalOrders}}</h3>
+                <h3>{{todayBranchTotalOrders}}</h3>
 
                 <p>Total Orders</p>
             </div>
@@ -144,11 +158,11 @@
         </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-2 col-md-2 col-xs-4">
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>{{branchTotalEarning}}</h3>
+                <h3>{{todayBranchTotalEarning}}</h3>
 
                 <p>Total Earning</p>
             </div>
@@ -158,13 +172,13 @@
         </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-2 col-md-2 col-xs-4">
         <!-- small box -->
         <div class="small-box bg-yellow">
             <div class="inner">
-                <h3>{{branchGroceryAddition}}</h3>
+                <h3>{{branchAddedGroceryQuantity}}</h3>
 
-                <p>Total Grocery Provided(Kg. + Ltr.)</p>
+                <p>Provided Grocery</p>
             </div>
             <div class="icon">
                 <i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i>
@@ -173,13 +187,13 @@
         </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-2 col-md-2 col-xs-4">
         <!-- small box -->
         <div class="small-box bg-red">
             <div class="inner">
-                <h3>{{branchGroceryConsumption}}</h3>
+                <h3>{{branchDeductedGroceryQuantity}}</h3>
 
-                <p>Total Grocery consumed(Kg. + Ltr.)</p>
+                <p>Consumed Grocery</p>
             </div>
             <div class="icon">
                 <i class="fa fa-hand-scissors-o" aria-hidden="true"></i>
@@ -187,6 +201,7 @@
         </div>
     </div>
 </div>
+{{/each}}
 
 </script>
 

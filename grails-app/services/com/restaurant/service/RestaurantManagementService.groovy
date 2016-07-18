@@ -689,7 +689,9 @@ class RestaurantManagementService {
         String currentDate    =   new Date().format('dd/MM/yyyy')
         Long currentTimestamp
         List bills =   []
+        List allBills =   []
         List groceries =   []
+        List branchGroceries =   []
         List branchList =   []
         List branchSummary  =   []
         Map branchSummaryMap =   [:]
@@ -697,6 +699,8 @@ class RestaurantManagementService {
         Float todayTotalEarning =   00
         Integer todayTotalOrders =   0
         Integer todayBranchTotalOrders =   0
+        Integer branchTotalOrders =   0
+
         Float todayBranchTotalEarning =   0
 
         Float addedGroceryQuantity  = 0
@@ -705,10 +709,15 @@ class RestaurantManagementService {
         Float branchAddedGroceryQuantity  = 0
         Float branchDeductedGroceryQuantity  = 0
 
+        Float branchTotalEarning  = 0
+        Float branchOverallAddedGroceryQuantity  = 0
+        Float branchOverallDeductedGroceryQuantity  = 0
+
         try {
             Restaurant restaurant = Restaurant.findById(restaurantId)
             currentTimestamp = commonUtilService.stringDateToLong(currentDate)
 
+            //finding daily orders
             bills   =   Bill.findAllByDateAndRestaurantId(currentTimestamp, restaurantId)
             todayTotalOrders    =   bills.size()
 
@@ -739,7 +748,11 @@ class RestaurantManagementService {
                         todayBranchTotalEarning =   0
                         branchAddedGroceryQuantity = 0
                         branchDeductedGroceryQuantity = 0
+                        branchTotalEarning = 0
+                        branchOverallAddedGroceryQuantity  = 0
+                        branchOverallDeductedGroceryQuantity  = 0
 
+                        //finding daily orders
                         bills   =   Bill.findAllByDateAndBranch(currentTimestamp, branch)
 
                         todayBranchTotalOrders  =   bills.size()
@@ -750,6 +763,18 @@ class RestaurantManagementService {
                             }
                         }
 
+                        //finding all orders
+                        allBills   =   Bill.findAllByBranch(branch)
+
+                        branchTotalOrders  =   allBills.size()
+
+                        if (allBills){
+                            allBills.each { bill ->
+                                branchTotalEarning += bill.total
+                            }
+                        }
+
+                        //finding daily orders
                         groceries = BranchGrocery.findAllByDateAndBranchId(currentTimestamp, branch.id as String)
                         if (groceries){
                             groceries.each { grocery ->
@@ -761,11 +786,29 @@ class RestaurantManagementService {
                             }
                         }
 
+                        //finding all orders
+                        branchGroceries = BranchGrocery.findAllByBranchId(branch.id as String)
+
+                        if (branchGroceries){
+                            branchGroceries.each { grocery ->
+                                if (grocery.operationType == "Add"){
+                                    branchOverallAddedGroceryQuantity    += grocery.quantity
+                                }else {
+                                    branchOverallDeductedGroceryQuantity += grocery.quantity
+                                }
+                            }
+                        }
+
+
                         branchSummaryMap << [branchName : branch.name,
                                              todayBranchTotalOrders : todayBranchTotalOrders,
                                              todayBranchTotalEarning: todayBranchTotalEarning,
                                              branchAddedGroceryQuantity: branchAddedGroceryQuantity,
-                                             branchDeductedGroceryQuantity: branchDeductedGroceryQuantity]
+                                             branchDeductedGroceryQuantity: branchDeductedGroceryQuantity,
+                                             overAllBranchTotalOrders:branchTotalOrders,
+                                             overAllBranchTotalEarning: branchTotalEarning,
+                                             overAllBranchAddedGroceryQuantity : branchOverallAddedGroceryQuantity,
+                                             overAllBranchDeductedGroceryQuantity: branchOverallDeductedGroceryQuantity]
 
                         branchSummary   << branchSummaryMap
                     }

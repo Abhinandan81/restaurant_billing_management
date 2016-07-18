@@ -46,7 +46,24 @@ var init = {
 
     updateDashboardSummary : function(){
 
-        $.ajax({
+        (function worker() {
+            $.ajax({
+                url: '../restaurantManagement/getSummaryInformation',                                   //Path of the controller action
+                type: 'POST',
+                success: function (response) {
+                    init.updateDashboard(response);
+                },
+                error: function (response) {
+                    commonUtilities.show_stack_bottomleft("error", "Please try again later");
+                },
+                complete: function() {
+                    // Schedule the next request when the current one's complete
+                    setTimeout(worker, 120000);
+                }
+            });
+        })();
+
+        /*$.ajax({
             url: '../restaurantManagement/getSummaryInformation',                                   //Path of the controller action
             type: 'POST',
             success: function (response) {
@@ -55,8 +72,7 @@ var init = {
             error: function (response) {
                 commonUtilities.show_stack_bottomleft("error", "Please try again later");
             }
-        });
-
+        });*/
 
     },
 
@@ -82,7 +98,27 @@ var init = {
         // Pass our data to the template
         init.theCompiledBranchSummaryHtml = theTemplate(context);
 
+        $("#branchWiseSummary").html("");
         $("#branchWiseSummary").append(init.theCompiledBranchSummaryHtml);
+
+
+        //        update over all branch wise details
+        // Grab the template script
+        var overAllBranchDetailsScript = $("#overAllBranchSummary-template").html();
+
+        // Compile the template
+        var theBranchTemplate = Handlebars.compile(overAllBranchDetailsScript);
+
+        // Define our data object
+        var branchContext={
+            "overAllBranchSummary" : updatedMap.branchSummary
+        };
+
+        // Pass our data to the template
+        init.theCompiledOverAllBranchSummaryHtml = theBranchTemplate(branchContext);
+
+        $("#overAllBranchWiseSummary").html("");
+        $("#overAllBranchWiseSummary").append(init.theCompiledOverAllBranchSummaryHtml);
     }
 };
 
@@ -1576,9 +1612,6 @@ var handleEvents = {
         $("#dashBoardView").addClass('active');
 
         init.updateDashboardSummary();
-
-
-
     }
 };
 

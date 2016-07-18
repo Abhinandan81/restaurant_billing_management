@@ -86,7 +86,7 @@
 </div>
 <!-- /.row -->
 <!-- Main row -->
-<div class="row">
+<div class="row rowMargin">
 <!-- Left col -->
 <section class="connectedSortable">
 <div class="nav-tabs-custom">
@@ -101,10 +101,7 @@
             </div>
         </div>
         <div class="chart tab-pane" id="sales-chart" style="position: relative;">
-            <div class="container">
-                <div class="row">
-
-                </div>
+            <div id="overAllBranchWiseSummary" class="container">
             </div>
         </div>
     </div>
@@ -128,82 +125,62 @@
 </script>
 
 <script id="branchSummary-template" type="text/x-handlebars-template">
-{{#each branchSummary}}
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-gray">
-            <div class="inner">
-                <h3>{{branchName}}</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Branch Name</th>
+            <th>Total Orders</th>
+            <th>Total Earning</th>
+            <th>Provided Grocery</th>
+            <th>Consumed Grocery</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each branchSummary}}
 
-                <p>Branch</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-sitemap" aria-hidden="true"></i>
-            </div>
-        </div>
-    </div>
+        <tr>
+            <td>{{branchName}}</td>
+            <td>{{todayBranchTotalOrders}}</td>
+            <td>Rs. {{todayBranchTotalEarning}}</td>
+            <td>{{branchAddedGroceryQuantity}}</td>
+            <td>{{branchDeductedGroceryQuantity}}</td>
+        </tr>
+        {{/each}}
 
-    <div class="col-lg-2 col-md-2 col-xs-4">
-        <!-- small box -->
-        <div class="small-box bg-aqua">
-            <div class="inner">
-                <h3>{{todayBranchTotalOrders}}</h3>
-
-                <p>Total Orders</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-cart-plus" aria-hidden="true"></i>
-            </div>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-2 col-md-2 col-xs-4">
-        <!-- small box -->
-        <div class="small-box bg-green">
-            <div class="inner">
-                <h3>{{todayBranchTotalEarning}}</h3>
-
-                <p>Total Earning</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-inr" aria-hidden="true"></i>
-            </div>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-2 col-md-2 col-xs-4">
-        <!-- small box -->
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3>{{branchAddedGroceryQuantity}}</h3>
-
-                <p>Provided Grocery</p>
-            </div>
-            <div class="icon">
-                <i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i>
-            </div>
-
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-2 col-md-2 col-xs-4">
-        <!-- small box -->
-        <div class="small-box bg-red">
-            <div class="inner">
-                <h3>{{branchDeductedGroceryQuantity}}</h3>
-
-                <p>Consumed Grocery</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-hand-scissors-o" aria-hidden="true"></i>
-            </div>
-        </div>
-    </div>
+        </tbody>
+    </table>
 </div>
-{{/each}}
 
 </script>
 
+<script id="overAllBranchSummary-template" type="text/x-handlebars-template">
+<div class="row">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Branch Name</th>
+            <th>Total Orders</th>
+            <th>Total Earning</th>
+            <th>Provided Grocery</th>
+            <th>Consumed Grocery</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each overAllBranchSummary}}
+
+        <tr>
+            <td>{{branchName}}</td>
+            <td>{{overAllBranchTotalOrders}}</td>
+            <td>{{overAllBranchTotalEarning}}</td>
+            <td>{{overAllBranchAddedGroceryQuantity}}</td>
+            <td>{{overAllBranchDeductedGroceryQuantity}}</td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    </div>
+</div>
+</script>
 </body>
 </html>

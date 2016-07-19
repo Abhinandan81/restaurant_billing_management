@@ -23,6 +23,11 @@ class RestaurantManagementController {
         render summaryInformation as JSON
     }
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def dashboardReports(){
+
+    }
+
     /*-------------------------- START : Branch Management ---------------------------------*/
     @Secured(['ROLE_SUPER_ADMIN'])
     def branchManagement(){}

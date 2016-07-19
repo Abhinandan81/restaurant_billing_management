@@ -180,8 +180,6 @@
                 <li class="header">MAIN NAVIGATION</li>
 
     <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
-
-
         <li id="dashboardManagementView" class="treeview">
             <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i
@@ -195,7 +193,7 @@
                     </g:link>
                 </li>
                 <li id="dashBoardReports" class="treeview">
-                    <g:link controller="restaurantManagement" action="dashboard">
+                    <g:link controller="restaurantManagement" action="dashboardReports">
                         <i class="fa fa-circle-o"></i> <span>Reports</span>
                     </g:link>
                 </li>

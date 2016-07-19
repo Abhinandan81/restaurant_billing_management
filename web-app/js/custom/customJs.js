@@ -1606,13 +1606,33 @@ var handleEvents = {
         w.close();
     },
 
-    dashboardView: function () {
+    dashboardSummaryView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
         $("#dashboardManagementView").addClass('active');
         $("#dashBoardSummary").addClass('active');
 
         init.updateDashboardSummary();
+    },
+
+    dashboardReportView: function () {
+        //adding active class to current view
+        $(".sidebar-menu li").removeClass('active');
+        $("#dashboardManagementView").addClass('active');
+        $("#dashBoardReports").addClass('active');
+
+        //function to prefetch and display branch names in drop down box
+        show.fetchBranchNameAndAppendOptions("branchOptions");
+
+        $("#reportStartDate").datepicker({
+            format: 'dd/mm/yyyy',
+            endDate: '+0d'
+        });
+
+        $("#reportEndDate").datepicker({
+            format: 'dd/mm/yyyy',
+            endDate: '+0d'
+        });
     }
 };
 

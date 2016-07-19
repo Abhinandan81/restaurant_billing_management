@@ -120,7 +120,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        customRestaurantJs.eventHandlers.dashboardView();
+        customRestaurantJs.eventHandlers.dashboardSummaryView();
     });
 </script>
 

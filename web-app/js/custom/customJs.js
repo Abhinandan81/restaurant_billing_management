@@ -1609,7 +1609,8 @@ var handleEvents = {
     dashboardView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
-        $("#dashBoardView").addClass('active');
+        $("#dashboardManagementView").addClass('active');
+        $("#dashBoardSummary").addClass('active');
 
         init.updateDashboardSummary();
     }

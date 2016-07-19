@@ -180,11 +180,28 @@
                 <li class="header">MAIN NAVIGATION</li>
 
     <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
-        <li id="dashBoardView" class="treeview">
-            <g:link controller="restaurantManagement" action="dashboard">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            </g:link>
+
+
+        <li id="dashboardManagementView" class="treeview">
+            <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i
+                    class="fa fa-angle-left pull-right"></i>
+            </a>
+
+            <ul class="treeview-menu">
+                <li id="dashBoardSummary" class="treeview">
+                    <g:link controller="restaurantManagement" action="dashboard">
+                        <i class="fa fa-circle-o"></i> <span>Summary</span>
+                    </g:link>
+                </li>
+                <li id="dashBoardReports" class="treeview">
+                    <g:link controller="restaurantManagement" action="dashboard">
+                        <i class="fa fa-circle-o"></i> <span>Reports</span>
+                    </g:link>
+                </li>
+            </ul>
         </li>
+
     </sec:ifAnyGranted>
 
 
@@ -204,7 +221,6 @@
 
                             <i class="fa fa-users"></i> <span>User Management</span>
                         </g:link>
-
                     </li>
                 </sec:ifAnyGranted>
 

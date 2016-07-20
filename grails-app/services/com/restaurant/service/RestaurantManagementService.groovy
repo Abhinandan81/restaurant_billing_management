@@ -827,4 +827,35 @@ class RestaurantManagementService {
             println "Error in fetching summary"+e.printStackTrace()
         }
     }
+
+    List fetchBillingReportDetails(String branchId, String startDate, String endDate){
+        List billingDetailsList =   []
+        List billingDetails   =   []
+        List bills= []
+
+        Long sDate
+        Long eDate
+
+        try {
+            sDate   =   commonUtilService.stringDateToLong(startDate)
+            eDate   =   commonUtilService.stringDateToLong(endDate)
+
+            Branch branch   =   Branch.findById(branchId)
+
+            if (branch){
+                bills = Bill.findAllByBranchAndDateBetween(branch, sDate, eDate)
+
+                if (bills){
+                    bills.each { bill->
+                        billingDetails  = [bill.date, bill.total]
+                        billingDetailsList << billingDetails
+                    }
+                }
+            }
+            return billingDetailsList
+        }catch (Exception e){
+
+        }
+
+    }
 }

@@ -25,7 +25,16 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def dashboardReports(){
+    }
 
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def billingReport(){
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        String branchId =   commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
+
+        println "Params :"+params
+//        List billingReportDetails    =   restaurantManagementService.fetchBillingReportDetails(branchId)
     }
 
     /*-------------------------- START : Branch Management ---------------------------------*/

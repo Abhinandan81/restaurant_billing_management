@@ -756,8 +756,55 @@ var validateForms = {
                 return false;
             }
         });
-    }
+    },
 
+    validateBillReport: function () {
+        console.log("validator ---");
+
+        $("#billReportForm").validate({
+            errorElement : 'div',
+
+            errorPlacement: function(error, element) {
+                error.addClass("customError");
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            rules: {
+                reportType       :   {required: true},
+                branchName        :   {required: true},
+                startDate       :   {required: true},
+                endDate            :   {required : true}
+            },
+
+            messages: {
+                reportType     :   "Please give reportType",
+                branchName     :   "Please select branch name",
+                startDate      :   "Please select start date",
+                endDate        :   "Please select end date"
+            },
+            //after form validation
+            submitHandler: function () {
+                handleEvents.userUpdateInformationMap();
+                $.ajax({
+                    url: '../restaurantManagement/billingReport',                                   //Path of the controller action
+                    type: 'POST',
+                    //on successful operation
+                    success: function (response) {
+
+                    },
+                    error: function (response) {
+                        commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
+                    }
+                });
+                return false;
+            }
+        });
+    }
 };
 var handleEvents = {
 
@@ -1615,6 +1662,7 @@ var handleEvents = {
         init.updateDashboardSummary();
     },
 
+    selectedBranchOption : "",
     dashboardReportView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -1632,6 +1680,20 @@ var handleEvents = {
         $("#reportEndDate").datepicker({
             format: 'dd/mm/yyyy',
             endDate: '+0d'
+        });
+
+        $("#getReport").click(function(){
+            console.log("clicker --", $("#branchOptions").val());
+            handleEvents.selectedBranchOption = $("#branchOptions").val();
+
+            if (handleEvents.selectedBranchOption == "-- Select Branch --") {
+                BootstrapDialog.alert("Please select branch");
+            } else {
+                console.log("clicker------");
+
+                //validate the form
+//                validateForms.validateBillReport();
+            }
         });
     }
 };

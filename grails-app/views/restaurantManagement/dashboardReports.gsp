@@ -28,45 +28,47 @@
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-lg-12">
                     <div id="reportSelectionDiv" class="box">
-                       %{-- <div class="box-header">
-                            <h4 id="branchHeader"  class="box-title">Select report type to view details</h4>
-                        </div><!-- /.box-header -->--}%
+                        %{-- <div class="box-header">
+                             <h4 id="branchHeader"  class="box-title">Select report type to view details</h4>
+                         </div><!-- /.box-header -->--}%
 
                         <div class="box-body">
-                        <form class="form-horizontal" id="deductGroceryForm" method="POST">
-                        <div class="radio col-md-12 col-sm-12">
-                            <label><input type="radio" name="optradio">Billing Report</label>
-                            <label><input type="radio" name="optradio">Grocery Report</label>
-                        </div>
-
-                        <div class="col-md-12 col-sm-12 reportRowMargin">
-                            <div id="reportInputDiv" class="radio col-md-3 col-sm-3">
-                                <select id="branchOptions" name="branchName" class="form-control">
-                                </select>
-                            </div>
-
-                            <div class="col-md-2 col-sm-2">
-                                <div id="reportStartDate" class="input-group input-append date">
-                                    <input type="text" class="form-control" id="startDate" name="startDate" placeholder="Start Date" readonly="readonly">
-                                    <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <form class="form-horizontal" id="billReportForm" method="POST">
+                                <div class="radio col-md-12 col-sm-12">
+                                    <label><input type="radio" name="reportType">Billing Report</label>
+                                    <label><input type="radio" name="reportType">Grocery Report</label>
                                 </div>
-                            </div>
 
-                            <div class="col-md-2 col-sm-2">
-                                <div id="reportEndDate" class="input-group input-append date">
-                                    <input type="text" class="form-control" id="endDate" name="endDate" placeholder="End Date" readonly="readonly">
-                                    <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <div class="col-md-12 col-sm-12 reportRowMargin">
+                                    <div id="reportInputDiv" class="radio col-md-3 col-sm-3">
+                                        <select id="branchOptions" name="branchName" class="form-control">
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 col-sm-2">
+                                        <div id="reportStartDate" class="input-group input-append date">
+                                            <input type="text" class="form-control" id="startDate" name="startDate"
+                                                   placeholder="Start Date" readonly="readonly">
+                                            <span class="input-group-addon add-on"><span
+                                                    class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2 col-sm-2">
+                                        <div id="reportEndDate" class="input-group input-append date">
+                                            <input type="text" class="form-control" id="endDate" name="endDate"
+                                                   placeholder="End Date" readonly="readonly">
+                                            <span class="input-group-addon add-on"><span
+                                                    class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <input type="submit" id="getReport" class="btn btn-default" value="Get Report">
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <input type="submit" id="getReport" class="btn btn-default" value="Get Report">
-                            </div>
-                        </div>
 
                             </form>
-
-
                             %{--<g:render template="/include/NewBranchForm"></g:render>--}%
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
@@ -75,8 +77,11 @@
                     <div id="reportDetailsDiv" class="box">
                         <div class="box-header">
                             <h4 class="box-title">Existing Branch Details</h4>
+
                             <div class="pull-right">
-                                <i id="newBranch" class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize" aria-hidden="true"></i>
+                                <i id="newBranch"
+                                   class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize"
+                                   aria-hidden="true"></i>
                             </div>
                         </div><!-- /.box-header -->
 
@@ -94,39 +99,10 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
-
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
-
-    <div id="deleteBranchModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteBranchModal">
-        <div class="modal-dialog modalWidth" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-
-                    <h2 class="modal-title text-warning">Delete Branch</h2>
-                </div>
-
-                <div  id="deleteBranchModalBody" class="modal-body fontColor">
-                    <p id="branchDeletionMessage" class="text-info"></p>
-                    <div id="branchDeletionModalBody">
-                        <input id="branchNameValidator" class="form-control" type="text" placeholder="Branch Name here">
-                        <span class="customError" id="invalidBranchNameMessage"></span>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button id="confirmBranchDelete" type="button" class="btn btn-danger">Delete</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div><!-- ./wrapper -->
 
 <!-- page script -->

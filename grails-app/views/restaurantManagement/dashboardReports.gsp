@@ -33,11 +33,13 @@
                          </div><!-- /.box-header -->--}%
 
                         <div class="box-body">
+
                             <form class="form-horizontal" id="billReportForm" method="POST">
                                 <div class="radio col-md-12 col-sm-12">
-                                    <label><input type="radio" name="reportType">Billing Report</label>
-                                    <label><input type="radio" name="reportType">Grocery Report</label>
+                                    <label><input type="radio" name="reportType" checked value="bill">Billing Report</label>
+                                    <label><input type="radio" name="reportType" value="grocery">Grocery Report</label>
                                 </div>
+
 
                                 <div class="col-md-12 col-sm-12 reportRowMargin">
                                     <div id="reportInputDiv" class="radio col-md-3 col-sm-3">

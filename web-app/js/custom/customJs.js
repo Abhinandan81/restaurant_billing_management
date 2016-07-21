@@ -119,6 +119,39 @@ var init = {
 
         $("#overAllBranchWiseSummary").html("");
         $("#overAllBranchWiseSummary").append(init.theCompiledOverAllBranchSummaryHtml);
+    },
+
+    dateInitilization: function(){
+        var checkin = $('#reportStartDate').datepicker({
+            format: 'dd/mm/yyyy',
+            beforeShowDay: function (date) {
+                return date.valueOf();
+            },
+            autoclose: true
+
+        }).on('changeDate', function (ev) {
+            if (ev.date.valueOf() > checkout.datepicker("getDate").valueOf() || !checkout.datepicker("getDate").valueOf()) {
+
+                var newDate = new Date(ev.date);
+                newDate.setDate(newDate.getDate() + 1);
+                checkout.datepicker("update", newDate);
+
+            }
+            $('#reportEndDate')[0].focus();
+        });
+
+        var checkout = $('#reportEndDate').datepicker({
+            format: 'dd/mm/yyyy',
+            beforeShowDay: function (date) {
+                if (!checkin.datepicker("getDate").valueOf()) {
+                    return date.valueOf() >= new Date().valueOf();
+                } else {
+                    return date.valueOf() > checkin.datepicker("getDate").valueOf();
+                }
+            },
+            autoclose: true
+
+        }).on('changeDate', function (ev) {});
     }
 };
 
@@ -759,8 +792,6 @@ var validateForms = {
     },
 
     validateBillReport: function () {
-        console.log("validator ---");
-
         $("#billReportForm").validate({
             errorElement : 'div',
 
@@ -775,22 +806,18 @@ var validateForms = {
             },
 
             rules: {
-                reportType       :   {required: true},
-                branchName        :   {required: true},
                 startDate       :   {required: true},
                 endDate            :   {required : true}
             },
 
             messages: {
-                reportType     :   "Please give reportType",
-                branchName     :   "Please select branch name",
                 startDate      :   "Please select start date",
                 endDate        :   "Please select end date"
             },
             //after form validation
-            submitHandler: function () {
+            submitHandler: function (form) {
                 handleEvents.userUpdateInformationMap();
-                $.ajax({
+                $(form).ajaxSubmit({
                     url: '../restaurantManagement/billingReport',                                   //Path of the controller action
                     type: 'POST',
                     //on successful operation
@@ -1662,7 +1689,7 @@ var handleEvents = {
         init.updateDashboardSummary();
     },
 
-    selectedBranchOption : "",
+    reportStartDate: "",
     dashboardReportView: function () {
         //adding active class to current view
         $(".sidebar-menu li").removeClass('active');
@@ -1672,28 +1699,13 @@ var handleEvents = {
         //function to prefetch and display branch names in drop down box
         show.fetchBranchNameAndAppendOptions("branchOptions");
 
-        $("#reportStartDate").datepicker({
-            format: 'dd/mm/yyyy',
-            endDate: '+0d'
-        });
+        init.dateInitilization();
 
-        $("#reportEndDate").datepicker({
-            format: 'dd/mm/yyyy',
-            endDate: '+0d'
-        });
+
 
         $("#getReport").click(function(){
-            console.log("clicker --", $("#branchOptions").val());
-            handleEvents.selectedBranchOption = $("#branchOptions").val();
-
-            if (handleEvents.selectedBranchOption == "-- Select Branch --") {
-                BootstrapDialog.alert("Please select branch");
-            } else {
-                console.log("clicker------");
-
                 //validate the form
-//                validateForms.validateBillReport();
-            }
+                validateForms.validateBillReport();
         });
     }
 };

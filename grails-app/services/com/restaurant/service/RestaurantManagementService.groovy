@@ -847,7 +847,9 @@ class RestaurantManagementService {
 
                 if (bills){
                     bills.each { bill->
-                        billingDetails  = [bill.date, bill.total]
+                        Date date   =   new Date(bill.date)
+                        String billDate = date.format('dd-MMM-yyyy')
+                        billingDetails  = [billDate, "Rs. "+bill.total]
                         billingDetailsList << billingDetails
                     }
                 }

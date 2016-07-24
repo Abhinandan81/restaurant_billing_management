@@ -27,74 +27,24 @@
         <section class="content">
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-lg-12">
-                    <div id="reportSelectionDiv" class="box">
-                        %{-- <div class="box-header">
-                             <h4 id="branchHeader"  class="box-title">Select report type to view details</h4>
-                         </div><!-- /.box-header -->--}%
-
+                    <div id="reportSelectionDiv" class="box backgroundColor">
                         <div class="box-body">
-
-                            <form class="form-horizontal" id="billReportForm" method="POST">
-                                <div class="radio col-md-12 col-sm-12">
-                                    <label><input type="radio" name="reportType" checked value="bill">Billing Report</label>
-                                    <label><input type="radio" name="reportType" value="grocery">Grocery Report</label>
-                                </div>
-
-
-                                <div class="col-md-12 col-sm-12 reportRowMargin">
-                                    <div id="reportInputDiv" class="radio col-md-3 col-sm-3">
-                                        <select id="branchOptions" name="branchName" class="form-control">
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-2 col-sm-2">
-                                        <div id="reportStartDate" class="input-group input-append date">
-                                            <input type="text" class="form-control" id="startDate" name="startDate"
-                                                   placeholder="Start Date" readonly="readonly">
-                                            <span class="input-group-addon add-on"><span
-                                                    class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2 col-sm-2">
-                                        <div id="reportEndDate" class="input-group input-append date">
-                                            <input type="text" class="form-control" id="endDate" name="endDate"
-                                                   placeholder="End Date" readonly="readonly">
-                                            <span class="input-group-addon add-on"><span
-                                                    class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <input type="submit" id="getReport" class="btn btn-default" value="Get Report">
-                                    </div>
-                                </div>
-
-                            </form>
-                            %{--<g:render template="/include/NewBranchForm"></g:render>--}%
+                            <g:render template="/include/BillReport"></g:render>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
 
                     <div id="reportDetailsDiv" class="box">
                         <div class="box-header">
-                            <h4 class="box-title">Existing Branch Details</h4>
-
-                            <div class="pull-right">
-                                <i id="newBranch"
-                                   class="glyphicon glyphicon-plus-sign text-success dataTableAddActionSize"
-                                   aria-hidden="true"></i>
-                            </div>
+                            <h4 class="box-title">Bill details</h4>
                         </div><!-- /.box-header -->
 
                         <div class="box-body">
-                            <table id="branchDataTable" class="table table-bordered table-striped tableWidth dataTable">
+                            <table id="billReportDataTable" class="table table-bordered table-striped tableWidth dataTable">
                                 <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Contact Number</th>
-                                    <th>Actions</th>
+                                <tr class="dataTableThWidth">
+                                    <th>Bill Date</th>
+                                    <th>Total</th>
                                 </tr>
                                 </thead>
                             </table>

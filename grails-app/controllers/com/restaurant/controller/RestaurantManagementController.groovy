@@ -29,12 +29,26 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def billingReport(){
+        Map billingReportMap    =   [:]
         ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
 
         String branchId =   commonUtilService.fetchBranchIdByNameAndRestaurantId(sCtx.restaurantId, params.branchName)
 
-        println "Params :"+params
-//        List billingReportDetails    =   restaurantManagementService.fetchBillingReportDetails(branchId)
+        if (branchId == ""){
+            billingReportMap << [status: false]
+        }else {
+            billingReportMap << [status: true, branchId : branchId, startDate: params.startDate, endDate:params.endDate]
+        }
+        render billingReportMap as JSON
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def fetchBillReport(){
+        Map billingReportMap    =   [:]
+
+        List billingReportDetails    =   restaurantManagementService.fetchBillingReportDetails(params.branchId, params.startDate, params.endDate)
+        billingReportMap << [data: billingReportDetails]
+        render  billingReportMap as JSON
     }
 
     /*-------------------------- START : Branch Management ---------------------------------*/

@@ -165,6 +165,7 @@ var ajaxCalls = {
     adminViewGroceryDetailsDataTable  : "",
 
 
+
     //START : reload the branchDetailsDataTable
     branchDetailsTableReload :  function(){
         ajaxCalls.branchDetailsDataTable = "";
@@ -330,6 +331,7 @@ var ajaxCalls = {
         });
     }
     //END : reload the branchWiseGroceryDetailsTableReload
+
 };
 
 var deleteData = {
@@ -791,6 +793,7 @@ var validateForms = {
         });
     },
 
+    billReportDetailsDataTable : "",
     validateBillReport: function () {
         $("#billReportForm").validate({
             errorElement : 'div',
@@ -823,8 +826,29 @@ var validateForms = {
                     //on successful operation
                     success: function (response) {
 
+                        if(response.status == true){
+                            $("#reportDetailsDiv").show();
+
+                            validateForms.billReportDetailsDataTable = "";
+                            validateForms.billReportDetailsDataTable = $('#billReportDataTable').DataTable();
+                            validateForms.billReportDetailsDataTable.destroy();
+                            validateForms.billReportDetailsDataTable = $('#billReportDataTable').DataTable({
+
+                                "ajax":{
+                                    url : '../restaurantManagement/fetchBillReport',
+                                    "data": {"branchId" : response.branchId,
+                                        "startDate" : response.startDate,
+                                        "endDate" : response.endDate}
+                                }
+                            });
+
+                        }else{
+                            $("#reportDetailsDiv").hide();
+                            commonUtilities.show_stack_bottomleft("info", "Please select a branch.");
+                        }
                     },
                     error: function (response) {
+                        $("#reportDetailsDiv").hide();
                         commonUtilities.show_stack_bottomleft("error", "Please try again after some time.");
                     }
                 });
@@ -1701,12 +1725,12 @@ var handleEvents = {
 
         init.dateInitilization();
 
-
-
         $("#getReport").click(function(){
                 //validate the form
                 validateForms.validateBillReport();
         });
+
+        $("#reportDetailsDiv").hide();
     }
 };
 

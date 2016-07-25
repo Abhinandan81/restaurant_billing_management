@@ -172,7 +172,7 @@
         <tr>
             <td>{{branchName}}</td>
             <td>{{overAllBranchTotalOrders}}</td>
-            <td>{{overAllBranchTotalEarning}}</td>
+            <td>Rs. {{overAllBranchTotalEarning}}</td>
             <td>{{overAllBranchAddedGroceryQuantity}}</td>
             <td>{{overAllBranchDeductedGroceryQuantity}}</td>
         </tr>

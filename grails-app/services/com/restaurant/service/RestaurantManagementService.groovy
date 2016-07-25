@@ -883,7 +883,7 @@ class RestaurantManagementService {
                     String groceryDate = date.format('dd-MMM-yyyy')
 
                     groceryName =   commonUtilService.getGroceryNameById(grocery.groceryId)
-                    groceries = [groceryDate, groceryName, grocery.quantity, grocery.price, grocery.operationType]
+                    groceries = [groceryDate, groceryName, grocery.quantity, "Rs. "+grocery.price, grocery.operationType]
 
                     groceryDetailsList << groceries
                 }

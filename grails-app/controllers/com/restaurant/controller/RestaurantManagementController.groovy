@@ -58,7 +58,6 @@ class RestaurantManagementController {
         List groceryReportDetails    =   restaurantManagementService.fetchGroceryReportDetails(params.branchId, params.startDate, params.endDate)
         groceryReportMap << [data: groceryReportDetails]
         render  groceryReportMap as JSON
-
     }
 
     /*-------------------------- START : Branch Management ---------------------------------*/

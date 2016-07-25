@@ -794,6 +794,7 @@ var validateForms = {
     },
 
     billReportDetailsDataTable : "",
+    groceryReportDetailsDataTable : "",
     validateBillReport: function () {
         $("#billReportForm").validate({
             errorElement : 'div',
@@ -826,7 +827,9 @@ var validateForms = {
                     //on successful operation
                     success: function (response) {
 
-                        if(response.status == true){
+                        if(response.status == true && response.reportType == "bill"){
+
+                            $("#groceryReportDetailsDiv").hide();
                             $("#reportDetailsDiv").show();
 
                             validateForms.billReportDetailsDataTable = "";
@@ -842,8 +845,26 @@ var validateForms = {
                                 }
                             });
 
+                        }else if(response.status == true && response.reportType == "grocery"){
+
+                            $("#reportDetailsDiv").hide();
+                            $("#groceryReportDetailsDiv").show();
+
+                            validateForms.groceryReportDetailsDataTable = "";
+                            validateForms.groceryReportDetailsDataTable = $('#groceryReportDataTable').DataTable();
+                            validateForms.groceryReportDetailsDataTable.destroy();
+                            validateForms.groceryReportDetailsDataTable = $('#groceryReportDataTable').DataTable({
+
+                                "ajax":{
+                                    url : '../restaurantManagement/fetchGroceryReport',
+                                    "data": {"branchId" : response.branchId,
+                                        "startDate" : response.startDate,
+                                        "endDate" : response.endDate}
+                                }
+                            });
                         }else{
                             $("#reportDetailsDiv").hide();
+                            $("#groceryReportDetailsDiv").hide();
                             commonUtilities.show_stack_bottomleft("info", "Please select a branch.");
                         }
                     },
@@ -1731,6 +1752,7 @@ var handleEvents = {
         });
 
         $("#reportDetailsDiv").hide();
+        $("#groceryReportDetailsDiv").hide();
     }
 };
 

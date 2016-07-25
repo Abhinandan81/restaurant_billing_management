@@ -37,7 +37,7 @@ class RestaurantManagementController {
         if (branchId == ""){
             billingReportMap << [status: false]
         }else {
-            billingReportMap << [status: true, branchId : branchId, startDate: params.startDate, endDate:params.endDate]
+            billingReportMap << [status: true, reportType: params.reportType, branchId : branchId, startDate: params.startDate, endDate:params.endDate]
         }
         render billingReportMap as JSON
     }
@@ -49,6 +49,16 @@ class RestaurantManagementController {
         List billingReportDetails    =   restaurantManagementService.fetchBillingReportDetails(params.branchId, params.startDate, params.endDate)
         billingReportMap << [data: billingReportDetails]
         render  billingReportMap as JSON
+    }
+
+    @Secured(['ROLE_SUPER_ADMIN'])
+    def fetchGroceryReport(){
+        Map groceryReportMap    =   [:]
+
+        List groceryReportDetails    =   restaurantManagementService.fetchGroceryReportDetails(params.branchId, params.startDate, params.endDate)
+        groceryReportMap << [data: groceryReportDetails]
+        render  groceryReportMap as JSON
+
     }
 
     /*-------------------------- START : Branch Management ---------------------------------*/

@@ -856,7 +856,42 @@ class RestaurantManagementService {
             }
             return billingDetailsList
         }catch (Exception e){
+            println "Exception in fetching bill details"
+        }
 
+    }
+
+    List fetchGroceryReportDetails(String branchId, String startDate, String endDate){
+        List groceryDetailsList =   []
+        List groceryDetails   =   []
+        List groceries= []
+
+        Long sDate
+        Long eDate
+
+        String groceryName
+
+        try {
+            sDate   =   commonUtilService.stringDateToLong(startDate)
+            eDate   =   commonUtilService.stringDateToLong(endDate)
+
+            groceryDetails  =   BranchGrocery.findAllByBranchIdAndDateBetween(branchId, sDate, eDate)
+
+            if (groceryDetails){
+                groceryDetails.each { grocery->
+                    Date date   =   new Date(grocery.date)
+                    String groceryDate = date.format('dd-MMM-yyyy')
+
+                    groceryName =   commonUtilService.getGroceryNameById(grocery.groceryId)
+                    groceries = [groceryDate, groceryName, grocery.quantity, grocery.price, grocery.operationType]
+
+                    groceryDetailsList << groceries
+                }
+            }
+
+            return groceryDetailsList
+        }catch (Exception e){
+            println "Exception in fetching grocery details"
         }
 
     }

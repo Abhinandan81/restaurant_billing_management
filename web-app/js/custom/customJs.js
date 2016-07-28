@@ -1576,10 +1576,6 @@ var handleEvents = {
             init.clearBillForm();
         });
 
-
-
-
-
         //on changing the quantity of the items
         $('input.billMenuQuantity').on("change", function() {
             handleEvents.currentMenuQuantity = $(this).attr('id');
@@ -1649,21 +1645,16 @@ var handleEvents = {
                 if (x < max_fields) { //max input box allowed
                     x++; //text box increment
 
-                    $(wrapper).append('<div class="row dynamicAddition topDivMargin"><div class="col-md-4"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" autofocus></div>' +
-                        '<div class="col-md-1"><span id="tempPrice" class="billMenuPrice" name="menuPrice[]"></span></div>'+
-                        '<div class="col-md-1"><input id="tempQuantity" class="billMenuQuantity inputBoxWidth" type="number" name="quantity[]" min="1"></div>'+
-                        '<div class="col-md-1"><span id="tempMenuTotalPrice" class="billMenuTotalPrice" name="menuTotalPrice[]"></span></div>'+
+                    $(wrapper).append('<div class="row dynamicAddition topDivMargin"><div class="col-md-4 col-sm-5"><input id="tempMenuName" class="billMenuName inputBoxWidth" type="text" name="menuName[]" autofocus></div>' +
+                        '<div class="col-md-1 col-sm-2"><span id="tempPrice" class="billMenuPrice" name="menuPrice[]"></span></div>'+
+                        '<div class="col-md-1 col-sm-2"><input id="tempQuantity" class="billMenuQuantity inputBoxWidth" type="number" name="quantity[]" min="1"></div>'+
+                        '<div class="col-md-1 col-sm-2"><span id="tempMenuTotalPrice" class="billMenuTotalPrice" name="menuTotalPrice[]"></span></div>'+
                         '<i id="remove_field" class = "glyphicon glyphicon-remove-circle text-danger dataTableAddActionSize"></i></div>');
 
                     $("#tempMenuName").attr('id', "billMenuName_" + x);
                     $("#tempPrice").attr('id', "billMenuPrice_" + x);
                     $("#tempQuantity").attr('id', "quantity_" + x);
                     $("#tempMenuTotalPrice").attr('id', "menuTotalPrice_" + x);
-
-                    //set focus
-                   /* var menuId = "billMenuName_"+x;
-                    console.log("menuId :"+menuId);
-                    $("#"+menuId).focus();*/
                 }
             }else{
                 e.preventDefault();

@@ -18,7 +18,7 @@ class ProvisionService {
      * @return : newRestaurantCreationStatusMap
      */
    def newRestaurantCreation(String name, String address, String contactNumber, String ownerFirstName,
-           String ownerLastName, String licenseNumber, String image){
+           String ownerLastName){
        Map newRestaurantCreationStatusMap   =   [:]
 
        try {
@@ -28,7 +28,7 @@ class ProvisionService {
                newRestaurantCreationStatusMap << [status : false, message : "Restaurant with the name ${name} already exist"]
            }else {
                new Restaurant(name: name, address: address, contactNumber: contactNumber, ownerFirstName: ownerFirstName,
-               ownerLastName: ownerLastName, licenseNumber: licenseNumber, image: image).save(flush: true, failOnError: true)
+               ownerLastName: ownerLastName).save(flush: true, failOnError: true)
 
                newRestaurantCreationStatusMap << [status : true, message : "Restaurant  ${name} added successfully"]
            }

@@ -25,10 +25,10 @@ class ProvisionController {
         }
     }
 
-    @Secured(['ROLE_SUPER_ADMIN'])
+    @Secured(['permitAll'])
     def newRestaurant(){
-        Map newRestaurantCreationStatus =   provisionService.newRestaurantCreation('Roller','sangamner',
-        '8796105046','Abhi','Satpute','12345','abc/pqr')
+        Map newRestaurantCreationStatus =   provisionService.newRestaurantCreation(params.name,params.address,
+        params.contactNumber,params.firstName,params.lastName)
         render newRestaurantCreationStatus as JSON
     }
 
@@ -36,10 +36,10 @@ class ProvisionController {
      * New user creation
      * @return : userCreationStatusMap
      */
-    @Secured(['ROLE_SUPER_ADMIN'])
+    @Secured(['permitAll'])
     def createUser(){
-        Map userCreationStatusMap    =   userManagementService.newUserCreation('abhi', 'abhi', 'Abhinandan',
-                'Satpute', '8796105046', CodeConstants.ROLE_SUPER_ADMIN, "1", "")
+        Map userCreationStatusMap    =   userManagementService.newUserCreation(params.userName, params.password, params.firstName,
+                params.lastName, params.contactNumber, params.userRole, params.restaurantId, "")
         render userCreationStatusMap as JSON
     }
 }

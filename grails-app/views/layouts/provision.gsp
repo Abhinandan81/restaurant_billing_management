@@ -20,8 +20,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/fontAwsome/font-awesome.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/ionicons.min.css">
-    %{--fuelUX--}%
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/fuelux.min.css">
+
     <!-- DataTables -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable/select.dataTables.min.css">
@@ -44,7 +43,6 @@
     %{--progress bar--}%
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/progressBar/centerCircle.css">
 
-
     <!-- jQuery 2.1.4 -->
     <script src="<%=request.getContextPath()%>/css/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     %{--custom validation--}%
@@ -54,6 +52,7 @@
 
     <!-- Bootstrap 3.3.5 -->
     <script src="<%=request.getContextPath()%>/js/bootstrap/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/handlebars-v4.0.5.js"></script>
     <script src="<%=request.getContextPath()%>/js/fuelux.min.js"></script>
 
     <!-- DataTables -->
@@ -95,7 +94,8 @@
     <!-- page script -->
     %{--<![endif]-->--}%
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+
+<body class="hold-transition skin-red sidebar-mini">
 <div class="wrapper">
 
     <header class="main-header">
@@ -113,32 +113,33 @@
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
             </a>
-
             <div class="navbar-custom-menu">
+
                 <ul class="nav navbar-nav">
+                    <li class="messages-menu dropdown pull-left">
+                        <a><span class="text-bold"> <restaurant:renderUserBranch/></span></a>
+                    </li>
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="user-image"
+                                 alt="User Image">
                             <span class="hidden-xs"><restaurant:renderUserFullName/></span>
+
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="img-circle"
+                                     alt="User Image">
 
                                 <p>
                                     <restaurant:renderUserFullName/> - <restaurant:renderUserRole/>
-                                    <small>Member since Nov. 2012</small>
                                 </p>
                             </li>
                             <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                </div>
+                            <li class="user-footer backgroundColor">
                                 <div class="pull-right">
                                     <a href="../logout" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
@@ -158,67 +159,119 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- Sidebar user panel -->
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <img src="<%=request.getContextPath()%>/images/user2-160x160.jpg" class="img-circle" alt="User Image">
-                </div>
-                <div class="pull-left info">
-                    <p><restaurant:renderUserFullName/></p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                </div>
-            </div>
-
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MAIN NAVIGATION</li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                        <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                    </ul>
-                </li>
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+                    <li id="dashboardManagementView" class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i
+                                class="fa fa-angle-left pull-right"></i>
+                        </a>
 
-                <li id="branchManagementView" class="treeview">
-                    <a href="<%=request.getContextPath()%>/restaurantManagement/branchManagement">
-                        <i class="fa fa-sitemap"></i> <span>Branch Management</span>
-                    </a>
-                </li>
+                        <ul class="treeview-menu">
+                            <li id="dashBoardSummary" class="treeview">
+                                <g:link controller="restaurantManagement" action="dashboard">
+                                    <i class="fa fa-circle-o"></i> <span>Summary</span>
+                                </g:link>
+                            </li>
+                            <li id="dashBoardReports" class="treeview">
+                                <g:link controller="restaurantManagement" action="dashboardReports">
+                                    <i class="fa fa-circle-o"></i> <span>Reports</span>
+                                </g:link>
+                            </li>
+                        </ul>
+                    </li>
+
+                </sec:ifAnyGranted>
 
 
-                <li id="userManagementView" class="treeview">
-                    <a href="<%=request.getContextPath()%>/restaurantManagement/userManagement">
-                        <i class="fa fa-users"></i> <span>User Management</span>
-                    </a>
-                </li>
 
-                <li id="menuManagementView" class="treeview">
-                    <a href="#">
-                        <i class="fa fa-cutlery"></i> <span>Menu Management</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="basicMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/menuManagement"><i class="fa fa-circle-o"></i>Menu Basics</a></li>
-                        <li id="branchMenuManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseMenuManagement"><i class="fa fa-circle-o"></i>Menu Prices</a></li>
-                    </ul>
-                </li>
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+                    <li id="branchManagementView" class="treeview">
+                        <g:link controller="restaurantManagement" action="branchManagement">
+                            <i class="fa fa-sitemap"></i> <span>Branch Management</span>
+                        </g:link>
+                    </li>
+                </sec:ifAnyGranted>
 
-                <li id="groceryManagementView" class="treeview">
-                    <a href="#">
-                        <i class="fa fa-shopping-cart"></i> <span>Grocery Management</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="basicGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/groceryManagement"><i class="fa fa-circle-o"></i>Grocery Basics</a></li>
-                        <li id="branchGroceryManagementView"><a href="<%=request.getContextPath()%>/restaurantManagement/branchWiseGroceryManagement"><i class="fa fa-circle-o"></i>Branch Wise Grocery Details</a></li>
-                    </ul>
-                </li>
 
-                <li id="adminGroceryManagementView" class="treeview">
-                    <a href="<%=request.getContextPath()%>/restaurantManagement/adminGroceryManagement">
-                        <i class="fa fa-users"></i> <span>A Grocery Management</span>
-                    </a>
-                </li>
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+                    <li id="userManagementView" class="treeview">
+                        <g:link controller="restaurantManagement" action="userManagement">
+
+                            <i class="fa fa-users"></i> <span>User Management</span>
+                        </g:link>
+                    </li>
+                </sec:ifAnyGranted>
+
+
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+
+                    <li id="menuManagementView" class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cutlery"></i> <span>Menu Management</span> <i
+                                class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="basicMenuManagementView">
+                                <g:link controller="restaurantManagement" action="menuManagement">
+                                    <i class="fa fa-circle-o"></i>Menu Basics
+                                </g:link>
+
+                            </li>
+                            <li id="branchMenuManagementView">
+                                <g:link controller="restaurantManagement" action="branchWiseMenuManagement">
+
+                                    <i class="fa fa-circle-o"></i>Menu Prices
+                                </g:link>
+                            </li>
+                        </ul>
+                    </li>
+                </sec:ifAnyGranted>
+
+
+                <sec:ifAnyGranted roles="ROLE_SUPER_ADMIN">
+                    <li id="groceryManagementView" class="treeview">
+                        <a href="#">
+                            <i class="fa fa-shopping-cart"></i> <span>Grocery Management</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="basicGroceryManagementView">
+                                <g:link controller="restaurantManagement" action="groceryManagement">
+
+                                    <i class="fa fa-circle-o"></i>Grocery Basics
+                                </g:link>
+                            </li>
+                            <li id="branchGroceryManagementView">
+                                <g:link controller="restaurantManagement" action="branchWiseGroceryManagement">
+                                    <i class="fa fa-circle-o"></i>Branch Wise Grocery Details
+                                </g:link>
+
+                            </li>
+                        </ul>
+                    </li>
+                </sec:ifAnyGranted>
+
+                <sec:ifAnyGranted roles="ROLE_ADMIN">
+                    <li id="billingView" class="treeview">
+                        <g:link controller="restaurantManagement" action="billing">
+
+                            <i class="glyphicon glyphicon-list-alt"></i> <span>Billing</span>
+                        </g:link>
+                    </li>
+                </sec:ifAnyGranted>
+
+
+                <sec:ifAnyGranted roles="ROLE_ADMIN">
+
+                    <li id="adminGroceryManagementView" class="treeview">
+                        <g:link controller="restaurantManagement" action="adminGroceryManagement">
+                            <i class="fa fa-shopping-cart"></i> <span>A Grocery Management</span>
+                        </g:link>
+                    </li>
+                </sec:ifAnyGranted>
+
 
 
             </ul>
@@ -227,6 +280,7 @@
     </aside>
 
     <g:layoutBody/>
+
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.0
@@ -239,8 +293,6 @@
        immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div>
-
-
 <!-- ./wrapper -->
 <!-- page script -->
 </body>

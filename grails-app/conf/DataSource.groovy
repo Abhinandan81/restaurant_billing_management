@@ -36,6 +36,7 @@ environments {
         }
     }
     production {
+/*
         dataSource {
             dbCreate = "update"
             url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
@@ -59,6 +60,16 @@ environments {
                jdbcInterceptors = "ConnectionState"
                defaultTransactionIsolation = java.sql.Connection.TRANSACTION_READ_COMMITTED
             }
+        }
+*/
+        dataSource {
+            dialect		=	'hibernateutil.MySQL5InnoDBDialectBitFixed'
+            pooled 		=	true
+            dbCreate 	=	"update"
+            url 		=	"jdbc:mysql://localhost/restaurant?autoReconnect=true"
+            driverClassName =	"com.mysql.jdbc.Driver"
+            username 	=	"root"
+            password 	=	""
         }
     }
 }

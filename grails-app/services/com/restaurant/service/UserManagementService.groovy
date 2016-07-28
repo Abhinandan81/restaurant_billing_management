@@ -44,25 +44,6 @@ class UserManagementService {
                 UserRole.create(superAdmin, superAdminRole, true)
             }
         }
-
-/*        *//* Create an admin user. *//*
-        User admin = User.findByUsername(CodeConstants.ADMIN_USER_NAME)
-        if(!admin) {
-            admin = new User(
-                    username    : CodeConstants.ADMIN_USER_NAME,
-                    password    : CodeConstants.ADMIN_USER_NAME,
-                    enabled     : true
-            )
-
-
-            admin.save(flush: true)
-            def adminRole = Role.findByAuthority(CodeConstants.ROLE_ADMIN)
-            UserRole adminUserRole = UserRole.get(admin.id, adminRole.id)
-            if(!adminUserRole) {
-                UserRole.create(admin, adminRole, true)
-            }
-        }*/
-
     }
 
     User findUserByUsername(ServiceContext sCtx, String userName) {

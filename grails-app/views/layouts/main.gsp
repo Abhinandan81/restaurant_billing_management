@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner">
-            <asset:image src="grails_logo.png" alt="Grails"/>
+            <asset:image src="rollPoint.png" alt="Sp's Roll Point"/>
         </div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>

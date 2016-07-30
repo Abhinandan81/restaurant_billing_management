@@ -48,7 +48,8 @@ body {
 }
 
 #grailsLogo {
-	background-color: #BF2214;
+	background-color: #ffffff;
+    text-align: center;
 }
 
 /* replace with .no-boxshadow body if you have modernizr available */

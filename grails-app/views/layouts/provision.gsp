@@ -53,7 +53,6 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="<%=request.getContextPath()%>/js/bootstrap/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/handlebars-v4.0.5.js"></script>
-    <script src="<%=request.getContextPath()%>/js/fuelux.min.js"></script>
 
     <!-- DataTables -->
     <script src="<%=request.getContextPath()%>/css/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -69,8 +68,6 @@
     <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
 
     <script src="<%=request.getContextPath()%>/js/datePicker/bootstrap-datepicker.min.js"></script>
-
-    <script src="<%=request.getContextPath()%>/js/jsonValidator/jquery.validate-json.js"></script>
 
     <script src="<%=request.getContextPath()%>/js/pnotify.custom.min.js"></script>
 

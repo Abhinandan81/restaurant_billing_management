@@ -53,7 +53,6 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="<%=request.getContextPath()%>/js/bootstrap/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/handlebars-v4.0.5.js"></script>
-    <script src="<%=request.getContextPath()%>/js/fuelux.min.js"></script>
 
     <!-- DataTables -->
     <script src="<%=request.getContextPath()%>/css/plugins/datatables/jquery.dataTables.min.js"></script>

@@ -37,12 +37,12 @@
 
 
                                 <div class="col-md-12 col-sm-12 reportRowMargin">
-                                    <div id="reportInputDiv" class="radio col-md-3 col-sm-3">
+                                    <div id="reportInputDiv" class="radio col-md-3 col-sm-4">
                                         <select id="branchOptions" name="branchName" class="form-control">
                                         </select>
                                     </div>
 
-                                    <div class="col-md-2 col-sm-2">
+                                    <div class="col-md-2 col-sm-3">
                                         <div id="reportStartDate" class="input-group input-append date">
                                             <input type="text" class="form-control" id="startDate" name="startDate"
                                                    placeholder="Start Date" readonly="readonly">
@@ -51,7 +51,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2 col-sm-2">
+                                    <div class="col-md-2 col-sm-3">
                                         <div id="reportEndDate" class="input-group input-append date">
                                             <input type="text" class="form-control" id="endDate" name="endDate"
                                                    placeholder="End Date" readonly="readonly">

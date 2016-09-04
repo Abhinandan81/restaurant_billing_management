@@ -205,16 +205,29 @@ class RestaurantManagementService {
         }
     }
 
-    Map updateMenu(String menuId, String name){
+    Map updateMenu(String restaurantId, String menuId, String name){
         Map menuUpdateStatusMap   =   [:]
         try {
-            Menu menu   =   Menu.findById(menuId)
-            if (menu){
-                menu.name   =   name
-                menu.save(flush: true, failOnError: true)
-                menuUpdateStatusMap << [status: true, message: "Menu with the name ${name} updated successfully."]
+
+            Restaurant restaurant = Restaurant.findById(restaurantId)
+
+            if (restaurant){
+                Menu existingMenu   =   Menu.findByRestaurantAndName(restaurant, name)
+                if (existingMenu){
+                    menuUpdateStatusMap << [status: false, message: "Menu with the name- '"+ name +"' already exist.Please choose other name."]
+                }else {
+
+                    Menu menu   =   Menu.findById(menuId)
+                    if (menu){
+                        menu.name   =   name
+                        menu.save(flush: true, failOnError: true)
+                        menuUpdateStatusMap << [status: true, message: "Menu with the name ${name} updated successfully."]
+                    }else {
+                        menuUpdateStatusMap << [status: false, message: "Menu doesn't exist."]
+                    }
+                }
             }else {
-                menuUpdateStatusMap << [status: false, message: "Menu doesn't exist"]
+                menuUpdateStatusMap << [status: false, message: "Menu doesn't belongs to this restaurant."]
             }
             return menuUpdateStatusMap
         }catch (Exception e){

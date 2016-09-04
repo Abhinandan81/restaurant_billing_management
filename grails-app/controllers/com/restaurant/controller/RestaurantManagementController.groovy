@@ -196,7 +196,9 @@ class RestaurantManagementController {
 
     @Secured(['ROLE_SUPER_ADMIN'])
     def updateMenu(){
-        Map menuUpdateStatusMap   = restaurantManagementService.updateMenu(params.menuId, params.menuName)
+        ServiceContext sCtx = SessionUtil.getServiceContext(request, springSecurityService, userManagementService)
+
+        Map menuUpdateStatusMap   = restaurantManagementService.updateMenu(sCtx.restaurantId, params.menuId, params.menuName)
         render menuUpdateStatusMap as JSON
     }
 

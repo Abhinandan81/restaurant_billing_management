@@ -55,23 +55,25 @@
 
 <script id="bill-template" type="text/x-handlebars-template">
     <div>
-        <div style="width: 40%;display: inline-block;line-height: 2%;">
+        <div style="width: 80%;display: inline-block;text-align:center; line-height: 2%;">
             <p><restaurant:renderUserRestaurant/></p>
         </div>
+    </div>
 
-        <div style="width: 50%;display: inline-block;line-height: 2%;">
+    <div>
+        <div style="width: 80%;display: inline-block;text-align:center; line-height: 2%;">
             <p>Branch- <restaurant:renderUserBranch/></p>
         </div>
     </div>
 
     <div>
 
-        <div style="width: 65%;display: inline-block;line-height: 2%;">
-            <p>Customer name- {{customerName}}</p>
+        <div style="width: 60%;display: inline-block;line-height: 2%;font-size: 15px;">
+            <p>{{customerName}}</p>
         </div>
 
-        <div style="width: 30%;display: inline-block;line-height: 2%;">
-            <p>Date - {{billDate}}</p>
+        <div style="width: 20%;display: inline-block;line-height: 2%;font-size: 15px;">
+            <p>{{billDate}}</p>
         </div>
 
     </div>
@@ -79,44 +81,38 @@
     <hr>
 
     <div>
-        <div style="width: 5%;display: inline-block;line-height: 2%;">
-        </div>
-
-        <div style="width: 50%;display: inline-block;line-height: 2%;">
+        <div style="width: 50%;display: inline-block;line-height: 2%;font-size: 10px;">
             <label>Menu name</label>
         </div>
 
-        <div style="width: 10%;display: inline-block;line-height: 2%;">
+        <div style="width: 10%;display: inline-block;line-height: 2%;font-size: 10px;">
             <label>Price</label>
         </div>
 
-        <div style="width: 15%;display: inline-block;line-height: 2%;">
+        <div style="width: 10%;display: inline-block;line-height: 2%;font-size: 10px;">
             <label>Quantity</label>
         </div>
 
-        <div style="width: 15%;display: inline-block;line-height: 2%;">
+        <div style="width: 10%;display: inline-block;line-height: 2%;font-size: 10px;">
             <label>Total</label>
         </div>
     </div>
     <hr>
     <div>
         {{#each menuDetails}}
-        <div style="width: 5%;display: inline-block;line-height: 2%;">
-        </div>
-
-        <div style="width: 50%;display: inline-block;line-height: 2%;">
+        <div style="width: 50%;display: inline-block;line-height: 2%;font-size: 10px;">
             <p>{{menuName}}</p>
         </div>
 
-        <div style="width: 10%;display: inline-block;line-height: 2%;">
+        <div style="width: 10%;display: inline-block;line-height: 2%;font-size: 10px;">
             <p>{{menuPrice}}</p>
         </div>
 
-        <div style="width: 15%;display: inline-block;line-height: 2%;">
+        <div style="width: 10%;display: inline-block;line-height: 2%;font-size: 10px;">
             <p>{{quantity}}</p>
         </div>
 
-        <div style="width: 15%;display: inline-block;line-height: 2%;">
+        <div style="width: 10%;display: inline-block;line-height: 2%;font-size: 10px;">
             <p>{{menuTotalPrice}}</p>
         </div>
         {{/each}}
@@ -124,10 +120,9 @@
     </div>
     <hr>
 
-    <div style="width: 90%;display: inline-block;text-align: right;line-height: 5%">
-        <p>Total bill amount -{{totalBillAmount}}</p>
+    <div style="width: 80%;display: inline-block;text-align: right;line-height: 2%;font-size: 10px;">
+        <p>Total bill amount - Rs. {{totalBillAmount}}</p>
     </div>
-
 </script>
 
 </body>
